@@ -153,7 +153,7 @@ class ClientTableMongo implements IClientTable
 
     public function group()
     {
-        $this->collection->group()
+        $this->collection->group();
     }
 
     /**

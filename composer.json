@@ -4,7 +4,7 @@
   "require": {
     "psr/container": "*",
     "league/container": "*",
-    "mongodb/mongodb": "*",
+    "alcaeus/mongo-php-adapter": "*",
     "vlucas/phpdotenv": "^2.4"
   },
   "autoload": {
