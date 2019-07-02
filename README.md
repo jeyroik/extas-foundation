@@ -1,2 +1,2 @@
-# extas-foundation
-Extas foundation package
+# extas-extensions
+Extas extensions package

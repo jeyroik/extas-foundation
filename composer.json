@@ -1,0 +1,15 @@
+{
+  "name": "jeyroik/extas-foundation",
+  "description": "Extas foundation package",
+  "require": {
+    "psr/container": "*",
+    "league/container": "*",
+    "mongodb/mongodb": "*",
+    "vlucas/phpdotenv": "^2.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "extas\\": "src/"
+    }
+  }
+}
