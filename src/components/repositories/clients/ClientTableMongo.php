@@ -151,9 +151,40 @@ class ClientTableMongo implements IClientTable
         return $this->collection->remove([$this->getPk() => $item[$this->getPk()]]);
     }
 
-    public function group()
+    /**
+     * @param string $groupBy
+     * @param array|string $fields returning fields
+     *
+     * @return array
+     */
+    public function  group($groupBy, $fields)
     {
-        $this->collection->group();
+        $fieldsDecorated = [];
+
+        if (is_array($fields)) {
+            foreach ($fields as $field) {
+                $fieldsDecorated[$field] = ['$push' => '$' . $field];
+            }
+        } else {
+            $fieldsDecorated[$fields] = ['$push' => '$' . $fields];
+        }
+
+        $pipeline = [[
+            '$group' => array_merge(
+                ['_id' => '$' . $groupBy],
+                $fieldsDecorated
+            )
+        ]];
+
+        $rows = $this->collection->aggregate($pipeline, ['cursor' => true])['result'];
+
+        /**
+         * В качестве сахара, если в fields было передано 1 поле, то мы мапим groupBy к значениям из этого поля.
+         * todo после перехода на 7.3 заменить на array_key_first($fieldsDecorated)
+         */
+        return count($fieldsDecorated) == 1
+            ? array_column($rows, array_keys($fieldsDecorated)[0], '_id')
+            : array_column($rows, null, '_id');
     }
 
     /**

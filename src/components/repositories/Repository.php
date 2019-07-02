@@ -132,6 +132,25 @@ class Repository extends Item implements IRepository
     }
 
     /**
+     * @param string $byField
+     * @param array|string $returnFields
+     *
+     * @return array
+     * @throws \Exception
+     */
+    public function group($byField, $returnFields)
+    {
+        $repo = $this->getRepoInstance();
+        $result = $repo->group($byField, $returnFields);
+
+        foreach ($this->getPluginsByStage('df.' . $this->getName() . '.find.after') as $plugin) {
+            $plugin($result, 'group');
+        }
+
+        return $result;
+    }
+
+    /**
      * @return string
      */
     protected function getName(): string
@@ -159,7 +178,7 @@ class Repository extends Item implements IRepository
         $result = $this->getRepoInstance()->$method($where);
 
         foreach ($this->getPluginsByStage('df.' . $this->getName() . '.find.after') as $plugin) {
-            $plugin($result);
+            $plugin($result, $method);
         }
 
         return $result;

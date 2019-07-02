@@ -101,5 +101,11 @@ interface IClientTable
      */
     public function getIdAs();
 
-    public function group();
+    /**
+     * @param string $groupBy
+     * @param string|array $fields
+     *
+     * @return array
+     */
+    public function group($groupBy, $fields);
 }

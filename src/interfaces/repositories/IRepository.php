@@ -52,4 +52,12 @@ interface IRepository extends IItem
      * @return int
      */
     public function delete($where, $item = null): int;
+
+    /**
+     * @param string $byField
+     * @param string|array $returnFields
+     *
+     * @return array
+     */
+    public function group($byField, $returnFields);
 }
