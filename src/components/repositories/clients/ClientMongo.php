@@ -5,7 +5,7 @@ namespace extas\components\repositories\clients;
  * Class ClientMongo
  *
  * @package extas\components\repositories\clients
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 class ClientMongo extends Client
 {

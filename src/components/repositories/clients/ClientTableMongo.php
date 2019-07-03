@@ -7,7 +7,7 @@ use extas\interfaces\repositories\clients\IClientTable;
  * Class ClientTableMongo
  *
  * @package extas\components\repositories\clients
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 class ClientTableMongo implements IClientTable
 {

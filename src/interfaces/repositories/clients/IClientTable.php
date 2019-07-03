@@ -7,7 +7,7 @@ use extas\interfaces\IItem;
  * Interface IClientTable
  *
  * @package extas\interfaces\repositories\clients
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 interface IClientTable
 {

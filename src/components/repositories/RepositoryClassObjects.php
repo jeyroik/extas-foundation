@@ -8,7 +8,7 @@ use extas\interfaces\IItem;
  * Class RepositoryClassObjects
  *
  * @package extas\components\repositories
- * @author Funcraft <me@funcraft.ru>
+ * @author jeyroik@gmail.com
  */
 class RepositoryClassObjects extends Repository
 {

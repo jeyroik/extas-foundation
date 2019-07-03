@@ -7,7 +7,7 @@ use extas\interfaces\repositories\clients\IClient;
  * Class Client
  *
  * @package extas\components\repositories\clients
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 abstract class Client implements IClient
 {

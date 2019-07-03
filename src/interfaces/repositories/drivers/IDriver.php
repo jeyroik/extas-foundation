@@ -7,7 +7,7 @@ use extas\interfaces\repositories\clients\IClient;
  * Interface IDriver
  *
  * @package extas\interfaces\repositories\drivers
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 interface IDriver
 {

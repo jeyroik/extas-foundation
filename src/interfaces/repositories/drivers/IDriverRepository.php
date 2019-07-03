@@ -5,7 +5,7 @@ namespace extas\interfaces\repositories\drivers;
  * Interface IDriverRepository
  *
  * @package extas\interfaces\repositories\drivers
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 interface IDriverRepository
 {

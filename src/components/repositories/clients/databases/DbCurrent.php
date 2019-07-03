@@ -9,7 +9,7 @@ use extas\components\SystemContainer;
  * Class DbCurrent
  *
  * @package extas\components\repositories\clients\databases
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 class DbCurrent
 {

@@ -8,7 +8,7 @@ use extas\interfaces\repositories\drivers\IDriver;
  * Class Driver
  *
  * @package extas\components\repositories\drivers
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 abstract class Driver implements IDriver
 {

@@ -7,7 +7,7 @@ use extas\components\repositories\clients\ClientMongo;
  * Class DriverMongo
  *
  * @package extas\components\repositories
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 class DriverMongo extends Driver
 {

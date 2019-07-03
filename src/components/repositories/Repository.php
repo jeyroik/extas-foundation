@@ -10,7 +10,7 @@ use extas\components\Item;
  * Class Repository
  *
  * @package df\components
- * @author aivanov@fix.ru
+ * @author jeyroik@gmail.com
  */
 class Repository extends Item implements IRepository
 {
