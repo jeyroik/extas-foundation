@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\stages;
 
+use extas\components\Item;
 use extas\interfaces\stages\IStage;
 
 /**
@@ -9,22 +10,14 @@ use extas\interfaces\stages\IStage;
  * @package extas\components\stages
  * @author jeyroik@gmail.com
  */
-class Stage implements IStage
+class Stage extends Item implements IStage
 {
-    /**
-     * @var array
-     */
-    protected $config = [];
-
-    /**
-     * Stage constructor.
-     *
-     * @param array $config
-     */
-    public function __construct($config = [])
-    {
-        $this->setConfig($config);
-    }
+    protected $isAllowInitStage = false;
+    protected $isAllowAfterStage = false;
+    protected $isAllowCreatedStage = false;
+    protected $isAllowToArrayStage = false;
+    protected $isAllowToIntStage = false;
+    protected $isAllowToStringStage = false;
 
     /**
      * @return string
@@ -40,6 +33,76 @@ class Stage implements IStage
     public function getDescription(): string
     {
         return $this->config[static::FIELD__DESCRIPTION] ?? '';
+    }
+
+    /**
+     * @param string $name
+     *
+     * @return $this
+     */
+    public function setName(string $name)
+    {
+        $this->config[static::FIELD__NAME] = $name;
+
+        return $this;
+    }
+
+    /**
+     * @param string $description
+     *
+     * @return $this
+     */
+    public function setDescription(string $description)
+    {
+        $this->config[static::FIELD__DESCRIPTION] = $description;
+
+        return $this;
+    }
+
+    /**
+     * @param string $input
+     *
+     * @return $this
+     */
+    public function setInput(string $input)
+    {
+        $this->config[static::FIELD__INPUT] = $input;
+
+        return $this;
+    }
+
+    /**
+     * @param string $output
+     *
+     * @return $this
+     */
+    public function setOutput(string $output)
+    {
+        $this->config[static::FIELD__OUTPUT] = $output;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPlugins(): bool
+    {
+        $has = $this->config[static::FIELD__HAS_PLUGINS] ?? false;
+
+        return (bool) $has;
+    }
+
+    /**
+     * @param bool $has
+     *
+     * @return $this
+     */
+    public function setHasPlugins(bool $has)
+    {
+        $this->config[static::FIELD__HAS_PLUGINS] = (bool) $has;
+
+        return $this;
     }
 
     /**
@@ -126,5 +189,13 @@ class Stage implements IStage
             static::ARG__TYPE => $type,
             static::ARG__NAME => $argName
         ];
+    }
+
+    /**
+     * @return string
+     */
+    protected function getSubjectForExtension(): string
+    {
+        return static::SUBJECT;
     }
 }
