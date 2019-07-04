@@ -72,7 +72,7 @@ class ClientTableMongo implements IClientTable
 
         while ($recordsCursor->hasNext()) {
             $record = $recordsCursor->getNext();
-            $record['_id'] = (string) $record['id'];
+            $record['_id'] = (string) $record['_id'];
             $records[] = new $itemClass($record);
         }
 

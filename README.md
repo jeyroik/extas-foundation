@@ -93,7 +93,7 @@ class My extends Item
         return $this;
     }
 
-    protected function getSubjectForExtension()
+    protected function getSubjectForExtension(): string
     {
         return 'my';
     }
@@ -143,7 +143,7 @@ class My extends Item
         return $this;
     }
 
-    protected function getSubjectForExtension()
+    protected function getSubjectForExtension(): string
     {
         return 'my';
     }
@@ -194,7 +194,7 @@ class My extends Item
         return $this;
     }
 
-    protected function getSubjectForExtension()
+    protected function getSubjectForExtension(): string
     {
         return 'my';
     }
