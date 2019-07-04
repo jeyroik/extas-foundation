@@ -216,4 +216,29 @@ class Repository extends Item implements IRepository
     {
         return $this->repoSubject;
     }
+
+    /**
+     * @return $this
+     */
+    protected function triggerInit()
+    {
+        if ($this->isAllowInitStage) {
+            $stage = $this->getSubjectForExtension() . '.' . $this->getName() . '.init';
+            foreach ($this->getPluginsByStage($stage) as $plugin) {
+                $plugin($this);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $stage
+     *
+     * @return string
+     */
+    protected function getBaseStageName($stage)
+    {
+        return $this->getSubjectForExtension() . '.' . $this->getName() . '.' . $stage;
+    }
 }

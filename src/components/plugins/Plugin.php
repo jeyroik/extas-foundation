@@ -19,18 +19,12 @@ class Plugin extends Item implements IPlugin
     public $preDefinedClass = '';
     public $preDefinedStage = '';
 
-    /**
-     *
-     */
-    public function __destruct()
-    {
-        /**
-         * Пытаемся избежать цикличности.
-         */
-        if ($this->getStage() != static::SUBJECT . '.after') {
-            parent::__destruct();
-        }
-    }
+    protected $isAllowToStringStage = false;
+    protected $isAllowToIntStage = false;
+    protected $isAllowToArrayStage = false;
+    protected $isAllowCreatedStage = false;
+    protected $isAllowAfterStage = false;
+    protected $isAllowInitStage = false;
 
     /**
      * @param $config
@@ -103,21 +97,6 @@ class Plugin extends Item implements IPlugin
     public function getStage(): string
     {
         return $this->config[static::FIELD__STAGE] ?? '';
-    }
-
-    /**
-     * @return $this|Item
-     */
-    protected function triggerInit()
-    {
-        /**
-         * Пытаемся избежать цикличности.
-         */
-        if ($this->getStage() == static::SUBJECT . '.init') {
-            return $this;
-        }
-
-        return parent::triggerInit();
     }
 
     /**

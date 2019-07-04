@@ -34,6 +34,13 @@ abstract class Item implements IItem
      */
     protected $keyMap = [];
 
+    protected $isAllowInitStage = true;
+    protected $isAllowAfterStage = true;
+    protected $isAllowCreatedStage = true;
+    protected $isAllowToArrayStage = true;
+    protected $isAllowToStringStage = true;
+    protected $isAllowToIntStage = true;
+
     /**
      * Item constructor.
      *
@@ -41,7 +48,8 @@ abstract class Item implements IItem
      */
     public function __construct($config = [])
     {
-        $this->setConfig($config)->triggerInit();
+        $this->setConfig($config);
+        $this->isAllowInitStage && $this->triggerInit();
     }
 
     /**
@@ -49,8 +57,10 @@ abstract class Item implements IItem
      */
     public function __destruct()
     {
-        foreach ($this->getPluginsByStage($this->getSubjectForExtension() . '.after') as $plugin) {
-            $plugin($this);
+        if ($this->isAllowAfterStage) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('after')) as $plugin) {
+                $plugin($this);
+            }
         }
     }
 
@@ -82,9 +92,10 @@ abstract class Item implements IItem
     {
         $array = $this->config;
 
-        $stage = $this->getSubjectForExtension() . '.to.array';
-        foreach ($this->getPluginsByStage($stage) as $plugin) {
-            $plugin($this, $array);
+        if ($this->isAllowToArrayStage) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.array')) as $plugin) {
+                $plugin($this, $array);
+            }
         }
 
         return $array;
@@ -116,7 +127,15 @@ abstract class Item implements IItem
      */
     public function __toString(): string
     {
-        return (string) $this->id;
+        $string = (string) $this->id;
+
+        if ($this->isAllowToStringStage) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.string')) as $plugin) {
+                $plugin($this, $string);
+            }
+        }
+
+        return $string;
     }
 
     /**
@@ -124,7 +143,15 @@ abstract class Item implements IItem
      */
     public function __toInt(): int
     {
-        return (int) $this->id;
+        $int = (int) $this->id;
+
+        if ($this->isAllowToIntStage) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.int')) as $plugin) {
+                $plugin($this, $int);
+            }
+        }
+
+        return $int;
     }
 
     /**
@@ -212,8 +239,10 @@ abstract class Item implements IItem
      */
     public function __created($item, $repo)
     {
-        foreach ($this->getPluginsByStage($this->getSubjectForExtension() . '.created') as $plugin) {
-            $plugin($this, $item, $repo);
+        if ($this->isAllowCreatedStage) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('created')) as $plugin) {
+                $plugin($this, $item, $repo);
+            }
         }
 
         return $this;
@@ -238,10 +267,20 @@ abstract class Item implements IItem
      */
     protected function triggerInit()
     {
-        foreach ($this->getPluginsByStage($this->getSubjectForExtension() . '.init') as $plugin) {
+        foreach ($this->getPluginsByStage($this->getBaseStageName('init')) as $plugin) {
             $plugin($this);
         }
 
         return $this;
+    }
+
+    /**
+     * @param $stage
+     *
+     * @return string
+     */
+    protected function getBaseStageName($stage)
+    {
+        return $this->getSubjectForExtension() . '.' . $stage;
     }
 }

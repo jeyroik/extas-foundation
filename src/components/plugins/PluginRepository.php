@@ -21,6 +21,13 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
     protected $scope = 'extas';
     protected $idAs = '';
 
+    protected $isAllowInitStage = false;
+    protected $isAllowAfterStage = false;
+    protected $isAllowCreatedStage = false;
+    protected $isAllowToArrayStage = false;
+    protected $isAllowToIntStage = false;
+    protected $isAllowToStringStage = false;
+
     /**
      * @param $stage
      *
