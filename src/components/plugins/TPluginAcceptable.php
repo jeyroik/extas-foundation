@@ -24,12 +24,10 @@ trait TPluginAcceptable
          * @var $pluginRepo IPluginRepository
          */
         $pluginRepo = SystemContainer::getItem(IPluginRepository::class);
-        if ($pluginRepo->hasStagePlugins($stage)) {
-            $logIndex = PluginLog::log($this, $stage);
-            foreach ($pluginRepo->getStagePlugins($stage) as $plugin) {
-                PluginLog::logPluginClass(get_class($plugin), $logIndex);
-                yield $plugin;
-            }
+        $logIndex = PluginLog::log($this, $stage);
+        foreach ($pluginRepo->getStagePlugins($stage) as $plugin) {
+            PluginLog::logPluginClass(get_class($plugin), $logIndex);
+            yield $plugin;
         }
     }
 }

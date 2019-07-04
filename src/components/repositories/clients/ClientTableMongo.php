@@ -126,11 +126,12 @@ class ClientTableMongo implements IClientTable
      */
     public function update($item): bool
     {
-        if ($this->getPk() == '_id') {
-            $item[$this->getPk()] = new \MongoId($item[$this->getPk()]);
+        $pk = $this->getPk() == '_id' ? new \MongoId($item[$this->getPk()]) : $item[$this->getPk()];
+        if (isset($item['_id'])) {
+            unset($item['_id']);
         }
 
-        $result = $this->collection->update([$this->getPk() => $item[$this->getPk()]], $item);
+        $result = $this->collection->update([$this->getPk() => $pk], $item->__toArray());
 
         return is_bool($result)
             ? $result
@@ -167,7 +168,7 @@ class ClientTableMongo implements IClientTable
         }
 
         $result = $this->collection->remove([$this->getPk() => $item[$this->getPk()]]);
-        
+
         return is_bool($result)
             ? $result
             : (isset($result['n']) && ($result['n'] >= 1)

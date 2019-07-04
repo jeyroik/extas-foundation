@@ -188,7 +188,7 @@ abstract class Item implements IItem
      */
     public function offsetUnset($offset)
     {
-        $this->config[$offset] = null;
+        unset($this->config[$offset]);
     }
 
     /**
