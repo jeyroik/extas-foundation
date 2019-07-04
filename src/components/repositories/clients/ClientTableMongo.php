@@ -110,7 +110,13 @@ class ClientTableMongo implements IClientTable
      */
     public function updateMany($query, $data)
     {
-        return $this->collection->update($query, $data);
+        $result = $this->collection->update($query, $data);
+
+        if (is_bool($result)) {
+            return (int) $result;
+        }
+
+        return isset($result['n']) ? (int) $result['n'] : 0;
     }
 
     /**
@@ -124,7 +130,13 @@ class ClientTableMongo implements IClientTable
             $item[$this->getPk()] = new \MongoId($item[$this->getPk()]);
         }
 
-        return $this->collection->update([$this->getPk() => $item[$this->getPk()]], $item);
+        $result = $this->collection->update([$this->getPk() => $item[$this->getPk()]], $item);
+
+        return is_bool($result)
+            ? $result
+            : (isset($result['n']) && ($result['n'] >= 1)
+                ? true
+                : false);
     }
 
     /**
@@ -134,7 +146,13 @@ class ClientTableMongo implements IClientTable
      */
     public function deleteMany($query)
     {
-        return $this->collection->remove($query);
+        $result = $this->collection->remove($query);
+
+        if (is_bool($result)) {
+            return (int) $result;
+        }
+
+        return isset($result['n']) ? (int) $result['n'] : 0;
     }
 
     /**
@@ -148,7 +166,13 @@ class ClientTableMongo implements IClientTable
             $item[$this->getPk()] = new \MongoId($item[$this->getPk()]);
         }
 
-        return $this->collection->remove([$this->getPk() => $item[$this->getPk()]]);
+        $result = $this->collection->remove([$this->getPk() => $item[$this->getPk()]]);
+        
+        return is_bool($result)
+            ? $result
+            : (isset($result['n']) && ($result['n'] >= 1)
+                ? true
+                : false);
     }
 
     /**
