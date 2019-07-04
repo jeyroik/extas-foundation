@@ -45,7 +45,7 @@ class ClientDatabaseMongo implements IClientDatabase
     /**
      * @param string $tableName
      *
-     * @return \df\interfaces\repositories\clients\IClientTable|\MongoCollection
+     * @return IClientTable|\MongoCollection
      */
     public function getTable($tableName)
     {

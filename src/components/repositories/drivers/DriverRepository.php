@@ -89,8 +89,8 @@ class DriverRepository implements IDriverRepository
         if (empty(self::$storage)) {
             $manualPath = $this->config[static::FIELD__DRIVERS_STORAGE_PATH] ?? '';
             $driverStoragePath = $manualPath
-                ?: (getenv('DF__DRIVERS_STORAGE_PATH')
-                    ?: getenv('DF__BASE_PATH') . '/configs/drivers.json');
+                ?: (getenv('EXTAS__DRIVERS_STORAGE_PATH')
+                    ?: getenv('EXTAS__BASE_PATH') . '/configs/drivers.json');
 
             if (!is_file($driverStoragePath)) {
                 throw new \Exception('Missed or restricted driver storage path "' . $driverStoragePath . '"');

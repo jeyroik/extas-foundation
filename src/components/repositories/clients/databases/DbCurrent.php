@@ -66,12 +66,12 @@ class DbCurrent
     protected static function getTableDbClientDriver($scope, $scopeEnv, $repoName, $repoNameEnv)
     {
         /**
-         * env example: DF_TABLE__TRIGGERS
+         * env example: EXTAS_TABLE__SOMETHING
          */
         $tableName = getenv($scopeEnv . '_TABLE__' . $repoNameEnv) ?: $scope . '__' . $repoName;
 
         /**
-         * env example: DF_DB__TRIGGERS
+         * env example: EXTAS_DB__SOMETHING
          */
         $dbName = getenv($scopeEnv . '_DB__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DB')
@@ -79,7 +79,7 @@ class DbCurrent
 
         $clientDSN = getenv($scopeEnv . '_DSN__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DSN')
-                ?: 'df');
+                ?: 'extas');
 
         $driverName = getenv($scopeEnv . '_DRIVER__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DRIVER')
