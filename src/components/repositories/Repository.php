@@ -28,6 +28,17 @@ class Repository extends Item implements IRepository
     protected $idAs = '';
 
     /**
+     * Stages constraints
+     */
+    protected $isAllowFindAfterStage = true;
+    protected $isAllowCreateBeforeStage = true;
+    protected $isAllowCreateAfterStage = true;
+    protected $isAllowUpdateBeforeStage = true;
+    protected $isAllowUpdateAfterStage = true;
+    protected $isAllowDeleteBeforeStage = true;
+    protected $isAllowDeleteAfterStage = true;
+
+    /**
      * Repository constructor.
      *
      * @param array $config
@@ -72,14 +83,18 @@ class Repository extends Item implements IRepository
      */
     public function create($item)
     {
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.before') as $plugin) {
-            $plugin($item);
+        if ($this->isAllowCreateBeforeStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.before') as $plugin) {
+                $plugin($item);
+            }
         }
 
         $result = $this->getRepoInstance()->insert($item);
 
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.after') as $plugin) {
-            $plugin($result, $item);
+        if ($this->isAllowCreateAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.after') as $plugin) {
+                $plugin($result, $item);
+            }
         }
 
         return $result;
@@ -94,15 +109,19 @@ class Repository extends Item implements IRepository
      */
     public function update($item, $where = []): int
     {
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.before') as $plugin) {
-            $plugin($item, $where);
+        if ($this->isAllowUpdateBeforeStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.before') as $plugin) {
+                $plugin($item, $where);
+            }
         }
 
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->update($item) : $repo->updateMany($where, $item);
 
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.after') as $plugin) {
-            $plugin($result, $where, $item);
+        if ($this->isAllowUpdateAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.after') as $plugin) {
+                $plugin($result, $where, $item);
+            }
         }
 
         return $result;
@@ -117,15 +136,19 @@ class Repository extends Item implements IRepository
      */
     public function delete($where, $item = null): int
     {
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.before') as $plugin) {
-            $plugin($item, $where);
+        if ($this->isAllowDeleteBeforeStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.before') as $plugin) {
+                $plugin($item, $where);
+            }
         }
 
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->delete($item) : $repo->deleteMany($where);
 
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.after') as $plugin) {
-            $plugin($result, $where, $item);
+        if ($this->isAllowDeleteAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.after') as $plugin) {
+                $plugin($result, $where, $item);
+            }
         }
 
         return $result;
@@ -143,8 +166,10 @@ class Repository extends Item implements IRepository
         $repo = $this->getRepoInstance();
         $result = $repo->group($byField, $returnFields);
 
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
-            $plugin($result, 'group');
+        if ($this->isAllowFindAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
+                $plugin($result, 'group');
+            }
         }
 
         return $result;
@@ -177,8 +202,10 @@ class Repository extends Item implements IRepository
     {
         $result = $this->getRepoInstance()->$method($where);
 
-        foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
-            $plugin($result, $method);
+        if ($this->isAllowFindAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
+                $plugin($result, $method);
+            }
         }
 
         return $result;
@@ -215,21 +242,6 @@ class Repository extends Item implements IRepository
     protected function getSubjectForExtension(): string
     {
         return $this->repoSubject;
-    }
-
-    /**
-     * @return $this
-     */
-    protected function triggerInit()
-    {
-        if ($this->isAllowInitStage) {
-            $stage = $this->getSubjectForExtension() . '.' . $this->getName() . '.init';
-            foreach ($this->getPluginsByStage($stage) as $plugin) {
-                $plugin($this);
-            }
-        }
-
-        return $this;
     }
 
     /**
