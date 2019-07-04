@@ -75,11 +75,11 @@ class DbCurrent
          */
         $dbName = getenv($scopeEnv . '_DB__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DB')
-                ?: $scope);
+                ?: 'extas');
 
         $clientDSN = getenv($scopeEnv . '_DSN__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DSN')
-                ?: 'extas');
+                ?: getenv('EXTAS__DSN'));
 
         $driverName = getenv($scopeEnv . '_DRIVER__' . $repoNameEnv)
             ?: (getenv($scopeEnv . '__DRIVER')
