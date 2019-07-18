@@ -14,20 +14,6 @@ use extas\interfaces\repositories\IRepository;
 interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
 {
     /**
-     * @param string $format
-     *
-     * @return string|int
-     */
-    public function getCreatedAt($format = '');
-
-    /**
-     * @param string $format
-     *
-     * @return string|int
-     */
-    public function getUpdatedAt($format = '');
-
-    /**
      * @return array
      */
     public function __toArray(): array;

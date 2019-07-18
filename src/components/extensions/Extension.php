@@ -13,12 +13,6 @@ use extas\interfaces\extensions\IExtension;
 class Extension extends Item implements IExtension
 {
     /**
-     * @var array
-     */
-    public $methods = [];
-    public $subject = '';
-
-    /**
      * @param $subject
      * @param string $methodName
      * @param $args
@@ -35,11 +29,11 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @return array
+     * @return string[]
      */
-    public function getMethodsNames()
+    public function getMethods(): array
     {
-        return $this->methods;
+        return $this->config[static::FIELD__METHODS] ?? [];
     }
 
     /**
@@ -75,11 +69,11 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @param $subject
+     * @param string $subject
      *
      * @return $this
      */
-    public function setSubject($subject)
+    public function setSubject(string $subject)
     {
         $this->config[static::FIELD__SUBJECT] = $subject;
 
@@ -87,11 +81,11 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @param $interface
+     * @param string $interface
      *
      * @return $this
      */
-    public function setInterface($interface)
+    public function setInterface(string $interface)
     {
         $this->config[static::FIELD__INTERFACE] = $interface;
 
@@ -99,24 +93,23 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @param $methods
+     * @param array $methods
      *
      * @return $this
      */
-    public function setMethods($methods)
+    public function setMethods(array $methods)
     {
         $this->config[static::FIELD__METHODS] = $methods;
-        $this->methods = $methods;
 
         return $this;
     }
 
     /**
-     * @param $class
+     * @param string $class
      *
      * @return $this
      */
-    public function setClass($class)
+    public function setClass(string $class)
     {
         $this->config[static::FIELD__CLASS] = $class;
 
@@ -124,11 +117,11 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @param $id
+     * @param string $id
      *
      * @return $this
      */
-    public function setId($id)
+    public function setId(string $id)
     {
         $this->config[static::FIELD__ID] = $id;
 

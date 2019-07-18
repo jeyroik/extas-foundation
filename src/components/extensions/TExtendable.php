@@ -54,7 +54,7 @@ trait TExtendable
         }
 
         foreach ($this->getPluginsByStage(IExtendable::STAGE__EXTENDED_METHOD_CALL) as $plugin) {
-            $arguments = $plugin($this, $name, $arguments);
+            $plugin($this, $name, $arguments);
         }
 
         return $extension->runMethod($this, $name, $arguments);
@@ -72,7 +72,10 @@ trait TExtendable
          */
         $extRepo = SystemContainer::getItem(IExtensionRepository::class);
 
-        return $extRepo->one([IExtension::FIELD__INTERFACE => $interface]) ? true : false;
+        return $extRepo->one([
+            IExtension::FIELD__INTERFACE => $interface,
+            IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
+        ]) ? true : false;
     }
 
     /**

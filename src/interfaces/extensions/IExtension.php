@@ -11,10 +11,7 @@ use extas\interfaces\IItem;
  */
 interface IExtension extends IItem
 {
-    const SUBJECT = 'extension';
-
-    const STAGE__EXTENSION_INIT = 'extension.init';
-    const STAGE__EXTENSION_AFTER = 'extension.after';
+    const SUBJECT = 'extas.extension';
 
     const FIELD__CLASS = 'class';
     const FIELD__INTERFACE = 'interface';
@@ -52,37 +49,42 @@ interface IExtension extends IItem
     public function getSubject(): string;
 
     /**
-     * @param $id
-     *
-     * @return $this
+     * @return string[]
      */
-    public function setId($id);
+    public function getMethods(): array;
 
     /**
-     * @param $interface
+     * @param string $id
      *
      * @return $this
      */
-    public function setInterface($interface);
+    public function setId(string $id);
 
     /**
-     * @param $methods
+     * @param string $interface
      *
      * @return $this
      */
-    public function setMethods($methods);
+    public function setInterface(string $interface);
 
     /**
-     * @param $subject
+     * @param array $methods
      *
      * @return $this
      */
-    public function setSubject($subject);
+    public function setMethods(array $methods);
 
     /**
-     * @param $class
+     * @param string $subject
      *
      * @return $this
      */
-    public function setClass($class);
+    public function setSubject(string $subject);
+
+    /**
+     * @param string $class
+     *
+     * @return $this
+     */
+    public function setClass(string $class);
 }

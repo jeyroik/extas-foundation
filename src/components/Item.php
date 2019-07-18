@@ -65,27 +65,6 @@ abstract class Item implements IItem
     }
 
     /**
-     * @param string $format
-     *
-     * @return false|int|string
-     */
-    public function getCreatedAt($format = '')
-    {
-        return $format ? date($format, $this->created_at) : $this->created_at;
-    }
-
-    /**
-     * @param string $format
-     *
-     * @return false|int|string
-     */
-    public function getUpdatedAt($format = '')
-    {
-        return $format ? date($format, $this->updated_at) : $this->updated_at;
-    }
-
-
-    /**
      * @return array
      */
     public function __toArray(): array
