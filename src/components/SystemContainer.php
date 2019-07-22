@@ -70,7 +70,7 @@ class SystemContainer implements ISystemContainer
     protected function __construct()
     {
         $containerConfigPath = getenv('EXTAS__CONTAINER_PATH_LOCK')
-            ?: EXTAS__APPLICATION_PATH . '/resources/configs/container.php';
+            ?: getenv('EXTAS__BASE_PATH') . '/resources/configs/container.php';
 
         if (is_file($containerConfigPath)) {
             $this->container = new Container();
