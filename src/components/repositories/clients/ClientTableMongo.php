@@ -9,27 +9,12 @@ use extas\interfaces\repositories\clients\IClientTable;
  * @package extas\components\repositories\clients
  * @author jeyroik@gmail.com
  */
-class ClientTableMongo implements IClientTable
+class ClientTableMongo extends ClientTableAbstract implements IClientTable
 {
     /**
      * @var \MongoCollection
      */
     protected $collection = null;
-
-    /**
-     * @var string
-     */
-    protected $pk = '_id';
-
-    /**
-     * @var string
-     */
-    protected $idAs = '_id';
-
-    /**
-     * @var string
-     */
-    protected $itemClass = '';
 
     /**
      * ClientTableMongo constructor.
@@ -44,7 +29,7 @@ class ClientTableMongo implements IClientTable
     /**
      * @param array $query
      *
-     * @return array|\jeyroik\extas\interfaces\systems\IItem|null
+     * @return array|\extas\interfaces\IItem|null
      */
     public function findOne($query = [])
     {
@@ -62,7 +47,7 @@ class ClientTableMongo implements IClientTable
     /**
      * @param array $query
      *
-     * @return array|\jeyroik\extas\interfaces\systems\IItem[]
+     * @return array|\extas\interfaces\IItem[]
      */
     public function findAll($query = [])
     {
@@ -80,9 +65,9 @@ class ClientTableMongo implements IClientTable
     }
 
     /**
-     * @param \jeyroik\extas\interfaces\systems\IItem $item
+     * @param \extas\interfaces\IItem $item
      *
-     * @return \Exception|\jeyroik\extas\interfaces\systems\IItem|mixed
+     * @return \Exception|\extas\interfaces\IItem|mixed
      */
     public function insert($item)
     {
@@ -157,7 +142,7 @@ class ClientTableMongo implements IClientTable
     }
 
     /**
-     * @param \jeyroik\extas\interfaces\systems\IItem $item
+     * @param \extas\interfaces\IItem $item
      *
      * @return bool
      */
@@ -210,65 +195,5 @@ class ClientTableMongo implements IClientTable
         return count($fieldsDecorated) == 1
             ? array_column($rows, array_keys($fieldsDecorated)[0], '_id')
             : array_column($rows, null, '_id');
-    }
-
-    /**
-     * @param $pk
-     *
-     * @return $this|IClientTable
-     */
-    public function setPk($pk)
-    {
-        $this->pk = $pk;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPk(): string
-    {
-        return $this->pk;
-    }
-
-    /**
-     * @param $itemClass
-     *
-     * @return $this
-     */
-    public function setItemClass($itemClass)
-    {
-        $this->itemClass = $itemClass;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getItemClass(): string
-    {
-        return $this->itemClass;
-    }
-
-    /**
-     * @param string $fieldName
-     *
-     * @return $this
-     */
-    public function setIdAs($fieldName)
-    {
-        $this->idAs = $fieldName;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdAs()
-    {
-        return $this->idAs;
     }
 }

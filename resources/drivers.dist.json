@@ -2,5 +2,9 @@
   {
     "name": "mongo",
     "class": "extas\\components\\repositories\\drivers\\DriverMongo"
+  },
+  {
+    "name": "file.json",
+    "class": "extas\\components\\repositories\\drivers\\files\\DriverFileJson"
   }
 ]
