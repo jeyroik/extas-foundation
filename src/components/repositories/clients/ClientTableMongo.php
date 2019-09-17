@@ -33,6 +33,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
      */
     public function findOne($query = [])
     {
+        $this->prepareQuery($query);
         $record = $this->collection->findOne($query);
 
         if ($record) {
@@ -51,6 +52,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
      */
     public function findAll($query = [])
     {
+        $this->prepareQuery($query);
         $itemClass = $this->getItemClass();
         $recordsCursor = $this->collection->find($query);
         $records = [];
@@ -195,5 +197,17 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
         return count($fieldsDecorated) == 1
             ? array_column($rows, array_keys($fieldsDecorated)[0], '_id')
             : array_column($rows, null, '_id');
+    }
+
+    /**
+     * @param array $query
+     */
+    protected function prepareQuery(&$query)
+    {
+        foreach ($query as $fieldName => $fieldValue) {
+            if (is_array($fieldValue)) {
+                $query[$fieldName] = ['$in' => $fieldValue];
+            }
+        }
     }
 }

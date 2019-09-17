@@ -48,7 +48,7 @@ abstract class Item implements IItem
      */
     public function __construct($config = [])
     {
-        $this->setConfig($config);
+        $this->setConfig($config??[]);
         $this->isAllowInitStage && $this->triggerInit();
     }
 
