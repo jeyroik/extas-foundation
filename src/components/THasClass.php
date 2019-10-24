@@ -37,7 +37,7 @@ trait THasClass
      *
      * @return callable
      */
-    public function buildClassWithParameters(array $parameters): callable
+    public function buildClassWithParameters(array $parameters = []): callable
     {
         $className = $this->getClass();
 
