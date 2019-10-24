@@ -21,4 +21,11 @@ interface IHasClass
      * @return $this
      */
     public function setClass(string $class);
+
+    /**
+     * @param array $parameters
+     *
+     * @return callable
+     */
+    public function buildClassWithParameters(array $parameters = []): callable;
 }
