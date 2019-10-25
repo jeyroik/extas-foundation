@@ -11,7 +11,7 @@ use extas\interfaces\IItem;
  * @package extas\interfaces\plugins
  * @author jeyroik@gmail.com
  */
-interface IPlugin extends IItem, IHasId, IHasClass
+interface IPlugin extends IItem, IHasClass
 {
     const SUBJECT = 'plugin';
 

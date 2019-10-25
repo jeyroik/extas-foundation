@@ -18,7 +18,6 @@ use extas\components\Item;
  */
 class Plugin extends Item implements IPlugin
 {
-    use THasId;
     use THasClass;
 
     protected $isAllowToStringStage = false;
