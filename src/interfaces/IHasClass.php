@@ -3,6 +3,7 @@ namespace extas\interfaces;
 
 /**
  * Interface IHasClass
+ *
  * @package extas\interfaces
  * @author jeyroik@gmail.com
  */
@@ -25,7 +26,7 @@ interface IHasClass
     /**
      * @param array $parameters
      *
-     * @return callable
+     * @return mixed
      */
-    public function buildClassWithParameters(array $parameters = []): callable;
+    public function buildClassWithParameters(array $parameters = []);
 }
