@@ -19,6 +19,8 @@ interface IExtension extends IItem
     const FIELD__METHODS = 'methods';
     const FIELD__ID = 'id';
 
+    const SUBJECT__WILDCARD = '*';
+
     /**
      * @param mixed $extendingSubject
      * @param string $methodName

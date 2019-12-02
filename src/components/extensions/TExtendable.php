@@ -45,7 +45,7 @@ trait TExtendable
          * @var $extension IExtension
          */
         $extension = $extRepo->one([
-            IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
+            IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
             IExtension::FIELD__METHODS => $name
         ]);
 
