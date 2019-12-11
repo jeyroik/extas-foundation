@@ -164,6 +164,16 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     }
 
     /**
+     * @return bool
+     */
+    public function drop(): bool
+    {
+        $this->collection->drop();
+
+        return true;
+    }
+
+    /**
      * @param string $groupBy
      * @param array|string $fields returning fields
      *

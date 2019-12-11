@@ -60,4 +60,9 @@ interface IRepository extends IItem
      * @return array
      */
     public function group($byField, $returnFields);
+
+    /**
+     * @return bool
+     */
+    public function drop(): bool;
 }

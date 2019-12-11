@@ -27,6 +27,16 @@ abstract class ClientTableAbstract implements IClientTable
     protected $itemClass = '';
 
     /**
+     * @return bool
+     */
+    public function drop(): bool
+    {
+        echo 'Not implemented yet';
+
+        return false;
+    }
+
+    /**
      * @param $pk
      *
      * @return $this|IClientTable

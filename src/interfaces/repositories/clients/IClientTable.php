@@ -66,6 +66,11 @@ interface IClientTable
     public function findAll($query = []);
 
     /**
+     * @return bool
+     */
+    public function drop(): bool;
+
+    /**
      * @param $pk
      *
      * @return $this

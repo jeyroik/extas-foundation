@@ -37,6 +37,8 @@ class Repository extends Item implements IRepository
     protected $isAllowUpdateAfterStage = true;
     protected $isAllowDeleteBeforeStage = true;
     protected $isAllowDeleteAfterStage = true;
+    protected $isAllowDropBeforeStage = true;
+    protected $isAllowDropAfterStage = true;
 
     /**
      * Repository constructor.
@@ -169,6 +171,30 @@ class Repository extends Item implements IRepository
         if ($this->isAllowFindAfterStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
                 $plugin($result, 'group');
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function drop(): bool
+    {
+        if ($this->isAllowDropBeforeStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.drop.before') as $plugin) {
+                $plugin($this);
+            }
+        }
+
+        $repo = $this->getRepoInstance();
+        $result = $repo->drop();
+
+        if ($this->isAllowDropAfterStage) {
+            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.drop.after') as $plugin) {
+                $plugin($result);
             }
         }
 
