@@ -179,11 +179,11 @@ abstract class Item implements IItem
     }
 
     /**
-     * @return int
+     * @return string|null
      */
     public function key()
     {
-        return $this->currentKey;
+        return $this->keyMap[$this->currentKey] ?? null;
     }
 
     /**
