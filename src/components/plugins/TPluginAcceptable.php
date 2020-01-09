@@ -1,9 +1,8 @@
 <?php
 namespace extas\components\plugins;
 
-use extas\components\SystemContainer;
+use extas\components\Plugins;
 use extas\interfaces\plugins\IPlugin;
-use extas\interfaces\plugins\IPluginRepository;
 
 /**
  * Trait TPluginAcceptable
@@ -20,13 +19,7 @@ trait TPluginAcceptable
      */
     public function getPluginsByStage($stage)
     {
-        /**
-         * @var $pluginRepo IPluginRepository
-         */
-        $pluginRepo = SystemContainer::getItem(IPluginRepository::class);
-        $logIndex = PluginLog::log($this, $stage);
-        foreach ($pluginRepo->getStagePlugins($stage) as $plugin) {
-            PluginLog::logPluginClass(get_class($plugin), $logIndex);
+        foreach (Plugins::byStage($stage, $this) as $plugin) {
             yield $plugin;
         }
     }
