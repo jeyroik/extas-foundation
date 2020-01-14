@@ -24,11 +24,10 @@ class SystemContainer implements ISystemContainer
 
     /**
      * @param string $name
-     * @param array $args
      *
      * @return mixed
      */
-    public static function getItem(string $name, array $args = [])
+    public static function getItem(string $name)
     {
         return static::getInstance()->get($name);
     }
@@ -103,9 +102,9 @@ class SystemContainer implements ISystemContainer
      *
      * @return mixed
      */
-    public function get(string $name, array $args = [])
+    public function get(string $name)
     {
-        return $this->container->get($name, $args);
+        return $this->container->get($name);
     }
 
     /**

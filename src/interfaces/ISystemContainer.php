@@ -11,11 +11,10 @@ interface ISystemContainer
 {
     /**
      * @param string $name
-     * @param array $args
      *
      * @return mixed
      */
-    public static function getItem(string $name, array $args = []);
+    public static function getItem(string $name);
 
     /**
      * @param string $name
