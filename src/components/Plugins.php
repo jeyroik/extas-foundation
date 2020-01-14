@@ -16,11 +16,11 @@ class Plugins implements IPlugins
 {
     /**
      * @param string $stage
-     * @param callable $riser
+     * @param object $riser
      *
      * @return IPlugin|\Generator
      */
-    public static function byStage(string $stage, callable $riser = null)
+    public static function byStage(string $stage, $riser = null)
     {
         /**
          * @var $pluginRepo IPluginRepository

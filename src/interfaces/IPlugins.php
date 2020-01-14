@@ -13,9 +13,9 @@ interface IPlugins
 {
     /**
      * @param string $stage
-     * @param callable $riser
+     * @param object $riser
      *
      * @return \Generator|IPlugin
      */
-    public static function byStage(string $stage, callable $riser = null);
+    public static function byStage(string $stage, $riser = null);
 }
