@@ -11,10 +11,18 @@ interface ISystemContainer
 {
     /**
      * @param string $name
+     * @param array $args
      *
      * @return mixed
      */
-    public static function getItem($name);
+    public static function getItem(string $name, array $args = []);
+
+    /**
+     * @param string $name
+     *
+     * @return bool
+     */
+    public static function hasItem(string $name): bool;
 
     /**
      * @param $name string
