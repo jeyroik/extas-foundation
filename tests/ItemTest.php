@@ -18,7 +18,7 @@ class ItemTest extends TestCase
     /**
      * Test default item configuration.
      */
-    public function testConfigProperties(): void
+    public function testCorrectAppliesConfigOnConstruct(): void
     {
         $must = [
             'name' => 'child',
