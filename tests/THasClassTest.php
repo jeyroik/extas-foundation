@@ -8,7 +8,7 @@ use extas\components\Item;
 
 /**
  * Class THasClassTest
- * 
+ *
  * @author jeyroik <jeyroik@gmail.com>
  */
 class THasClassTest extends TestCase
@@ -20,7 +20,7 @@ class THasClassTest extends TestCase
         $env->load();
     }
 
-    public function testSetGetClass()
+    public function testSetAndGetClass()
     {
         $item = new class {
             use THasClass;

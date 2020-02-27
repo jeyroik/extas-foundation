@@ -15,7 +15,7 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $env->load();
     }
 
-    public function testSetGetStage()
+    public function testSetAndGetStage()
     {
         $plugin = new Plugin();
         $plugin->setStage('stage');
