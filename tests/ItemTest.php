@@ -129,7 +129,7 @@ class ItemTest extends TestCase
     {
         $this->createPluginAndStage('created', 'Created');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClassInit\' not found');
+        $this->expectExceptionMessage('Class \'NotExistingClassCreated\' not found');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
