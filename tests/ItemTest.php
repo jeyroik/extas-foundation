@@ -23,6 +23,10 @@ class ItemTest extends TestCase
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
+        
+        $this->repo = SystemContainer::getItem(
+            IPluginRepository::class
+        );
     }
 
     /**

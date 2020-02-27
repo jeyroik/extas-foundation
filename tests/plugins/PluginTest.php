@@ -1,5 +1,8 @@
 <?php
 
+use extas\components\SystemContainer;
+use extas\interfaces\plugins\IPluginRepository;
+
 /**
  * Class PluginTest
  * @author jeyroik <jeyroik@gmail.com>
