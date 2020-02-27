@@ -11,7 +11,7 @@ class ItemTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/.env');
+        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
     }
 
