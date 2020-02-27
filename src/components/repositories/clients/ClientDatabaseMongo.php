@@ -15,17 +15,17 @@ class ClientDatabaseMongo implements IClientDatabase
     /**
      * @var \MongoDB[]
      */
-    protected static $dbs = [];
+    protected static array $dbs = [];
 
     /**
      * @var IClientTable[]
      */
-    protected static $tables = [];
+    protected static array $tables = [];
 
     /**
      * @var string
      */
-    protected $curDB = '';
+    protected string $curDB = '';
 
     /**
      * ClientDatabaseMongo constructor.

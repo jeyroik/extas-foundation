@@ -11,15 +11,15 @@ use extas\interfaces\IItem;
  */
 interface IExtension extends IItem
 {
-    const SUBJECT = 'extas.extension';
+    public const SUBJECT = 'extas.extension';
 
-    const FIELD__CLASS = 'class';
-    const FIELD__INTERFACE = 'interface';
-    const FIELD__SUBJECT = 'subject';
-    const FIELD__METHODS = 'methods';
-    const FIELD__ID = 'id';
+    public const FIELD__CLASS = 'class';
+    public const FIELD__INTERFACE = 'interface';
+    public const FIELD__SUBJECT = 'subject';
+    public const FIELD__METHODS = 'methods';
+    public const FIELD__ID = 'id';
 
-    const SUBJECT__WILDCARD = '*';
+    public const SUBJECT__WILDCARD = '*';
 
     /**
      * @param mixed $extendingSubject

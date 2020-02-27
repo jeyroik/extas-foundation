@@ -12,9 +12,9 @@ use extas\interfaces\extensions\IExtensionRepository;
  */
 class ExtensionRepository extends RepositoryClassObjects implements IExtensionRepository
 {
-    protected $itemClass = Extension::class;
-    protected $name = 'extensions';
-    protected $scope = 'extas';
-    protected $pk = Extension::FIELD__CLASS;
-    protected $idAs = '';
+    protected string $itemClass = Extension::class;
+    protected string $name = 'extensions';
+    protected string $scope = 'extas';
+    protected string $pk = Extension::FIELD__CLASS;
+    protected string $idAs = '';
 }

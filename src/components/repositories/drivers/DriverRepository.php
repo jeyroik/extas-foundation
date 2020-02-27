@@ -12,7 +12,7 @@ use extas\interfaces\repositories\drivers\IDriverRepository;
  */
 class DriverRepository implements IDriverRepository
 {
-    const FIELD__DRIVERS_STORAGE_PATH = 'drivers.storage.path';
+    public const FIELD__DRIVERS_STORAGE_PATH = 'drivers.storage.path';
 
     /**
      * [
@@ -25,12 +25,12 @@ class DriverRepository implements IDriverRepository
      *
      * @var array
      */
-    protected static $storage = [];
+    protected static array $storage = [];
 
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * DriverRepository constructor.

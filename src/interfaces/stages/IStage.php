@@ -11,16 +11,16 @@ use extas\interfaces\IItem;
  */
 interface IStage extends IItem
 {
-    const SUBJECT = 'extas.stage';
+    public const SUBJECT = 'extas.stage';
 
-    const FIELD__NAME = 'name';
-    const FIELD__DESCRIPTION = 'description';
-    const FIELD__INPUT = 'input';
-    const FIELD__OUTPUT = 'output';
-    const FIELD__HAS_PLUGINS = 'has_plugins';
+    public const FIELD__NAME = 'name';
+    public const FIELD__DESCRIPTION = 'description';
+    public const FIELD__INPUT = 'input';
+    public const FIELD__OUTPUT = 'output';
+    public const FIELD__HAS_PLUGINS = 'has_plugins';
 
-    const ARG__TYPE = 'type';
-    const ARG__NAME = 'arg';
+    public const ARG__TYPE = 'type';
+    public const ARG__NAME = 'arg';
 
     /**
      * @return string

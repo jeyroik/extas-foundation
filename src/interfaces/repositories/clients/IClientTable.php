@@ -11,9 +11,9 @@ use extas\interfaces\IItem;
  */
 interface IClientTable
 {
-    const FIELD__REPO_NAME = 'repo.name';
-    const FIELD__SCOPE = 'scope';
-    const FIELD__PRIMARY_KEY = 'pk';
+    public const FIELD__REPO_NAME = 'repo.name';
+    public const FIELD__SCOPE = 'scope';
+    public const FIELD__PRIMARY_KEY = 'pk';
 
     /**
      * @param $item IItem

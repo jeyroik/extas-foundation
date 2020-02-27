@@ -15,12 +15,12 @@ abstract class Driver implements IDriver
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * @var string
      */
-    protected $clientClass = '';
+    protected string $clientClass = '';
 
     /**
      * @return string

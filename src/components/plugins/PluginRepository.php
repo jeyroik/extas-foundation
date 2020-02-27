@@ -19,39 +19,39 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
     /**
      * @var IPlugin[]
      */
-    protected static $stagesWithPlugins = [];
+    protected static array $stagesWithPlugins = [];
 
     /**
      * @var IStageRepository
      */
-    protected static $stageRepo = null;
+    protected static ?IStageRepository $stageRepo = null;
 
-    protected $itemClass = Plugin::class;
-    protected $name = 'plugins';
-    protected $pk = Plugin::FIELD__CLASS;
-    protected $scope = 'extas';
-    protected $idAs = '';
+    protected string $itemClass = Plugin::class;
+    protected string $name = 'plugins';
+    protected string $pk = Plugin::FIELD__CLASS;
+    protected string $scope = 'extas';
+    protected string $idAs = '';
 
     /**
      * Item constraints
      */
-    protected $isAllowInitStage = false;
-    protected $isAllowAfterStage = false;
-    protected $isAllowCreatedStage = false;
-    protected $isAllowToArrayStage = false;
-    protected $isAllowToIntStage = false;
-    protected $isAllowToStringStage = false;
+    protected bool $isAllowInitStage = false;
+    protected bool $isAllowAfterStage = false;
+    protected bool $isAllowCreatedStage = false;
+    protected bool $isAllowToArrayStage = false;
+    protected bool $isAllowToIntStage = false;
+    protected bool $isAllowToStringStage = false;
 
     /**
      * Repository constraints
      */
-    protected $isAllowCreateBeforeStage = false;
-    protected $isAllowCreateAfterStage = false;
-    protected $isAllowUpdateBeforeStage = false;
-    protected $isAllowUpdateAfterStage = false;
-    protected $isAllowDeleteBeforeStage = false;
-    protected $isAllowDeleteAfterStage = false;
-    protected $isAllowFindAfterStage = false;
+    protected bool $isAllowCreateBeforeStage = false;
+    protected bool $isAllowCreateAfterStage = false;
+    protected bool $isAllowUpdateBeforeStage = false;
+    protected bool $isAllowUpdateAfterStage = false;
+    protected bool $isAllowDeleteBeforeStage = false;
+    protected bool $isAllowDeleteAfterStage = false;
+    protected bool $isAllowFindAfterStage = false;
 
     /**
      * @param $stage

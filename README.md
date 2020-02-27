@@ -8,7 +8,7 @@
 
 # Требования
 
-- PHP 7.2+
+- PHP 7.4+
 - MongoDB 3+
 
 # Установка
@@ -135,7 +135,7 @@ class My extends Item
         $name = $this->config['name'] ?? '';
     
         foreach($this->getPluginsByStage('my.name.get') as $plugin) {
-            $plugin($name)
+            $plugin($name);
         }
     
         return $name;
@@ -143,7 +143,7 @@ class My extends Item
     
     public function setName($name)
     {
-        $this->name = $name;
+        $this->config['name'] = $name;
         
         return $this;
     }
@@ -186,7 +186,7 @@ class My extends Item
         $name = $this->config['name'] ?? '';
     
         foreach($this->getPluginsByStage('my.name.get') as $plugin) {
-            $plugin($name)
+            $plugin($name);
         }
     
         return $name;
@@ -194,7 +194,7 @@ class My extends Item
     
     public function setName($name)
     {
-        $this->name = $name;
+        $this->config['name'] = $name;
         
         return $this;
     }
@@ -221,7 +221,7 @@ use extas\components\Extension;
 
 class MyGetMutatedName extends Extension implements IGetMutatedName
 {
-    public $subject = 'my';
+    public string $subject = 'my';
 
     /**
      * Последним аргументом любого метода, который является расширением,

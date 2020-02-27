@@ -11,10 +11,10 @@ use extas\interfaces\IItem;
  */
 interface IRepository extends IItem
 {
-    const OPTION__REPOSITORY_NAME = 'repository.name';
-    const OPTION__REPOSITORY_SCOPE = 'repository.scope';
-    const OPTION__COLLECTION_UID = 'collection.uid';
-    const OPTION__ITEM_CLASS = 'item.class';
+    public const OPTION__REPOSITORY_NAME = 'repository.name';
+    public const OPTION__REPOSITORY_SCOPE = 'repository.scope';
+    public const OPTION__COLLECTION_UID = 'collection.uid';
+    public const OPTION__ITEM_CLASS = 'item.class';
 
     /**
      * @param $where

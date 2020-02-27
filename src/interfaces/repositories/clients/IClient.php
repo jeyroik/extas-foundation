@@ -9,8 +9,8 @@ namespace extas\interfaces\repositories\clients;
  */
 interface IClient
 {
-    const FIELD__HOST = 'host';
-    const FIELD__PORT = 'port';
+    public const FIELD__HOST = 'host';
+    public const FIELD__PORT = 'port';
 
     /**
      * IClient constructor.

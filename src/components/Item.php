@@ -22,24 +22,24 @@ abstract class Item implements IItem
     /**
      * @var array
      */
-    protected $config = [];
+    protected array $config = [];
 
     /**
      * @var int
      */
-    protected $currentKey = 0;
+    protected int $currentKey = 0;
 
     /**
      * @var array
      */
-    protected $keyMap = [];
+    protected array $keyMap = [];
 
-    protected $isAllowInitStage = true;
-    protected $isAllowAfterStage = true;
-    protected $isAllowCreatedStage = true;
-    protected $isAllowToArrayStage = true;
-    protected $isAllowToStringStage = true;
-    protected $isAllowToIntStage = true;
+    protected bool $isAllowInitStage = true;
+    protected bool $isAllowAfterStage = true;
+    protected bool $isAllowCreatedStage = true;
+    protected bool $isAllowToArrayStage = true;
+    protected bool $isAllowToStringStage = true;
+    protected bool $isAllowToIntStage = true;
 
     /**
      * Item constructor.

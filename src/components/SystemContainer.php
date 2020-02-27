@@ -13,14 +13,14 @@ use League\Container\Container;
 class SystemContainer implements ISystemContainer
 {
     /**
-     * @var static
+     * @var ISystemContainer
      */
-    protected static $instance = null;
+    protected static ?ISystemContainer $instance = null;
 
     /**
      * @var Container
      */
-    protected $container = null;
+    protected ?Container $container = null;
 
     /**
      * @param string $name
@@ -64,7 +64,7 @@ class SystemContainer implements ISystemContainer
     }
 
     /**
-     * @return static
+     * @return ISystemContainer
      * @throws
      */
     protected static function getInstance()
@@ -98,7 +98,6 @@ class SystemContainer implements ISystemContainer
 
     /**
      * @param string $name
-     * @param array $args
      *
      * @return mixed
      */

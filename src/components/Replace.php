@@ -49,12 +49,12 @@ class Replace implements IReplace
     /**
      * @var array
      */
-    protected $patterns = [];
+    protected array $patterns = [];
 
     /**
      * @var array
      */
-    protected $values = [];
+    protected array $values = [];
 
     /**
      * @return IReplace

@@ -13,7 +13,7 @@ use extas\components\SystemContainer;
  */
 class DbCurrent
 {
-    protected static $tables = [];
+    protected static array $tables = [];
 
     /**
      * @param $repoName

@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\repositories\clients;
 
+use extas\interfaces\IItem;
 use extas\interfaces\repositories\clients\IClientTable;
 
 /**
@@ -14,7 +15,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     /**
      * @var \MongoCollection
      */
-    protected $collection = null;
+    protected ?\MongoCollection $collection = null;
 
     /**
      * ClientTableMongo constructor.
@@ -29,7 +30,8 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     /**
      * @param array $query
      *
-     * @return array|\extas\interfaces\IItem|null
+     * @return array|IItem|null
+     * @throws
      */
     public function findOne($query = [])
     {
@@ -48,7 +50,8 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     /**
      * @param array $query
      *
-     * @return array|\extas\interfaces\IItem[]
+     * @return array|IItem[]
+     * @throws
      */
     public function findAll($query = [])
     {
@@ -67,9 +70,10 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     }
 
     /**
-     * @param \extas\interfaces\IItem $item
+     * @param IItem $item
      *
-     * @return \Exception|\extas\interfaces\IItem|mixed
+     * @return \Exception|IItem|mixed
+     * @throws
      */
     public function insert($item)
     {
@@ -94,6 +98,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
      * @param $data
      *
      * @return array|bool|int
+     * @throws
      */
     public function updateMany($query, $data)
     {
@@ -107,9 +112,10 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     }
 
     /**
-     * @param \extas\interfaces\IItem $item
+     * @param IItem $item
      *
      * @return bool
+     * @throws
      */
     public function update($item): bool
     {
@@ -131,6 +137,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
      * @param array $query
      *
      * @return array|bool|mixed
+     * @throws
      */
     public function deleteMany($query)
     {
@@ -144,9 +151,10 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
     }
 
     /**
-     * @param \extas\interfaces\IItem $item
+     * @param IItem $item
      *
      * @return bool
+     * @throws
      */
     public function delete($item): bool
     {
@@ -178,6 +186,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
      * @param array|string $fields returning fields
      *
      * @return array
+     * @throws
      */
     public function  group($groupBy, $fields)
     {
@@ -202,10 +211,9 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
 
         /**
          * В качестве сахара, если в fields было передано 1 поле, то мы мапим groupBy к значениям из этого поля.
-         * todo после перехода на 7.3 заменить на array_key_first($fieldsDecorated)
          */
         return count($fieldsDecorated) == 1
-            ? array_column($rows, array_keys($fieldsDecorated)[0], '_id')
+            ? array_column($rows, array_key_first($fieldsDecorated), '_id')
             : array_column($rows, null, '_id');
     }
 

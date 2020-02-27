@@ -11,8 +11,8 @@ use extas\interfaces\repositories\clients\IClient;
  */
 interface IDriver
 {
-    const FIELD__NAME = 'name';
-    const FIELD__CLASS = 'class';
+    public const FIELD__NAME = 'name';
+    public const FIELD__CLASS = 'class';
 
     /**
      * @return string

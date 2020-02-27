@@ -9,7 +9,7 @@ namespace extas\interfaces;
  */
 interface IReplace
 {
-    const METHOD__TO_ARRAY = '__toArray';
+    public const METHOD__TO_ARRAY = '__toArray';
 
     /**
      * @return IReplace

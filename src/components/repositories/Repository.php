@@ -14,31 +14,31 @@ use extas\components\Item;
  */
 class Repository extends Item implements IRepository
 {
-    protected $repoSubject = 'extas.repo';
+    protected string $repoSubject = 'extas.repo';
 
     /**
      * @var IClientTable
      */
-    protected $table = null;
+    protected ?IClientTable $table = null;
 
-    protected $name = '';
-    protected $scope = 'extas';
-    protected $pk = '_id';
-    protected $itemClass = Item::class;
-    protected $idAs = '';
+    protected string $name = '';
+    protected string $scope = 'extas';
+    protected string $pk = '_id';
+    protected string $itemClass = Item::class;
+    protected string $idAs = '';
 
     /**
      * Stages constraints
      */
-    protected $isAllowFindAfterStage = true;
-    protected $isAllowCreateBeforeStage = true;
-    protected $isAllowCreateAfterStage = true;
-    protected $isAllowUpdateBeforeStage = true;
-    protected $isAllowUpdateAfterStage = true;
-    protected $isAllowDeleteBeforeStage = true;
-    protected $isAllowDeleteAfterStage = true;
-    protected $isAllowDropBeforeStage = true;
-    protected $isAllowDropAfterStage = true;
+    protected bool $isAllowFindAfterStage = true;
+    protected bool $isAllowCreateBeforeStage = true;
+    protected bool $isAllowCreateAfterStage = true;
+    protected bool $isAllowUpdateBeforeStage = true;
+    protected bool $isAllowUpdateAfterStage = true;
+    protected bool $isAllowDeleteBeforeStage = true;
+    protected bool $isAllowDeleteAfterStage = true;
+    protected bool $isAllowDropBeforeStage = true;
+    protected bool $isAllowDropAfterStage = true;
 
     /**
      * Repository constructor.

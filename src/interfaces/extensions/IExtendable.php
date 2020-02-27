@@ -9,7 +9,7 @@ namespace extas\interfaces\extensions;
  */
 interface IExtendable
 {
-    const STAGE__EXTENDED_METHOD_CALL = 'extension___method_call';
+    public const STAGE__EXTENDED_METHOD_CALL = 'extension___method_call';
 
     /**
      * @param string $interface

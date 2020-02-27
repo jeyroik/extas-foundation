@@ -11,5 +11,5 @@ use extas\components\repositories\clients\ClientMongo;
  */
 class DriverMongo extends Driver
 {
-    protected $clientClass = ClientMongo::class;
+    protected string $clientClass = ClientMongo::class;
 }

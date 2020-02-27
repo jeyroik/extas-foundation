@@ -9,14 +9,15 @@ namespace extas\components\repositories\clients;
  */
 class ClientMongo extends Client
 {
-    protected static $instances = [];
+    protected static array $instances = [];
 
-    protected $clientName = 'mongodb';
+    protected string $clientName = 'mongodb';
 
     /**
      * @param $dbName
      *
      * @return mixed
+     * @throws
      */
     public function getDb($dbName)
     {

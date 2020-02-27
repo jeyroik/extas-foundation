@@ -11,8 +11,8 @@ use extas\interfaces\repositories\clients\IClient;
  */
 abstract class Client implements IClient
 {
-    protected $dsn = '';
-    protected $clientName = '';
+    protected string $dsn = '';
+    protected string $clientName = '';
 
     /**
      * Client constructor.

@@ -14,17 +14,17 @@ abstract class ClientTableAbstract implements IClientTable
     /**
      * @var string
      */
-    protected $pk = '_id';
+    protected string $pk = '_id';
 
     /**
      * @var string
      */
-    protected $idAs = '_id';
+    protected string $idAs = '_id';
 
     /**
      * @var string
      */
-    protected $itemClass = '';
+    protected string $itemClass = '';
 
     /**
      * @return bool

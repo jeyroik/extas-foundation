@@ -21,7 +21,7 @@ class PluginLog
      *
      * @var array
      */
-    protected static $pluginLog = [
+    protected static array $pluginLog = [
         'count' => [
             'bs' => [],
             'bst' => 0,

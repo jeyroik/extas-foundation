@@ -12,12 +12,12 @@ use extas\interfaces\stages\IStage;
  */
 class Stage extends Item implements IStage
 {
-    protected $isAllowInitStage = false;
-    protected $isAllowAfterStage = false;
-    protected $isAllowCreatedStage = false;
-    protected $isAllowToArrayStage = false;
-    protected $isAllowToIntStage = false;
-    protected $isAllowToStringStage = false;
+    protected bool $isAllowInitStage = false;
+    protected bool $isAllowAfterStage = false;
+    protected bool $isAllowCreatedStage = false;
+    protected bool $isAllowToArrayStage = false;
+    protected bool $isAllowToIntStage = false;
+    protected bool $isAllowToStringStage = false;
 
     /**
      * @return string

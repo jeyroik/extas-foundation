@@ -13,12 +13,12 @@ use extas\interfaces\IItem;
  */
 interface IPlugin extends IItem, IHasClass
 {
-    const SUBJECT = 'plugin';
+    public const SUBJECT = 'plugin';
 
-    const STAGE__PLUGIN_INIT = 'plugin.init';
-    const STAGE__PLUGIN_AFTER = 'plugin.after';
+    public const STAGE__PLUGIN_INIT = 'plugin.init';
+    public const STAGE__PLUGIN_AFTER = 'plugin.after';
 
-    const FIELD__STAGE = 'stage';
+    public const FIELD__STAGE = 'stage';
 
     /**
      * @return string
