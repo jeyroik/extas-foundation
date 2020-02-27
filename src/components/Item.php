@@ -122,7 +122,7 @@ abstract class Item implements IItem
      */
     public function __toInt(): int
     {
-        $int = (int) $this->id;
+        $int = 0;
 
         if ($this->isAllowToIntStage) {
             foreach ($this->getPluginsByStage($this->getBaseStageName('to.int')) as $plugin) {

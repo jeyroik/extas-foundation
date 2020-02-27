@@ -98,11 +98,21 @@ class ItemTest extends TestCase
         $this->pluginRepo->reload();
         new class extends Item {
             protected bool $isAllowInitStage = false;
+            protected function triggerInit()
+            {
+                $result = parent::triggerInit();
+                echo 'Worked';
+
+                return $result;
+            }
+
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+
+        $this->expectOutputString('Worked');
     }
 
     public function testStageEntityAfterIsRising()
@@ -125,12 +135,20 @@ class ItemTest extends TestCase
         $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowAfterStage = false;
+            public function __destruct()
+            {
+                parent::__destruct();
+                echo 'Worked';
+            }
+
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
         unset($child);
+
+        $this->expectOutputString('Worked');
     }
 
     public function testStageEntityToArrayIsRising()
@@ -138,25 +156,28 @@ class ItemTest extends TestCase
         $this->createPluginAndStage('to.array', 'ToArray');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClassToArray\' not found');
-        new class extends Item {
+        $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+        $child->__toArray();
     }
 
     public function testStageEntityToArrayIsNotRising()
     {
         $this->createPluginAndStage('to.array', 'ToArray');
         $this->pluginRepo->reload();
-        new class extends Item {
+        $child = new class([]) extends Item {
             protected bool $isAllowToArrayStage = false;
+
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+        $this->assertEquals([], $child->__toArray());
     }
 
     public function testStageEntityToStringIsRising()
@@ -164,25 +185,28 @@ class ItemTest extends TestCase
         $this->createPluginAndStage('to.string', 'ToString');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClassToString\' not found');
-        new class extends Item {
+        $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+
+        $empty = (string) $child;
     }
 
     public function testStageEntityToStringIsNotRising()
     {
         $this->createPluginAndStage('to.string', 'ToString');
         $this->pluginRepo->reload();
-        new class extends Item {
+        $child = new class extends Item {
             protected bool $isAllowToStringStage = false;
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+        $this->assertEquals('', (string) $child);
     }
 
     public function testStageEntityToIntIsRising()
@@ -190,25 +214,28 @@ class ItemTest extends TestCase
         $this->createPluginAndStage('to.int', 'ToInt');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClassToInt\' not found');
-        new class extends Item {
+        $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+
+        $child->__toInt();
     }
 
     public function testStageEntityToIntIsNotRising()
     {
         $this->createPluginAndStage('to.int', 'ToInt');
         $this->pluginRepo->reload();
-        new class extends Item {
+        $child = new class extends Item {
             protected bool $isAllowToIntStage = false;
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
             }
         };
+        $this->assertEquals(0, $child->__toInt());
     }
 
     /**
