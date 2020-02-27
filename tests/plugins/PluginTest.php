@@ -1,7 +1,6 @@
 <?php
 
-use extas\components\SystemContainer;
-use extas\interfaces\plugins\IPluginRepository;
+use extas\components\plugins\Plugin;
 
 /**
  * Class PluginTest
@@ -14,5 +13,12 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
+    }
+
+    public function testSetGetStage()
+    {
+        $plugin = new Plugin();
+        $plugin->setStage('stage');
+        $this->assertEquals('stage', $plugin->getStage());
     }
 }
