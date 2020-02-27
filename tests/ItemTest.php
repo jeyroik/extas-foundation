@@ -53,7 +53,7 @@ class ItemTest extends TestCase
         $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
     }
     
-    public function testCorrectAppliesConfigOnConstruct(): void
+    public function testAllowConfigOnConstruct(): void
     {
         $must = [
             'name' => 'child',
@@ -123,6 +123,44 @@ class ItemTest extends TestCase
         };
         unset($child['child']);
         $this->assertEquals(false, isset($child['child']));
+    }
+
+    public function testStageEntityCreatedIsRising()
+    {
+        $this->createPluginAndStage('created', 'Created');
+        $this->pluginRepo->reload();
+        $this->expectExceptionMessage('Class \'NotExistingClassInit\' not found');
+        $child = new class extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        $child->__created($child, $this->pluginRepo);
+    }
+
+    public function testStageEntityCreatedIsNotRising()
+    {
+        $this->createPluginAndStage('created', 'Created');
+        $this->pluginRepo->reload();
+        $this->expectOutputString('Worked');
+        $child = new class extends Item {
+            protected bool $isAllowCreatedStage = false;
+            public function __created($item, $repo)
+            {
+                parent::__created($item, $repo);
+
+                echo 'Worked';
+
+                return $this;
+            }
+
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        $child->__created($child, $this->pluginRepo);
     }
 
     public function testStageEntityInitIsRising()
