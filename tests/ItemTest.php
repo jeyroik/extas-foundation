@@ -23,7 +23,7 @@ class ItemTest extends TestCase
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
-        
+
         $this->repo = SystemContainer::getItem(
             IPluginRepository::class
         );
@@ -75,7 +75,7 @@ class ItemTest extends TestCase
             Plugin::FIELD__STAGE => 'test.child.init'
         ]);
         $this->repo->create($plugin);
-        $this->expectException(\Exception::class);
+        $this->expectError();
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -95,8 +95,8 @@ class ItemTest extends TestCase
             Plugin::FIELD__STAGE => 'test.child.after'
         ]);
         $repo->create($plugin);
-        $this->expectException(\Exception::class);
-        $child = new class extends Item {
+        $this->expectError();
+        new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -115,8 +115,8 @@ class ItemTest extends TestCase
             Plugin::FIELD__STAGE => 'test.child.to.array'
         ]);
         $repo->create($plugin);
-        $this->expectException(\Exception::class);
-        $child = new class extends Item {
+        $this->expectError();
+        new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -135,8 +135,8 @@ class ItemTest extends TestCase
             Plugin::FIELD__STAGE => 'test.child.to.string'
         ]);
         $repo->create($plugin);
-        $this->expectException(\Exception::class);
-        $child = new class extends Item {
+        $this->expectError();
+        new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -155,8 +155,8 @@ class ItemTest extends TestCase
             Plugin::FIELD__STAGE => 'test.child.to.int'
         ]);
         $repo->create($plugin);
-        $this->expectException(\Exception::class);
-        $child = new class extends Item {
+        $this->expectError();
+        new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';

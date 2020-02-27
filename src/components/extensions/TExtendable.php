@@ -20,12 +20,12 @@ trait TExtendable
     /**
      * @var array
      */
-    protected $registeredInterfaces = [];
+    protected array $registeredInterfaces = [];
 
     /**
      * @var array
      */
-    protected $extendedMethodToInterface = [];
+    protected array $extendedMethodToInterface = [];
 
     /**
      * @param $name
