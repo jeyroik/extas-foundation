@@ -79,6 +79,52 @@ class ItemTest extends TestCase
         $this->assertEquals($must, $child->__toArray());
     }
 
+    public function testAllowRuntimeSet()
+    {
+        $child = new class extends \extas\components\Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        $child->name = 'child';
+        $child->type = 'test';
+
+        $this->assertEquals(
+            [
+                'name' => 'child',
+                'type' => 'test'
+            ],
+            $child->__toArray()
+        );
+
+        $this->assertEquals('child', $child->name);
+    }
+
+    public function testIssetIsWorking()
+    {
+        $child = new class(['name' => 'child']) extends \extas\components\Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $this->assertEquals(true, isset($child['name']));
+    }
+
+    public function testAllowUnsetProperty()
+    {
+        $child = new class(['name' => 'child']) extends \extas\components\Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        unset($child['child']);
+        $this->assertEquals(false, isset($child['child']));
+    }
+
     public function testStageEntityInitIsRising()
     {
         $this->createPluginAndStage('init', 'Init');
