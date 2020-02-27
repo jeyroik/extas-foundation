@@ -96,6 +96,7 @@ class ItemTest extends TestCase
     {
         $this->createPluginAndStage('init', 'Init');
         $this->pluginRepo->reload();
+        $this->expectOutputString('Worked');
         new class extends Item {
             protected bool $isAllowInitStage = false;
             protected function triggerInit()
@@ -111,8 +112,6 @@ class ItemTest extends TestCase
                 return 'test.child';
             }
         };
-
-        $this->expectOutputString('Worked');
     }
 
     public function testStageEntityAfterIsRising()
