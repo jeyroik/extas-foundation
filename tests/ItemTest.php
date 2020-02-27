@@ -6,6 +6,9 @@ use extas\components\plugins\Plugin;
 use extas\components\SystemContainer;
 use extas\components\Item;
 use extas\interfaces\plugins\IPluginRepository;
+use extas\interfaces\stages\IStageRepository;
+use extas\components\stages\Stage;
+use extas\interfaces\stages\IStage;
 
 /**
  * Class ItemTest
@@ -16,7 +19,8 @@ class ItemTest extends TestCase
     /**
      * @var IRepository|mixed|null
      */
-    protected ?IRepository $repo = null;
+    protected ?IRepository $pluginRepo = null;
+    protected ?IRepository $stageRepo = null;
 
     protected function setUp(): void
     {
@@ -24,9 +28,8 @@ class ItemTest extends TestCase
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
-        $this->repo = SystemContainer::getItem(
-            IPluginRepository::class
-        );
+        $this->pluginRepo = SystemContainer::getItem(IPluginRepository::class);
+        $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
     }
 
     /**
@@ -35,7 +38,8 @@ class ItemTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->repo->delete([Plugin::FIELD__STAGE => 'NotExistingClass']);
+        $this->pluginRepo->delete([Plugin::FIELD__STAGE => 'NotExistingClass']);
+        $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
     }
 
     /**
@@ -70,11 +74,7 @@ class ItemTest extends TestCase
 
     public function testRecallsOnStageInit()
     {
-        $plugin = new Plugin([
-            Plugin::FIELD__CLASS => 'NotExistingClass',
-            Plugin::FIELD__STAGE => 'test.child.init'
-        ]);
-        $this->repo->create($plugin);
+        $this->createPluginAndStage('init');
         $this->expectError();
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -86,15 +86,7 @@ class ItemTest extends TestCase
 
     public function testRecallsOnStageAfter()
     {
-        /**
-         * @var $repo IPluginRepository
-         */
-        $repo = SystemContainer::getItem(IPluginRepository::class);
-        $plugin = new Plugin([
-            Plugin::FIELD__CLASS => 'NotExistingClass',
-            Plugin::FIELD__STAGE => 'test.child.after'
-        ]);
-        $repo->create($plugin);
+        $this->createPluginAndStage('after');
         $this->expectError();
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -106,15 +98,7 @@ class ItemTest extends TestCase
 
     public function testRecallsOnStageToArray()
     {
-        /**
-         * @var $repo IPluginRepository
-         */
-        $repo = SystemContainer::getItem(IPluginRepository::class);
-        $plugin = new Plugin([
-            Plugin::FIELD__CLASS => 'NotExistingClass',
-            Plugin::FIELD__STAGE => 'test.child.to.array'
-        ]);
-        $repo->create($plugin);
+        $this->createPluginAndStage('to.array');
         $this->expectError();
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -126,15 +110,7 @@ class ItemTest extends TestCase
 
     public function testRecallsOnStageToString()
     {
-        /**
-         * @var $repo IPluginRepository
-         */
-        $repo = SystemContainer::getItem(IPluginRepository::class);
-        $plugin = new Plugin([
-            Plugin::FIELD__CLASS => 'NotExistingClass',
-            Plugin::FIELD__STAGE => 'test.child.to.string'
-        ]);
-        $repo->create($plugin);
+        $this->createPluginAndStage('to.string');
         $this->expectError();
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -146,15 +122,7 @@ class ItemTest extends TestCase
 
     public function testRecallsOnStageToInt()
     {
-        /**
-         * @var $repo IPluginRepository
-         */
-        $repo = SystemContainer::getItem(IPluginRepository::class);
-        $plugin = new Plugin([
-            Plugin::FIELD__CLASS => 'NotExistingClass',
-            Plugin::FIELD__STAGE => 'test.child.to.int'
-        ]);
-        $repo->create($plugin);
+        $this->createPluginAndStage('to.int');
         $this->expectError();
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -162,5 +130,19 @@ class ItemTest extends TestCase
                 return 'test.child';
             }
         };
+    }
+
+    protected function createPluginAndStage(string $stageSuffix)
+    {
+        $plugin = new Plugin([
+            Plugin::FIELD__CLASS => 'NotExistingClass',
+            Plugin::FIELD__STAGE => 'test.child.' . $stageSuffix
+        ]);
+        $this->pluginRepo->create($plugin);
+        $stage = new Stage([
+            Stage::FIELD__NAME => 'test.child.' . $stageSuffix,
+            Stage::FIELD__HAS_PLUGINS => true
+        ]);
+        $this->stageRepo->create($stage);
     }
 }
