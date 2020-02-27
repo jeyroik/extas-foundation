@@ -38,7 +38,7 @@ class ItemTest extends TestCase
     protected function tearDown(): void
     {
         parent::tearDown();
-        $this->pluginRepo->delete([Plugin::FIELD__STAGE => 'NotExistingClass']);
+        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
         $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
     }
 
