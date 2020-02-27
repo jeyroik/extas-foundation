@@ -30,6 +30,8 @@ class ItemTest extends TestCase
 
         $this->pluginRepo = SystemContainer::getItem(IPluginRepository::class);
         $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
+        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
+        $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
     }
 
     public static function tearDownAfterClass(): void
