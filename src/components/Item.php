@@ -72,7 +72,7 @@ abstract class Item implements IItem
         $array = $this->config;
 
         if ($this->isAllowToArrayStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.array')) as $plugin) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('to.array')) as $plugin) {
                 $plugin($this, $array);
             }
         }
@@ -109,7 +109,7 @@ abstract class Item implements IItem
         $string = '';
 
         if ($this->isAllowToStringStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.string')) as $plugin) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('to.string')) as $plugin) {
                 $plugin($this, $string);
             }
         }
@@ -125,7 +125,7 @@ abstract class Item implements IItem
         $int = (int) $this->id;
 
         if ($this->isAllowToIntStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('.to.int')) as $plugin) {
+            foreach ($this->getPluginsByStage($this->getBaseStageName('to.int')) as $plugin) {
                 $plugin($this, $int);
             }
         }
