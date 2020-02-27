@@ -28,10 +28,13 @@ class ItemTest extends TestCase
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
-        $this->pluginRepo = SystemContainer::getItem(IPluginRepository::class);
+        $this->pluginRepo = new class extends \extas\components\plugins\PluginRepository {
+            public function reload()
+            {
+                parent::$stagesWithPlugins = [];
+            }
+        };
         $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
-        $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
     }
 
     public static function tearDownAfterClass(): void
@@ -75,6 +78,7 @@ class ItemTest extends TestCase
     public function testRecallsOnStageInit()
     {
         $this->createPluginAndStage('init');
+        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -87,6 +91,7 @@ class ItemTest extends TestCase
     public function testRecallsOnStageAfter()
     {
         $this->createPluginAndStage('after');
+        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -99,6 +104,7 @@ class ItemTest extends TestCase
     public function testRecallsOnStageToArray()
     {
         $this->createPluginAndStage('to.array');
+        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -111,6 +117,7 @@ class ItemTest extends TestCase
     public function testRecallsOnStageToString()
     {
         $this->createPluginAndStage('to.string');
+        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -123,6 +130,7 @@ class ItemTest extends TestCase
     public function testRecallsOnStageToInt()
     {
         $this->createPluginAndStage('to.int');
+        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         new class extends Item {
             protected function getSubjectForExtension(): string
