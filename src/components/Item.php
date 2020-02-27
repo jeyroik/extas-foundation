@@ -106,7 +106,7 @@ abstract class Item implements IItem
      */
     public function __toString(): string
     {
-        $string = (string) $this->id;
+        $string = '';
 
         if ($this->isAllowToStringStage) {
             foreach ($this->getPluginsByStage($this->getBaseStageName('.to.string')) as $plugin) {

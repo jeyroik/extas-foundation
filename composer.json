@@ -6,6 +6,9 @@
     "league/container": "*",
     "alcaeus/mongo-php-adapter": "*"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^9"
+  },
   "autoload": {
     "psr-4": {
       "extas\\": "src/"
