@@ -1,9 +1,5 @@
 <?php
 
-define('EXTAS__BASE_PATH', getcwd());
-define('EXTAS__CONTAINER_PATH_STORAGE_LOCK', getcwd() . '/resources/container.php.dist');
-define('EXTAS__CONTAINER_PATH_STORAGE', getcwd() . '/resources/container.json.dist');
-
 use \PHPUnit\Framework\TestCase;
 
 /**
@@ -12,6 +8,13 @@ use \PHPUnit\Framework\TestCase;
  */
 class ItemTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/.env');
+        $env->load();
+    }
+
     /**
      * Test default item configuration.
      */
