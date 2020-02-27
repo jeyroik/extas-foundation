@@ -99,12 +99,10 @@ class ItemTest extends TestCase
         $this->expectOutputString('Worked');
         new class extends Item {
             protected bool $isAllowInitStage = false;
-            protected function triggerInit()
+            public function __construct($config = [])
             {
-                $result = parent::triggerInit();
+                parent::__construct($config);
                 echo 'Worked';
-
-                return $result;
             }
 
             protected function getSubjectForExtension(): string
