@@ -150,7 +150,7 @@ class PluginLogTest extends TestCase
 
     protected function getPluginLog()
     {
-        new class extends PluginLog {
+        return new class extends PluginLog {
             public static function reset()
             {
                 static::$pluginLog = [
