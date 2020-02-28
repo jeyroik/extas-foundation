@@ -96,7 +96,7 @@ class PluginLogTest extends TestCase
     {
         $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
-        $pluginLog::logPluginRiser($this);
+        $pluginLog::logPluginRiser(static::class);
         $must = [
             'count' => [
                 'bs' => [],
