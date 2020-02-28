@@ -28,6 +28,13 @@ class PluginLogTest extends TestCase
 
     public function testGetLog()
     {
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
         $emptyLog = [
             'count' => [
                 'bs' => [],
@@ -40,17 +47,31 @@ class PluginLogTest extends TestCase
             'log' => []
         ];
 
-        $this->assertEquals($emptyLog, PluginLog::getLog());
+        $this->assertEquals($emptyLog, $pluginLog::getLog());
     }
 
     public function testGetLogIndex()
     {
-        $this->assertEquals(0, PluginLog::getLogIndex());
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
+        $this->assertEquals(0, $pluginLog::getLogIndex());
     }
 
     public function testLog()
     {
-        PluginLog::log($this, 'not.existing.stage');
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
+        $pluginLog::log($this, 'not.existing.stage');
         $must = [
             'count' => [
                 'bs' => [
@@ -73,12 +94,19 @@ class PluginLogTest extends TestCase
                 ]
             ]
         ];
-        $this->assertEquals($must, PluginLog::getLog());
+        $this->assertEquals($must, $pluginLog::getLog());
     }
 
     public function testLogPluginStage()
     {
-        PluginLog::logPluginStage('not.existing.stage');
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
+        $pluginLog::logPluginStage('not.existing.stage');
         $must = [
             'count' => [
                 'bs' => [
@@ -92,12 +120,19 @@ class PluginLogTest extends TestCase
             ],
             'log' => []
         ];
-        $this->assertEquals($must, PluginLog::getLog());
+        $this->assertEquals($must, $pluginLog::getLog());
     }
 
     public function testLogPluginRiser()
     {
-        PluginLog::logPluginRiser($this);
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
+        $pluginLog::logPluginRiser($this);
         $must = [
             'count' => [
                 'bs' => [],
@@ -111,13 +146,20 @@ class PluginLogTest extends TestCase
             ],
             'log' => []
         ];
-        $this->assertEquals($must, PluginLog::getLog());
+        $this->assertEquals($must, $pluginLog::getLog());
     }
 
     public function testLogPluginClass()
     {
-        $index = PluginLog::log($this, 'not.existing.stage');
-        PluginLog::logPluginClass('Not\\Existing\\Plugin', $index);
+        $pluginLog = new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [];
+            }
+        };
+        $pluginLog::reset();
+        $index = $pluginLog::log($this, 'not.existing.stage');
+        $pluginLog::logPluginClass('Not\\Existing\\Plugin', $index);
         $must = [
             'count' => [
                 'bs' => [
@@ -144,6 +186,6 @@ class PluginLogTest extends TestCase
                 ]
             ]
         ];
-        $this->assertEquals($must, PluginLog::getLog());
+        $this->assertEquals($must, $pluginLog::getLog());
     }
 }
