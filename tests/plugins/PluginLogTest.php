@@ -13,27 +13,11 @@ class PluginLogTest extends TestCase
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
-
-        /**
-         * For faster operations PluginRepository caches plugins->stage map in memory.
-         * But we are creating new plugins runtime, so we need to have possibility to reload memory cache.
-         */
-        $this->pluginRepo = new class extends \extas\components\plugins\PluginRepository {
-            public function reload()
-            {
-                parent::$stagesWithPlugins = [];
-            }
-        };
     }
 
     public function testGetLog()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $emptyLog = [
             'count' => [
@@ -52,24 +36,14 @@ class PluginLogTest extends TestCase
 
     public function testGetLogIndex()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $this->assertEquals(0, $pluginLog::getLogIndex());
     }
 
     public function testLog()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $pluginLog::log($this, 'not.existing.stage');
         $must = [
@@ -99,12 +73,7 @@ class PluginLogTest extends TestCase
 
     public function testLogPluginStage()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $pluginLog::logPluginStage('not.existing.stage');
         $must = [
@@ -125,12 +94,7 @@ class PluginLogTest extends TestCase
 
     public function testLogPluginRiser()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $pluginLog::logPluginRiser($this);
         $must = [
@@ -151,12 +115,7 @@ class PluginLogTest extends TestCase
 
     public function testLogPluginClass()
     {
-        $pluginLog = new class extends PluginLog {
-            public static function reset()
-            {
-                static::$pluginLog = [];
-            }
-        };
+        $pluginLog = $this->getPluginLog();
         $pluginLog::reset();
         $index = $pluginLog::log($this, 'not.existing.stage');
         $pluginLog::logPluginClass('Not\\Existing\\Plugin', $index);
@@ -187,5 +146,25 @@ class PluginLogTest extends TestCase
             ]
         ];
         $this->assertEquals($must, $pluginLog::getLog());
+    }
+
+    protected function getPluginLog()
+    {
+        new class extends PluginLog {
+            public static function reset()
+            {
+                static::$pluginLog = [
+                    'count' => [
+                        'bs' => [],
+                        'bst' => 0,
+                        'pc' => [],
+                        'pct' => 0,
+                        'rc' => [],
+                        'rct' => 0
+                    ],
+                    'log' => []
+                ];
+            }
+        };
     }
 }
