@@ -40,8 +40,8 @@ class ReplaceTest extends TestCase
 
     public function testMultiMultiLevelReplace()
     {
-        $template = 'Who are you, mr. @user?';
-        $template0 = 'I am @user!';
+        $template = 'Who are you, mr. @user.name?';
+        $template0 = 'I am @user.name!';
         $must = ['Who are you, mr. Test?', 'I am Test!'];
 
         $this->assertEquals($must, Replace::please()->apply([
