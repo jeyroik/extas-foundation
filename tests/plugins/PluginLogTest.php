@@ -49,7 +49,7 @@ class PluginLogTest extends TestCase
         $must = [
             'count' => [
                 'bs' => [
-                    'nto.existing.stage' => 1
+                    'not.existing.stage' => 1
                 ],
                 'bst' => 1,
                 'pc' => [],
@@ -79,7 +79,7 @@ class PluginLogTest extends TestCase
         $must = [
             'count' => [
                 'bs' => [
-                    'nto.existing.stage' => 1
+                    'not.existing.stage' => 1
                 ],
                 'bst' => 1,
                 'pc' => [],
@@ -122,7 +122,7 @@ class PluginLogTest extends TestCase
         $must = [
             'count' => [
                 'bs' => [
-                    'nto.existing.stage' => 1
+                    'not.existing.stage' => 1
                 ],
                 'bst' => 1,
                 'pc' => [
