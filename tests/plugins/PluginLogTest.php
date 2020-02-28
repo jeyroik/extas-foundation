@@ -4,6 +4,10 @@ use \PHPUnit\Framework\TestCase;
 use \extas\interfaces\plugins\IPluginRepository;
 use \extas\components\plugins\PluginLog;
 
+/**
+ * Class PluginLogTest
+ * @author jeyroik <jeyroik@gmail.com>
+ */
 class PluginLogTest extends TestCase
 {
     protected ?IPluginRepository $pluginRepo = null;
