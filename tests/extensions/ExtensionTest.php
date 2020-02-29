@@ -5,7 +5,7 @@ use \extas\components\extensions\Extension;
 
 /**
  * Class ExtensionTest
- * 
+ *
  * @author jeyroik@gmail.com
  */
 class ExtensionTest extends TestCase
