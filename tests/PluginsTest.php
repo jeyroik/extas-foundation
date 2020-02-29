@@ -44,13 +44,13 @@ class PluginsTest extends TestCase
 
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
+        $this->pluginRepo->delete([Plugin::FIELD__CLASS => Plugins::class]);
         $this->stageRepo->delete([IStage::FIELD__NAME => 'not.existing.stage']);
     }
 
     public function testGetPluginsByStageWithoutPassingRiser()
     {
-        $this->createPluginAndStage('not.existing.stage', static::class);
+        $this->createPluginAndStage('not.existing.stage', Plugins::class);
         $log = new class extends PluginLog {
             public static function reset()
             {
@@ -70,7 +70,7 @@ class PluginsTest extends TestCase
         $log::reset();
 
         foreach (Plugins::byStage('not.existing.stage') as $plugin) {
-            $this->assertEquals(static::class, get_class($plugin));
+            $this->assertEquals(Plugins::class, get_class($plugin));
         }
 
         $must = [
@@ -80,7 +80,7 @@ class PluginsTest extends TestCase
                 ],
                 'bst' => 1,
                 'pc' => [
-                    static::class => 1
+                    Plugins::class => 1
                 ],
                 'pct' => 1,
                 'rc' => [
@@ -94,7 +94,7 @@ class PluginsTest extends TestCase
                     'riser' => Plugins::class,
                     'plugins_count' => 1,
                     'plugins' => [
-                        static::class
+                        Plugins::class
                     ]
                 ]
             ]
@@ -105,7 +105,7 @@ class PluginsTest extends TestCase
 
     public function testGetPluginsByStageWithPassingRiser()
     {
-        $this->createPluginAndStage('not.existing.stage', static::class);
+        $this->createPluginAndStage('not.existing.stage', Plugins::class);
         $log = new class extends PluginLog {
             public static function reset()
             {
@@ -135,7 +135,7 @@ class PluginsTest extends TestCase
                 ],
                 'bst' => 1,
                 'pc' => [
-                    static::class => 1
+                    Plugins::class => 1
                 ],
                 'pct' => 1,
                 'rc' => [
@@ -149,7 +149,7 @@ class PluginsTest extends TestCase
                     'riser' => static::class,
                     'plugins_count' => 1,
                     'plugins' => [
-                        static::class
+                        Plugins::class
                     ]
                 ]
             ]
