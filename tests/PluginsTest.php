@@ -11,6 +11,11 @@ use \extas\components\plugins\PluginLog;
 use \extas\components\Plugins;
 use extas\interfaces\repositories\IRepository;
 
+/**
+ * Class PluginsTest
+ *
+ * @author jeyroik@gmail.com
+ */
 class PluginsTest extends TestCase
 {
     /**
