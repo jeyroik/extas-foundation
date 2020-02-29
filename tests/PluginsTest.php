@@ -41,7 +41,7 @@ class PluginsTest extends TestCase
         $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
         $this->stageRepo->delete([IStage::FIELD__NAME => 'not.existing.stage']);
