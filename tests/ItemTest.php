@@ -49,8 +49,22 @@ class ItemTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
-        $this->stageRepo->delete([IStage::FIELD__HAS_PLUGINS => true]);
+        $this->pluginRepo->delete([Plugin::FIELD__CLASS => [
+            'NotExistingClassToInt',
+            'NotExistingClassToString',
+            'NotExistingClassToArray',
+            'NotExistingClassAfter',
+            'NotExistingClassInit',
+            'NotExistingClassCreated'
+        ]]);
+        $this->stageRepo->delete([IStage::FIELD__NAME => [
+            'test.child.to.int',
+            'test.child.to.string',
+            'test.child.to.array',
+            'test.child.after',
+            'test.child.init',
+            'test.child.created',
+        ]]);
     }
     
     public function testAllowConfigOnConstruct(): void
