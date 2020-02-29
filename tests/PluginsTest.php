@@ -125,7 +125,7 @@ class PluginsTest extends TestCase
         $log::reset();
 
         foreach (Plugins::byStage('not.existing.stage', $this) as $plugin) {
-            $this->assertEquals(static::class, get_class($plugin));
+            $this->assertEquals(Plugins::class, get_class($plugin));
         }
 
         $must = [
