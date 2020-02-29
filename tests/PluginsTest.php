@@ -9,6 +9,7 @@ use extas\interfaces\stages\IStage;
 use extas\components\stages\Stage;
 use \extas\components\plugins\PluginLog;
 use \extas\components\Plugins;
+use tratabor\base\interfaces\IRepository;
 
 class PluginsTest extends TestCase
 {
