@@ -3,6 +3,7 @@
 use \PHPUnit\Framework\TestCase;
 use extas\components\extensions\ExtensionRepository;
 use \extas\components\extensions\Extension;
+use \extas\components\extensions\TExtendable;
 
 /**
  * Class TExtendableTest
@@ -30,7 +31,7 @@ class TExtendableTest extends TestCase
     public function testDecoration()
     {
         $subject = new class {
-            use \extas\components\extensions\TExtendable;
+            use TExtendable;
 
             protected function getSubjectForExtension(): string
             {
