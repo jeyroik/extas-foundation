@@ -6,7 +6,7 @@ use \extas\interfaces\repositories\clients\IClientTable;
 
 /**
  * Class DbCurrentTest
- * 
+ *
  * @author jeyroik <jeyroik@gmail.com>
  */
 class DbCurrentTest extends TestCase
@@ -21,6 +21,11 @@ class DbCurrentTest extends TestCase
     public function testGetTable()
     {
         $db = new class extends DbCurrent {
+            public static function reset()
+            {
+                static::$tables = [];
+            }
+
             public static function getTables()
             {
                 return static::$tables;
@@ -31,6 +36,7 @@ class DbCurrentTest extends TestCase
         putenv('TEST_DB__NOT_EXISTING_REPO_NAME=extas_tests');
         putenv('TEST_DSN__NOT_EXISTING_REPO_NAME=mongodb://localhost:27017');
         putenv('TEST_DRIVER__NOT_EXISTING_REPO_NAME=mongo');
+        $db::reset();
         $table = $db::getTable('not.existing.repo.name', 'test');
         $this->assertInstanceOf(IClientTable::class, $table);
         $must = [
