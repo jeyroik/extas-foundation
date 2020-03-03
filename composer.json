@@ -14,5 +14,8 @@
     "psr-4": {
       "extas\\": "src/"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit --testdox tests"
   }
 }
