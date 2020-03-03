@@ -80,7 +80,7 @@ class SystemContainer implements ISystemContainer
     protected function __construct()
     {
         $containerConfigPath = getenv('EXTAS__CONTAINER_PATH_STORAGE_LOCK')
-            ?: getcwd() . '/resources/configs/container.dist.php';
+            ?: getcwd() . '/resources/container.dist.php';
 
         if (is_file($containerConfigPath)) {
             $this->container = new Container();
