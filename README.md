@@ -17,7 +17,7 @@
 
 # Запуск тестов
 
-`# vendor/bin/phpunit --testdox tests`
+`# composer run-script test`
 
 # Использование
 
