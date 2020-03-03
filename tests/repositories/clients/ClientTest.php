@@ -5,7 +5,7 @@ use \extas\components\repositories\clients\Client;
 
 /**
  * Class ClientTest
- * 
+ *
  * @author jeyroik <jeyroik@gmail.com>
  */
 class ClientTest extends TestCase

@@ -1,6 +1,8 @@
 <?php
 namespace extas\components\repositories\clients;
 
+use extas\components\repositories\clients\databases\ClientDatabaseMongo;
+
 /**
  * Class ClientMongo
  *

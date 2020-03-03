@@ -10,9 +10,9 @@ namespace extas\interfaces\repositories\clients;
 interface IClientDatabase
 {
     /**
-     * @param $tableName string
+     * @param string $tableName
      *
      * @return IClientTable
      */
-    public function getTable($tableName);
+    public function getTable(string $tableName): IClientTable;
 }

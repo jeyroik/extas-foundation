@@ -1,8 +1,9 @@
 <?php
-namespace extas\components\repositories\clients;
+namespace extas\components\repositories\clients\databases;
 
 use extas\interfaces\repositories\clients\IClientDatabase;
 use extas\interfaces\repositories\clients\IClientTable;
+use extas\components\repositories\clients\ClientTableMongo;
 
 /**
  * Class ClientDatabaseMongo
@@ -31,9 +32,9 @@ class ClientDatabaseMongo implements IClientDatabase
      * ClientDatabaseMongo constructor.
      *
      * @param $client \MongoClient
-     * @param $name
+     * @param string $name
      */
-    public function __construct($client, $name)
+    public function __construct($client, string $name)
     {
         if (!isset(static::$dbs[$name])) {
             static::$dbs[$name] = $client->selectDB($name);
@@ -45,9 +46,10 @@ class ClientDatabaseMongo implements IClientDatabase
     /**
      * @param string $tableName
      *
-     * @return IClientTable|\MongoCollection
+     * @return IClientTable
+     * @throws
      */
-    public function getTable($tableName)
+    public function getTable(string $tableName): IClientTable
     {
         if (!isset(static::$tables[$this->curDB . '.' . $tableName])) {
             static::$tables[$this->curDB . '.' . $tableName] = new ClientTableMongo(

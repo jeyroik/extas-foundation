@@ -87,7 +87,7 @@ class ClientTableMongo extends ClientTableAbstract implements IClientTable
         if ($idAs) {
             $itemData[$idAs] = $itemData['_id'];
         } else {
-            $itemData['_id'] = (string)$itemData['_id'];
+            $itemData['_id'] = (string) $itemData['_id'];
         }
 
         return new $itemClass($itemData);
