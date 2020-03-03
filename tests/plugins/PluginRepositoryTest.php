@@ -10,7 +10,7 @@ use \extas\components\plugins\PluginRepository;
 
 /**
  * Class PluginRepositoryTest
- * 
+ *
  * @author jeyroik <jeyroik@gmail.com>
  */
 class PluginRepositoryTest extends TestCase
@@ -67,7 +67,8 @@ class PluginRepositoryTest extends TestCase
         }
 
         $must = [
-            'not.existing.stage' => [$correctPlugin]
+            'not.existing.stage' => [$correctPlugin],
+            'extas.extension.init' => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
