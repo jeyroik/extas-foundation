@@ -19,5 +19,11 @@ jobs:
     - name: Copy .env
       run: cp tests/.env .env
 
+    - name: Install mongo
+      run: apt install mongodb
+
+    - name: Install mongodb php-extension
+      run: apt install php7.4-mongodb
+
     - name: Run test suites
       run: composer run-script test
