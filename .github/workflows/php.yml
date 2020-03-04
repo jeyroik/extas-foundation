@@ -19,8 +19,8 @@ jobs:
     - name: Copy .env
       run: cp tests/.env .env
 
-    - name: Start MongoDB
-      uses: superchargejs/mongodb-github-action@v1.1.0
+    - name: MongoDB in GitHub Actions
+      uses: supercharge/mongodb-github-action@1.1.0
 
     - name: Install mongodb php-extension
       run: sudo apt install php7.4-mongodb
