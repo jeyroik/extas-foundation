@@ -1,3 +1,5 @@
+![PHP Composer](https://github.com/jeyroik/extas-foundation/workflows/PHP%20Composer/badge.svg?branch=master)
+
 # Описание
 
 Данный пакет содержит базовые сущности для Extas`a:
