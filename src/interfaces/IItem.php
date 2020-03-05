@@ -14,6 +14,12 @@ use extas\interfaces\repositories\IRepository;
 interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
 {
     /**
+     * IItem constructor.
+     * @param array $config
+     */
+    public function __construct(array $config = []);
+
+    /**
      * @return array
      */
     public function __toArray(): array;

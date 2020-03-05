@@ -46,9 +46,9 @@ abstract class Item implements IItem
      *
      * @param array $config
      */
-    public function __construct($config = [])
+    public function __construct(array $config = [])
     {
-        $this->setConfig($config??[]);
+        $this->setConfig($config);
         $this->isAllowInitStage && $this->triggerInit();
     }
 
@@ -62,22 +62,6 @@ abstract class Item implements IItem
                 $plugin($this);
             }
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function __toArray(): array
-    {
-        $array = $this->config;
-
-        if ($this->isAllowToArrayStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('to.array')) as $plugin) {
-                $plugin($this, $array);
-            }
-        }
-
-        return $array;
     }
 
     /**
@@ -107,14 +91,20 @@ abstract class Item implements IItem
     public function __toString(): string
     {
         $string = '';
-
-        if ($this->isAllowToStringStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('to.string')) as $plugin) {
-                $plugin($this, $string);
-            }
-        }
+        $this->isAllowToStringStage && $this->triggerStageTo('string', $string);
 
         return $string;
+    }
+
+    /**
+     * @return array
+     */
+    public function __toArray(): array
+    {
+        $array = $this->config;
+        $this->isAllowToArrayStage && $this->triggerStageTo('array', $array);
+
+        return $array;
     }
 
     /**
@@ -123,12 +113,7 @@ abstract class Item implements IItem
     public function __toInt(): int
     {
         $int = 0;
-
-        if ($this->isAllowToIntStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('to.int')) as $plugin) {
-                $plugin($this, $int);
-            }
-        }
+        $this->isAllowToIntStage && $this->triggerStageTo('int', $int);
 
         return $int;
     }
@@ -251,6 +236,20 @@ abstract class Item implements IItem
         }
 
         return $this;
+    }
+
+    /**
+     * @param string $stage
+     * @param mixed $result
+     * @return mixed
+     */
+    protected function triggerStageTo(string $stage, &$result)
+    {
+        foreach ($this->getPluginsByStage($this->getBaseStageName('to.' . $stage)) as $plugin) {
+            $plugin($this, $result);
+        }
+
+        return $result;
     }
 
     /**
