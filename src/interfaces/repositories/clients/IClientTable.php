@@ -62,11 +62,13 @@ interface IClientTable
 
     /**
      * @param array|Where $query
+     * @param int $limit
+     * @param int $offset
      * @param array $fields
      *
      * @return IItem[]
      */
-    public function findAll(array $query = [], array $fields = []);
+    public function findAll(array $query = [], int $limit = 0, int $offset = 0, array $fields = []);
 
     /**
      * @return bool

@@ -2,6 +2,7 @@
 namespace extas\components\repositories;
 
 use extas\components\repositories\clients\databases\DbCurrent;
+use extas\interfaces\IItem;
 use extas\interfaces\repositories\IRepository;
 use extas\interfaces\repositories\clients\IClientTable;
 use extas\components\Item;
@@ -59,22 +60,32 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $where
-     *
-     * @return mixed
+     * @param array $fields
+     * @return IItem|null
+     * @throws \Exception
      */
-    public function one($where)
+    public function one($where, array $fields = [])
     {
-        return $this->findAfter('findOne', $where);
+        $result = $this->getRepoInstance()->findOne($where, $fields);
+        $this->findAfter('findOne', $result);
+
+        return $result;
     }
 
     /**
      * @param $where
-     *
-     * @return array
+     * @param int $limit
+     * @param int $offset
+     * @param array $fields
+     * @return IItem[]
+     * @throws \Exception
      */
-    public function all($where)
+    public function all($where, int $limit = 0, int $offset = 0, array $fields = [])
     {
-        return $this->findAfter('findAll', $where);
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $fields);
+        $this->findAfter('findAll', $result);
+
+        return $result;
     }
 
     /**
@@ -213,22 +224,18 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $method string Method name
-     * @param $where
+     * @param $result
      *
-     * @return mixed
+     * @return void
      * @throws
      */
-    protected function findAfter($method, $where)
+    protected function findAfter($method, &$result): void
     {
-        $result = $this->getRepoInstance()->$method($where);
-
         if ($this->isAllowFindAfterStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
                 $plugin($result, $method);
             }
         }
-
-        return $result;
     }
 
     /**
