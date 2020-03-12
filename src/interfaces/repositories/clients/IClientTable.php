@@ -2,6 +2,7 @@
 namespace extas\interfaces\repositories\clients;
 
 use extas\interfaces\IItem;
+use League\Monga\Query\Where;
 
 /**
  * Interface IClientTable
@@ -52,18 +53,20 @@ interface IClientTable
     public function delete($item): bool;
 
     /**
-     * @param array $query
+     * @param array|Where $query
+     * @param array $fields
      *
      * @return IItem|null
      */
-    public function findOne($query = []);
+    public function findOne(array $query = [], array $fields = []);
 
     /**
-     * @param array $query
+     * @param array|Where $query
+     * @param array $fields
      *
      * @return IItem[]
      */
-    public function findAll($query = []);
+    public function findAll(array $query = [], array $fields = []);
 
     /**
      * @return bool
@@ -107,10 +110,9 @@ interface IClientTable
     public function getIdAs();
 
     /**
-     * @param string $groupBy
-     * @param string|array $fields
+     * @param array $groupBy
      *
-     * @return array
+     * @return $this
      */
-    public function group($groupBy, $fields);
+    public function group(array $groupBy);
 }

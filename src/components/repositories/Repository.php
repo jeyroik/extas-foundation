@@ -157,24 +157,18 @@ class Repository extends Item implements IRepository
     }
 
     /**
-     * @param string $byField
-     * @param array|string $returnFields
+     * @param array $byFields
      *
-     * @return array
+     * @return $this
      * @throws \Exception
      */
-    public function group($byField, $returnFields)
+    public function group(array $byFields): IRepository
     {
         $repo = $this->getRepoInstance();
-        $result = $repo->group($byField, $returnFields);
+        $repo->group($byFields);
+        $this->setRepoInstance($repo);
 
-        if ($this->isAllowFindAfterStage) {
-            foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.find.after') as $plugin) {
-                $plugin($result, 'group');
-            }
-        }
-
-        return $result;
+        return $this;
     }
 
     /**
