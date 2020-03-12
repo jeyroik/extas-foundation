@@ -11,7 +11,7 @@
 # Требования
 
 - PHP 7.4+
-- Какое-либо хранилище (по-умолчанию используется MongoDb: jeyroik/extas-repositories-mongo).
+- Какое-либо хранилище (по-умолчанию используется MongoDb: `jeyroik/extas-repositories-mongo`).
 
 # Установка
 
