@@ -15,7 +15,7 @@
 
 # Установка
 
-`# composer require jeyroik/extas-foundation:0.1.*`
+`# composer require jeyroik/extas-foundation:2.*`
 
 # Запуск тестов
 
