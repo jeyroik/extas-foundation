@@ -18,11 +18,12 @@ interface IRepository extends IItem
 
     /**
      * @param $where
+     * @param int $offset
      * @param array $fields
      *
      * @return mixed
      */
-    public function one($where, array $fields = []);
+    public function one($where, int $offset = 0, array $fields = []);
 
     /**
      * @param $where

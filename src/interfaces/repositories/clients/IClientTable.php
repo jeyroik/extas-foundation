@@ -54,11 +54,12 @@ interface IClientTable
 
     /**
      * @param array|Where $query
+     * @param int $offset
      * @param array $fields
      *
      * @return IItem|null
      */
-    public function findOne(array $query = [], array $fields = []);
+    public function findOne(array $query = [], int $offset = 0, array $fields = []);
 
     /**
      * @param array|Where $query

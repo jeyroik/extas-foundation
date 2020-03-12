@@ -60,11 +60,12 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $where
+     * @param int $offset
      * @param array $fields
-     * @return IItem|null
+     * @return IItem|mixed|null
      * @throws \Exception
      */
-    public function one($where, array $fields = [])
+    public function one($where, int $offset = 0, array $fields = [])
     {
         $result = $this->getRepoInstance()->findOne($where, $fields);
         $this->findAfter('findOne', $result);
