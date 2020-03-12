@@ -14,15 +14,16 @@ class RepositoryClassObjects extends Repository
 {
     /**
      * @param $where
-     *
-     * @return null|mixed
+     * @param array $fields
+     * @return IItem|null
+     * @throws \Exception
      */
-    public function one($where)
+    public function one($where, array $fields = [])
     {
         /**
          * @var $model IHasClass|IItem
          */
-        $model = parent::one($where);
+        $model = parent::one($where, $fields);
 
         if ($model) {
             $className = $model->getClass();
@@ -34,15 +35,18 @@ class RepositoryClassObjects extends Repository
 
     /**
      * @param $where
-     *
-     * @return array
+     * @param int $limit
+     * @param int $offset
+     * @param array $fields
+     * @return array|IItem[]
+     * @throws \Exception
      */
-    public function all($where)
+    public function all($where, int $limit = 0, int $offset = 0, array $fields = [])
     {
         /**
          * @var $models IHasClass[]|IItem[]
          */
-        $models = parent::all($where);
+        $models = parent::all($where, $limit, $offset, $fields);
         $real = [];
 
         if (!empty($models)) {
