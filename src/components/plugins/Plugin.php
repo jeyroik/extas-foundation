@@ -27,11 +27,30 @@ class Plugin extends Item implements IPlugin
     protected bool $isAllowInitStage = false;
 
     /**
+     * @return int
+     */
+    public function getPriority(): int
+    {
+        return $this->config[static::FIELD__PRIORITY] ?? 0;
+    }
+
+    /**
+     * @param int $priority
+     * @return IPlugin
+     */
+    public function setPriority(int $priority): IPlugin
+    {
+        $this->config[static::FIELD__PRIORITY] = $priority;
+
+        return $this;
+    }
+
+    /**
      * @param string $stage
      *
      * @return $this
      */
-    public function setStage(string $stage)
+    public function setStage(string $stage): IPlugin
     {
         $this->config[static::FIELD__STAGE] = $stage;
 

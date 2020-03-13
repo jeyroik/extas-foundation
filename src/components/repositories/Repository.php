@@ -77,13 +77,14 @@ class Repository extends Item implements IRepository
      * @param $where
      * @param int $limit
      * @param int $offset
+     * @param array $orderBy
      * @param array $fields
      * @return IItem[]
      * @throws \Exception
      */
-    public function all($where, int $limit = 0, int $offset = 0, array $fields = [])
+    public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
-        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $fields);
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
         $this->findAfter('findAll', $result);
 
         return $result;
