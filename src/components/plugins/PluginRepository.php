@@ -66,7 +66,7 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
 
             $stageObj = self::$stageRepo->one([IStage::FIELD__NAME => $stage, IStage::FIELD__HAS_PLUGINS => true]);
             self::$stagesWithPlugins[$stage] = $stageObj
-                ? $this->all([IPlugin::FIELD__STAGE => $stage], 0, 0, [IPlugin::FIELD__PRIORITY, 0])
+                ? $this->all([IPlugin::FIELD__STAGE => $stage], 0, 0, [IPlugin::FIELD__PRIORITY, -1])
                 : [];
         }
 
