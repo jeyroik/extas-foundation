@@ -29,11 +29,12 @@ interface IRepository extends IItem
      * @param $where
      * @param int $limit
      * @param int $offset
+     * @param array $orderBy [fieldName, asc/desc]
      * @param array $fields
      *
      * @return array
      */
-    public function all($where, int $limit = 0, int $offset = 0, array $fields = []);
+    public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = []);
 
     /**
      * @param $item

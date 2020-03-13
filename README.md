@@ -48,7 +48,7 @@ isset($my['fieldName']); // false
 ```php
 foreach($this->getPluginsByStage('event.name') as $plugin)
 {
-    $plugin($arg1, $arg2)
+    $plugin($arg1, $arg2);
 }
 ```
 - встроенные события:
@@ -72,6 +72,23 @@ class MyPlugin extends extas\components\plugins\Plugin {}
 
 Пример реализации плагина можно увидеть ниже.
 
+### Предустановка плагинов
+
+В `extas.json`
+```json
+{
+  "plugins": [
+    {
+      "class": "class\\Name",
+      "stage": "stage.name",
+      "priority": 10
+    }
+  ]
+}
+```
+
+`priority` - чем выше приоритет, тем раньше (относительно других плагинов на этйо стадии) выполнится плагин. Параметр является необязательным.
+
 ## Расширение
 
 Расширение следует использовать как родителя для ваших расширений (декораторов).
@@ -79,6 +96,23 @@ class MyPlugin extends extas\components\plugins\Plugin {}
 
 ```php
 class MyExtension extends extas\components\Extension implements IMyExtension{}
+```
+
+### Предустановка расширений
+
+В `extas.json`
+
+```json
+{
+  "extensions": [
+    {
+      "class": "extension\\Class",
+      "interface": "extension\\Interface",
+      "subject": ["subject.name.1", "subject.name.2"],
+      "methods": ["method1", "method2"]
+    }
+  ]
+}
 ```
 
 ### Пример использования каждой сущности по отдельности и вместе

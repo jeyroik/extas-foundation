@@ -42,7 +42,7 @@ class PluginRepositoryTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => Extension::class]);
+        $this->pluginRepo->delete([Plugin::FIELD__STAGE => 'not.existing.stage']);
         $this->stageRepo->delete([Stage::FIELD__NAME => 'not.existing.stage']);
     }
 
@@ -69,6 +69,48 @@ class PluginRepositoryTest extends TestCase
         $must = [
             'not.existing.stage' => [$correctPlugin],
             'extas.extension.init' => [] // this one, cause we are using Extension class as Plugin
+        ];
+
+        $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
+    }
+
+    public function testGetPluginsByPriority()
+    {
+        $this->pluginRepo->reload();
+
+        $this->pluginRepo->create(new Plugin([
+            Plugin::FIELD__STAGE => 'not.existing.stage',
+            Plugin::FIELD__CLASS => Extension::class,
+            Plugin::FIELD__PRIORITY => 1
+        ]));
+
+        $this->pluginRepo->create(new Plugin([
+            Plugin::FIELD__STAGE => 'not.existing.stage',
+            Plugin::FIELD__CLASS => Plugin::class,
+            Plugin::FIELD__PRIORITY => 10
+        ]));
+
+        $this->stageRepo->create(new Stage([
+            Stage::FIELD__NAME => 'not.existing.stage',
+            Stage::FIELD__HAS_PLUGINS => true
+        ]));
+
+        $correctPlugins = [];
+        $count = 0;
+        foreach ($this->pluginRepo->getStagePlugins('not.existing.stage') as $plugin) {
+            if ($count == 0) {
+                $this->assertEquals(Plugin::class, get_class($plugin));
+                $count++;
+            } else {
+                $this->assertEquals(Extension::class, get_class($plugin));
+            }
+            $correctPlugins[] = $plugin;
+        }
+
+        $must = [
+            'not.existing.stage' => $correctPlugins,
+            'extas.extension.init' => [], // this one, cause we are using Extension class as Plugin
+            'extas.extension.after' => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());

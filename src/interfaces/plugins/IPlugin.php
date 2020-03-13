@@ -19,6 +19,18 @@ interface IPlugin extends IItem, IHasClass
     public const STAGE__PLUGIN_AFTER = 'plugin.after';
 
     public const FIELD__STAGE = 'stage';
+    public const FIELD__PRIORITY = 'priority';
+
+    /**
+     * @return int
+     */
+    public function getPriority(): int;
+
+    /**
+     * @param int $priority
+     * @return IPlugin
+     */
+    public function setPriority(int $priority): IPlugin;
 
     /**
      * @return string
@@ -30,5 +42,5 @@ interface IPlugin extends IItem, IHasClass
      *
      * @return $this
      */
-    public function setStage(string $stage);
+    public function setStage(string $stage): IPlugin;
 }
