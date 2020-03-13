@@ -68,8 +68,7 @@ class PluginRepositoryTest extends TestCase
 
         $must = [
             'not.existing.stage' => [$correctPlugin],
-            'extas.extension.init' => [], // this one, cause we are using Extension class as Plugin
-            'extas.extension.after' => [] // this one, cause we are using Extension class as Plugin
+            'extas.extension.init' => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
@@ -110,7 +109,8 @@ class PluginRepositoryTest extends TestCase
 
         $must = [
             'not.existing.stage' => $correctPlugins,
-            'extas.extension.init' => [] // this one, cause we are using Extension class as Plugin
+            'extas.extension.init' => [], // this one, cause we are using Extension class as Plugin
+            'extas.extension.after' => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
