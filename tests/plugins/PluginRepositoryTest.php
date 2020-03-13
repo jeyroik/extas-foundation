@@ -74,7 +74,7 @@ class PluginRepositoryTest extends TestCase
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
     }
 
-    public function getPluginsByPriority()
+    public function testGetPluginsByPriority()
     {
         $this->pluginRepo->reload();
 
