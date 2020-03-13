@@ -42,7 +42,7 @@ class PluginRepositoryTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => Extension::class]);
+        $this->pluginRepo->delete([Plugin::FIELD__STAGE => 'not.existing.stage']);
         $this->stageRepo->delete([Stage::FIELD__NAME => 'not.existing.stage']);
     }
 
