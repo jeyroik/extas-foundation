@@ -17,6 +17,10 @@
 
 `# composer require jeyroik/extas-foundation:2.*`
 
+## Установка хранилища
+
+В `resources/` есть дистрибутивы для файлов конфигурации окружения. Если у вас установлена `MongoDb`, то можно просто скопировать файлы из `resources/` себе в директорию конфигов и обновить `EXTAS__BASE_PATH` в `env` файле.
+
 # Запуск тестов
 
 `# composer run-script test`
