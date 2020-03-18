@@ -84,28 +84,6 @@ class Stage extends Item implements IStage
     }
 
     /**
-     * @return bool
-     */
-    public function hasPlugins(): bool
-    {
-        $has = $this->config[static::FIELD__HAS_PLUGINS] ?? false;
-
-        return (bool) $has;
-    }
-
-    /**
-     * @param bool $has
-     *
-     * @return $this
-     */
-    public function setHasPlugins(bool $has)
-    {
-        $this->config[static::FIELD__HAS_PLUGINS] = (bool) $has;
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function getInput(): string

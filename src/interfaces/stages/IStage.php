@@ -17,7 +17,6 @@ interface IStage extends IItem
     public const FIELD__DESCRIPTION = 'description';
     public const FIELD__INPUT = 'input';
     public const FIELD__OUTPUT = 'output';
-    public const FIELD__HAS_PLUGINS = 'has_plugins';
 
     public const ARG__TYPE = 'type';
     public const ARG__NAME = 'arg';
@@ -53,11 +52,6 @@ interface IStage extends IItem
     public function getOutputAsArray(): array;
 
     /**
-     * @return bool
-     */
-    public function hasPlugins(): bool;
-
-    /**
      * @param string $name
      *
      * @return $this
@@ -84,11 +78,4 @@ interface IStage extends IItem
      * @return $this
      */
     public function setOutput(string $output);
-
-    /**
-     * @param $has bool
-     *
-     * @return $this
-     */
-    public function setHasPlugins(bool $has);
 }
