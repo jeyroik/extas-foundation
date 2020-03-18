@@ -3,13 +3,10 @@
 use \PHPUnit\Framework\TestCase;
 use \extas\components\plugins\Plugin;
 use \extas\components\plugins\PluginRepository;
-use extas\components\SystemContainer;
-use extas\interfaces\stages\IStageRepository;
-use extas\interfaces\stages\IStage;
-use extas\components\stages\Stage;
 use \extas\components\plugins\PluginLog;
 use \extas\components\Plugins;
 use extas\interfaces\repositories\IRepository;
+use Dotenv\Dotenv;
 
 /**
  * Class PluginsTest
@@ -23,15 +20,10 @@ class PluginsTest extends TestCase
      */
     protected ?IRepository $pluginRepo = null;
 
-    /**
-     * @var IRepository|null
-     */
-    protected ?IRepository $stageRepo = null;
-
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
         /**
@@ -44,18 +36,16 @@ class PluginsTest extends TestCase
                 parent::$stagesWithPlugins = [];
             }
         };
-        $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
     }
 
     public function tearDown(): void
     {
         $this->pluginRepo->delete([Plugin::FIELD__CLASS => Plugins::class]);
-        $this->stageRepo->delete([IStage::FIELD__NAME => 'not.existing.stage']);
     }
 
     public function testGetPluginsByStageWithoutPassingRiser()
     {
-        $this->createPluginAndStage('not.existing.stage', Plugins::class);
+        $this->createPlugin('not.existing.stage', Plugins::class);
         $log = new class extends PluginLog {
             public static function reset()
             {
@@ -110,7 +100,7 @@ class PluginsTest extends TestCase
 
     public function testGetPluginsByStageWithPassingRiser()
     {
-        $this->createPluginAndStage('not.existing.stage', Plugins::class);
+        $this->createPlugin('not.existing.stage', Plugins::class);
         $log = new class extends PluginLog {
             public static function reset()
             {
@@ -169,18 +159,12 @@ class PluginsTest extends TestCase
      * @param string $stageName
      * @param string $pluginClass
      */
-    protected function createPluginAndStage(string $stageName, string $pluginClass)
+    protected function createPlugin(string $stageName, string $pluginClass)
     {
         $plugin = new Plugin([
             Plugin::FIELD__CLASS => $pluginClass,
             Plugin::FIELD__STAGE => $stageName
         ]);
         $this->pluginRepo->create($plugin);
-
-        $stage = new Stage([
-            Stage::FIELD__NAME => $stageName,
-            Stage::FIELD__HAS_PLUGINS => true
-        ]);
-        $this->stageRepo->create($stage);
     }
 }

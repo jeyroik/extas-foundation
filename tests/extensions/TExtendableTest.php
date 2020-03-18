@@ -4,6 +4,7 @@ use \PHPUnit\Framework\TestCase;
 use extas\components\extensions\ExtensionRepository;
 use \extas\components\extensions\Extension;
 use \extas\components\extensions\TExtendable;
+use Dotenv\Dotenv;
 
 /**
  * Class TExtendableTest
@@ -15,7 +16,7 @@ class TExtendableTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
     }
 
