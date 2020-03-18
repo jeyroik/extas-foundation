@@ -3,11 +3,9 @@
 use \PHPUnit\Framework\TestCase;
 use extas\interfaces\repositories\IRepository;
 use extas\components\plugins\Plugin;
-use extas\components\SystemContainer;
 use extas\components\Item;
-use extas\interfaces\stages\IStageRepository;
-use extas\components\stages\Stage;
-use extas\interfaces\stages\IStage;
+use extas\components\plugins\PluginRepository;
+use Dotenv\Dotenv;
 
 /**
  * Class ItemTest
@@ -20,29 +18,22 @@ class ItemTest extends TestCase
      */
     protected ?IRepository $pluginRepo = null;
 
-    /**
-     * @var IRepository|null
-     */
-    protected ?IRepository $stageRepo = null;
-    protected string $currentStage = '';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
         /**
          * For faster operations PluginRepository caches plugins->stage map in memory.
          * But we are creating new plugins runtime, so we need to have possibility to reload memory cache.
          */
-        $this->pluginRepo = new class extends \extas\components\plugins\PluginRepository {
+        $this->pluginRepo = new class extends PluginRepository {
             public function reload()
             {
                 parent::$stagesWithPlugins = [];
             }
         };
-        $this->stageRepo = SystemContainer::getItem(IStageRepository::class);
     }
 
     /**
@@ -50,10 +41,7 @@ class ItemTest extends TestCase
      */
     public function tearDown(): void
     {
-        if ($this->currentStage) {
-            $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
-            $this->stageRepo->delete([IStage::FIELD__NAME => $this->currentStage]);
-        }
+        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
     }
     
     public function testAllowConfigOnConstruct(): void
@@ -63,7 +51,7 @@ class ItemTest extends TestCase
             'type' => 'test'
         ];
 
-        $child = new class($must) extends \extas\components\Item {
+        $child = new class($must) extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -84,7 +72,7 @@ class ItemTest extends TestCase
 
     public function testAllowRuntimeSet()
     {
-        $child = new class extends \extas\components\Item {
+        $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -106,7 +94,7 @@ class ItemTest extends TestCase
 
     public function testIssetIsWorking()
     {
-        $child = new class(['name' => 'child']) extends \extas\components\Item {
+        $child = new class(['name' => 'child']) extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -118,7 +106,7 @@ class ItemTest extends TestCase
 
     public function testAllowUnsetProperty()
     {
-        $child = new class(['name' => 'child']) extends \extas\components\Item {
+        $child = new class(['name' => 'child']) extends Item {
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -130,7 +118,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityCreatedIsRising()
     {
-        $this->createPluginAndStage('created');
+        $this->createPlugin('created');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         $child = new class extends Item {
@@ -144,7 +132,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityCreatedIsNotRising()
     {
-        $this->createPluginAndStage('created');
+        $this->createPlugin('created');
         $this->pluginRepo->reload();
         $this->expectOutputString('Worked');
         $child = new class extends Item {
@@ -168,7 +156,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityInitIsRising()
     {
-        $this->createPluginAndStage('init');
+        $this->createPlugin('init');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         new class extends Item {
@@ -181,7 +169,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityInitIsNotRising()
     {
-        $this->createPluginAndStage('init');
+        $this->createPlugin('init');
         $this->pluginRepo->reload();
         $this->expectOutputString('Worked');
         new class extends Item {
@@ -201,7 +189,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityAfterIsRising()
     {
-        $this->createPluginAndStage('after');
+        $this->createPlugin('after');
         $this->pluginRepo->reload();
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -215,7 +203,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityAfterIsNotRising()
     {
-        $this->createPluginAndStage('after');
+        $this->createPlugin('after');
         $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowAfterStage = false;
@@ -237,7 +225,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToArrayIsRising()
     {
-        $this->createPluginAndStage('to.array');
+        $this->createPlugin('to.array');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         $child = new class extends Item {
@@ -251,7 +239,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToArrayIsNotRising()
     {
-        $this->createPluginAndStage('to.array');
+        $this->createPlugin('to.array');
         $this->pluginRepo->reload();
         $child = new class([]) extends Item {
             protected bool $isAllowToArrayStage = false;
@@ -266,7 +254,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToStringIsRising()
     {
-        $this->createPluginAndStage('to.string');
+        $this->createPlugin('to.string');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         $child = new class extends Item {
@@ -281,7 +269,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToStringIsNotRising()
     {
-        $this->createPluginAndStage('to.string');
+        $this->createPlugin('to.string');
         $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowToStringStage = false;
@@ -295,7 +283,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToIntIsRising()
     {
-        $this->createPluginAndStage('to.int');
+        $this->createPlugin('to.int');
         $this->pluginRepo->reload();
         $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
         $child = new class extends Item {
@@ -310,7 +298,7 @@ class ItemTest extends TestCase
 
     public function testStageEntityToIntIsNotRising()
     {
-        $this->createPluginAndStage('to.int');
+        $this->createPlugin('to.int');
         $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowToIntStage = false;
@@ -327,19 +315,12 @@ class ItemTest extends TestCase
      *
      * @param string $stageSuffix
      */
-    protected function createPluginAndStage(string $stageSuffix)
+    protected function createPlugin(string $stageSuffix)
     {
         $plugin = new Plugin([
             Plugin::FIELD__CLASS => 'NotExistingClass',
             Plugin::FIELD__STAGE => 'test.child.' . $stageSuffix
         ]);
         $this->pluginRepo->create($plugin);
-
-        $stage = new Stage([
-            Stage::FIELD__NAME => 'test.child.' . $stageSuffix,
-            Stage::FIELD__HAS_PLUGINS => true
-        ]);
-        $this->stageRepo->create($stage);
-        $this->currentStage = 'test.child.' . $stageSuffix;
     }
 }

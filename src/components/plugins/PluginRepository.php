@@ -21,11 +21,6 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
      */
     protected static array $stagesWithPlugins = [];
 
-    /**
-     * @var IStageRepository
-     */
-    protected static ?IStageRepository $stageRepo = null;
-
     protected string $itemClass = Plugin::class;
     protected string $name = 'plugins';
     protected string $pk = Plugin::FIELD__CLASS;
@@ -62,12 +57,12 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
     public function getStagePlugins($stage)
     {
         if (!isset(self::$stagesWithPlugins[$stage])) {
-            $this->initStageRepo();
-
-            $stageObj = self::$stageRepo->one([IStage::FIELD__NAME => $stage, IStage::FIELD__HAS_PLUGINS => true]);
-            self::$stagesWithPlugins[$stage] = $stageObj
-                ? $this->all([IPlugin::FIELD__STAGE => $stage], 0, 0, [IPlugin::FIELD__PRIORITY, -1])
-                : [];
+            self::$stagesWithPlugins[$stage] = $this->all(
+                [IPlugin::FIELD__STAGE => $stage],
+                0,
+                0,
+                [IPlugin::FIELD__PRIORITY, -1]
+            );
         }
 
         $plugins = self::$stagesWithPlugins[$stage];
@@ -75,17 +70,5 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
         foreach ($plugins as $plugin) {
             yield $plugin;
         }
-    }
-
-    /**
-     * @return $this
-     */
-    protected function initStageRepo()
-    {
-        if (!self::$stageRepo) {
-            self::$stageRepo = SystemContainer::getItem(IStageRepository::class);
-        }
-
-        return $this;
     }
 }

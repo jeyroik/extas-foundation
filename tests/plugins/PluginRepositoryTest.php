@@ -15,7 +15,6 @@ use \extas\components\plugins\PluginRepository;
  */
 class PluginRepositoryTest extends TestCase
 {
-    protected ?IStageRepository $stageRepo = null;
     protected ?PluginRepository $pluginRepo = null;
 
     protected function setUp(): void
@@ -23,7 +22,6 @@ class PluginRepositoryTest extends TestCase
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();
-        $this->stageRepo = new StageRepository();
         $this->pluginRepo = new class extends PluginRepository {
             public function reload()
             {
@@ -43,7 +41,6 @@ class PluginRepositoryTest extends TestCase
     public function tearDown(): void
     {
         $this->pluginRepo->delete([Plugin::FIELD__STAGE => 'not.existing.stage']);
-        $this->stageRepo->delete([Stage::FIELD__NAME => 'not.existing.stage']);
     }
 
     public function testGetStagePlugins()
@@ -53,11 +50,6 @@ class PluginRepositoryTest extends TestCase
         $this->pluginRepo->create(new Plugin([
             Plugin::FIELD__STAGE => 'not.existing.stage',
             Plugin::FIELD__CLASS => Extension::class
-        ]));
-
-        $this->stageRepo->create(new Stage([
-            Stage::FIELD__NAME => 'not.existing.stage',
-            Stage::FIELD__HAS_PLUGINS => true
         ]));
 
         $correctPlugin = null;
@@ -88,11 +80,6 @@ class PluginRepositoryTest extends TestCase
             Plugin::FIELD__STAGE => 'not.existing.stage',
             Plugin::FIELD__CLASS => Plugin::class,
             Plugin::FIELD__PRIORITY => 10
-        ]));
-
-        $this->stageRepo->create(new Stage([
-            Stage::FIELD__NAME => 'not.existing.stage',
-            Stage::FIELD__HAS_PLUGINS => true
         ]));
 
         $correctPlugins = [];

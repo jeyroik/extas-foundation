@@ -5,6 +5,7 @@ use extas\components\THasClass;
 use extas\interfaces\IHasClass;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
+use Dotenv\Dotenv;
 
 /**
  * Class THasClassTest
@@ -16,7 +17,7 @@ class THasClassTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
     }
 

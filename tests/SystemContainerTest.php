@@ -2,6 +2,7 @@
 
 use \PHPUnit\Framework\TestCase;
 use \extas\components\SystemContainer;
+use Dotenv\Dotenv;
 
 /**
  * Class SystemContainerTest
@@ -12,7 +13,7 @@ class SystemContainerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
     }
 

@@ -2,6 +2,7 @@
 
 use \PHPUnit\Framework\TestCase;
 use \extas\components\extensions\Extension;
+use Dotenv\Dotenv;
 
 /**
  * Class ExtensionTest
@@ -13,7 +14,7 @@ class ExtensionTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
+        $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
     }
 
