@@ -17,6 +17,31 @@ interface IRepository extends IItem
     public const OPTION__ITEM_CLASS = 'item.class';
 
     /**
+     * @return string
+     */
+    public function getScope(): string;
+
+    /**
+     * @return string
+     */
+    public function getName(): string;
+
+    /**
+     * @return string
+     */
+    public function getPk(): string;
+
+    /**
+     * @return string
+     */
+    public function getIdAs(): string;
+
+    /**
+     * @return string
+     */
+    public function getItemClass(): string;
+
+    /**
      * @param $where
      * @param int $offset
      * @param array $fields

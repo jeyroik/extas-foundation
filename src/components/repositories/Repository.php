@@ -211,7 +211,7 @@ class Repository extends Item implements IRepository
     /**
      * @return string
      */
-    protected function getName(): string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -219,9 +219,33 @@ class Repository extends Item implements IRepository
     /**
      * @return string
      */
-    protected function getScope()
+    public function getScope(): string
     {
         return $this->scope;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIdAs(): string
+    {
+        return $this->idAs;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPk(): string
+    {
+        return $this->pk;
+    }
+
+    /**
+     * @return string
+     */
+    public function getItemClass(): string
+    {
+        return $this->itemClass;
     }
 
     /**
