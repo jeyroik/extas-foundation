@@ -16,5 +16,4 @@ class ExtensionRepository extends RepositoryClassObjects implements IExtensionRe
     protected string $name = 'extensions';
     protected string $scope = 'extas';
     protected string $pk = Extension::FIELD__CLASS;
-    protected string $idAs = '';
 }

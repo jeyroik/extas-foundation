@@ -7,6 +7,7 @@ use extas\interfaces\IItem;
 /**
  * Class RepositoryClassObjects
  *
+ * @deprecated переписать на использование IHasClass.
  * @package extas\components\repositories
  * @author jeyroik@gmail.com
  */

@@ -108,18 +108,6 @@ interface IClientTable
     public function getItemClass(): string;
 
     /**
-     * @param $fieldName string
-     *
-     * @return $this
-     */
-    public function setIdAs($fieldName);
-
-    /**
-     * @return string
-     */
-    public function getIdAs();
-
-    /**
      * @param array $groupBy
      *
      * @return $this

@@ -26,7 +26,6 @@ class Repository extends Item implements IRepository
     protected string $scope = 'extas';
     protected string $pk = '_id';
     protected string $itemClass = Item::class;
-    protected string $idAs = '';
 
     /**
      * Stages constraints
@@ -55,7 +54,6 @@ class Repository extends Item implements IRepository
         $this->table = DbCurrent::getTable($this->getName(), $this->getScope());
         $this->table->setPk($this->pk);
         $this->table->setItemClass($this->itemClass);
-        $this->table->setIdAs($this->idAs);
     }
 
     /**
@@ -222,14 +220,6 @@ class Repository extends Item implements IRepository
     public function getScope(): string
     {
         return $this->scope;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdAs(): string
-    {
-        return $this->idAs;
     }
 
     /**
