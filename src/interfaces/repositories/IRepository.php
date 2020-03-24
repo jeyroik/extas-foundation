@@ -34,11 +34,6 @@ interface IRepository extends IItem
     /**
      * @return string
      */
-    public function getIdAs(): string;
-
-    /**
-     * @return string
-     */
     public function getItemClass(): string;
 
     /**

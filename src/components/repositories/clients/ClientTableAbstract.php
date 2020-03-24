@@ -19,11 +19,6 @@ abstract class ClientTableAbstract implements IClientTable
     /**
      * @var string
      */
-    protected string $idAs = '_id';
-
-    /**
-     * @var string
-     */
     protected string $itemClass = '';
 
     /**
@@ -74,25 +69,5 @@ abstract class ClientTableAbstract implements IClientTable
     public function getItemClass(): string
     {
         return $this->itemClass;
-    }
-
-    /**
-     * @param string $fieldName
-     *
-     * @return $this
-     */
-    public function setIdAs($fieldName)
-    {
-        $this->idAs = $fieldName;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIdAs()
-    {
-        return $this->idAs;
     }
 }

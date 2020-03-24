@@ -25,7 +25,6 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
     protected string $name = 'plugins';
     protected string $pk = Plugin::FIELD__CLASS;
     protected string $scope = 'extas';
-    protected string $idAs = '';
 
     /**
      * Item constraints

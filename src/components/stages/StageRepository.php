@@ -17,7 +17,6 @@ class StageRepository extends Repository implements IStageRepository
     protected string $pk = IStage::FIELD__NAME;
     protected string $scope = 'extas';
     protected string $name = 'stages';
-    protected string $idAs = '';
 
     /**
      * Item constraints
