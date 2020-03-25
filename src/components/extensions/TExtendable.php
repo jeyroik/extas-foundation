@@ -61,6 +61,8 @@ trait TExtendable
         }
 
         $extensionDispatcher = $extension->buildClassWithParameters([
+            IExtension::FIELD__CLASS => $extension->getClass(),
+            IExtension::FIELD__INTERFACE => $extension->getInterface(),
             IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
             IExtension::FIELD__METHODS => $name
         ]);

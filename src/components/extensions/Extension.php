@@ -56,14 +56,6 @@ class Extension extends Item implements IExtension
     }
 
     /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->config[static::FIELD__ID] ?? '';
-    }
-
-    /**
      * @param string $subject
      *
      * @return $this
@@ -95,18 +87,6 @@ class Extension extends Item implements IExtension
     public function setMethods(array $methods)
     {
         $this->config[static::FIELD__METHODS] = $methods;
-
-        return $this;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return $this
-     */
-    public function setId(string $id)
-    {
-        $this->config[static::FIELD__ID] = $id;
 
         return $this;
     }

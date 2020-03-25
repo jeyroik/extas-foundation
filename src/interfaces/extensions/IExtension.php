@@ -17,7 +17,6 @@ interface IExtension extends IItem, IHasClass
     public const FIELD__INTERFACE = 'interface';
     public const FIELD__SUBJECT = 'subject';
     public const FIELD__METHODS = 'methods';
-    public const FIELD__ID = 'id';
 
     public const SUBJECT__WILDCARD = '*';
 
@@ -33,11 +32,6 @@ interface IExtension extends IItem, IHasClass
     /**
      * @return string
      */
-    public function getId(): string;
-
-    /**
-     * @return string
-     */
     public function getInterface(): string;
 
     /**
@@ -49,13 +43,6 @@ interface IExtension extends IItem, IHasClass
      * @return string[]
      */
     public function getMethods(): array;
-
-    /**
-     * @param string $id
-     *
-     * @return $this
-     */
-    public function setId(string $id);
 
     /**
      * @param string $interface
