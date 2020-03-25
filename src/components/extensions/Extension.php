@@ -2,6 +2,7 @@
 namespace extas\components\extensions;
 
 use extas\components\Item;
+use extas\components\THasClass;
 use extas\interfaces\extensions\IExtension;
 
 /**
@@ -12,6 +13,8 @@ use extas\interfaces\extensions\IExtension;
  */
 class Extension extends Item implements IExtension
 {
+    use THasClass;
+
     /**
      * @param $subject
      * @param string $methodName
@@ -34,14 +37,6 @@ class Extension extends Item implements IExtension
     public function getMethods(): array
     {
         return $this->config[static::FIELD__METHODS] ?? [];
-    }
-
-    /**
-     * @return string
-     */
-    public function getClass(): string
-    {
-        return $this->config[static::FIELD__CLASS] ?? '';
     }
 
     /**
@@ -100,18 +95,6 @@ class Extension extends Item implements IExtension
     public function setMethods(array $methods)
     {
         $this->config[static::FIELD__METHODS] = $methods;
-
-        return $this;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setClass(string $class)
-    {
-        $this->config[static::FIELD__CLASS] = $class;
 
         return $this;
     }
