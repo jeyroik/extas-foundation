@@ -1,7 +1,7 @@
 <?php
 namespace extas\components\extensions;
 
-use extas\components\repositories\RepositoryClassObjects;
+use extas\components\repositories\Repository;
 use extas\interfaces\extensions\IExtensionRepository;
 
 /**
@@ -10,7 +10,7 @@ use extas\interfaces\extensions\IExtensionRepository;
  * @package extas\components\extensions
  * @author jeyroik@gmail.com
  */
-class ExtensionRepository extends RepositoryClassObjects implements IExtensionRepository
+class ExtensionRepository extends Repository implements IExtensionRepository
 {
     protected string $itemClass = Extension::class;
     protected string $name = 'extensions';

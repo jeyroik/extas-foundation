@@ -1,12 +1,9 @@
 <?php
 namespace extas\components\plugins;
 
-use extas\components\SystemContainer;
+use extas\components\repositories\Repository;
 use extas\interfaces\plugins\IPlugin;
 use extas\interfaces\plugins\IPluginRepository;
-use extas\components\repositories\RepositoryClassObjects;
-use extas\interfaces\stages\IStage;
-use extas\interfaces\stages\IStageRepository;
 
 /**
  * Class PluginRepository
@@ -14,7 +11,7 @@ use extas\interfaces\stages\IStageRepository;
  * @package extas\components\plugins
  * @author jeyroik@gmail.com
  */
-class PluginRepository extends RepositoryClassObjects implements IPluginRepository
+class PluginRepository extends Repository implements IPluginRepository
 {
     /**
      * @var IPlugin[]
@@ -56,12 +53,21 @@ class PluginRepository extends RepositoryClassObjects implements IPluginReposito
     public function getStagePlugins($stage)
     {
         if (!isset(self::$stagesWithPlugins[$stage])) {
-            self::$stagesWithPlugins[$stage] = $this->all(
+            /**
+             * @var $plugins IPlugin[]
+             */
+            self::$stagesWithPlugins[$stage] = [];
+            $plugins = $this->all(
                 [IPlugin::FIELD__STAGE => $stage],
                 0,
                 0,
                 [IPlugin::FIELD__PRIORITY, -1]
             );
+            foreach ($plugins as $plugin) {
+                self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters([
+                    IPlugin::FIELD__STAGE => $stage
+                ]);
+            }
         }
 
         $plugins = self::$stagesWithPlugins[$stage];

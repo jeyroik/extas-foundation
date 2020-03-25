@@ -1,6 +1,7 @@
 <?php
 namespace extas\interfaces\extensions;
 
+use extas\interfaces\IHasClass;
 use extas\interfaces\IItem;
 
 /**
@@ -9,15 +10,13 @@ use extas\interfaces\IItem;
  * @package extas\interfaces\extensions
  * @author jeyroik@gmail.com
  */
-interface IExtension extends IItem
+interface IExtension extends IItem, IHasClass
 {
     public const SUBJECT = 'extas.extension';
 
-    public const FIELD__CLASS = 'class';
     public const FIELD__INTERFACE = 'interface';
     public const FIELD__SUBJECT = 'subject';
     public const FIELD__METHODS = 'methods';
-    public const FIELD__ID = 'id';
 
     public const SUBJECT__WILDCARD = '*';
 
@@ -33,16 +32,6 @@ interface IExtension extends IItem
     /**
      * @return string
      */
-    public function getId(): string;
-
-    /**
-     * @return string
-     */
-    public function getClass(): string;
-
-    /**
-     * @return string
-     */
     public function getInterface(): string;
 
     /**
@@ -54,13 +43,6 @@ interface IExtension extends IItem
      * @return string[]
      */
     public function getMethods(): array;
-
-    /**
-     * @param string $id
-     *
-     * @return $this
-     */
-    public function setId(string $id);
 
     /**
      * @param string $interface
@@ -82,11 +64,4 @@ interface IExtension extends IItem
      * @return $this
      */
     public function setSubject(string $subject);
-
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setClass(string $class);
 }

@@ -2,6 +2,7 @@
 namespace extas\components\extensions;
 
 use extas\components\Item;
+use extas\components\THasClass;
 use extas\interfaces\extensions\IExtension;
 
 /**
@@ -12,6 +13,8 @@ use extas\interfaces\extensions\IExtension;
  */
 class Extension extends Item implements IExtension
 {
+    use THasClass;
+
     /**
      * @param $subject
      * @param string $methodName
@@ -39,14 +42,6 @@ class Extension extends Item implements IExtension
     /**
      * @return string
      */
-    public function getClass(): string
-    {
-        return $this->config[static::FIELD__CLASS] ?? '';
-    }
-
-    /**
-     * @return string
-     */
     public function getInterface(): string
     {
         return $this->config[static::FIELD__INTERFACE] ?? '';
@@ -58,14 +53,6 @@ class Extension extends Item implements IExtension
     public function getSubject(): string
     {
         return $this->config[static::FIELD__SUBJECT] ?? '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getId(): string
-    {
-        return $this->config[static::FIELD__ID] ?? '';
     }
 
     /**
@@ -100,30 +87,6 @@ class Extension extends Item implements IExtension
     public function setMethods(array $methods)
     {
         $this->config[static::FIELD__METHODS] = $methods;
-
-        return $this;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setClass(string $class)
-    {
-        $this->config[static::FIELD__CLASS] = $class;
-
-        return $this;
-    }
-
-    /**
-     * @param string $id
-     *
-     * @return $this
-     */
-    public function setId(string $id)
-    {
-        $this->config[static::FIELD__ID] = $id;
 
         return $this;
     }
