@@ -56,6 +56,7 @@ class PluginRepository extends Repository implements IPluginRepository
             /**
              * @var $plugins IPlugin[]
              */
+            self::$stagesWithPlugins[$stage] = [];
             $plugins = $this->all(
                 [IPlugin::FIELD__STAGE => $stage],
                 0,
@@ -63,7 +64,7 @@ class PluginRepository extends Repository implements IPluginRepository
                 [IPlugin::FIELD__PRIORITY, -1]
             );
             foreach ($plugins as $plugin) {
-                self::$stagesWithPlugins[$stage] = $plugin->buildClassWithParameters([
+                self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters([
                     IPlugin::FIELD__STAGE => $stage
                 ]);
             }
