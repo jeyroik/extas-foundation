@@ -18,11 +18,13 @@ trait TExtendable
     use TPluginAcceptable;
 
     /**
+     * @deprecated
      * @var array
      */
     protected array $registeredInterfaces = [];
 
     /**
+     * @deprecated
      * @var array
      */
     protected array $extendedMethodToInterface = [];
@@ -43,6 +45,7 @@ trait TExtendable
 
         /**
          * @var $extension IExtension
+         * @var $extensionDispatcher IExtension
          */
         $extension = $extRepo->one([
             IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
@@ -57,10 +60,16 @@ trait TExtendable
             $plugin($this, $name, $arguments);
         }
 
-        return $extension->runMethod($this, $name, $arguments);
+        $extensionDispatcher = $extension->buildClassWithParameters([
+            IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
+            IExtension::FIELD__METHODS => $name
+        ]);
+
+        return $extensionDispatcher->runMethod($this, $name, $arguments);
     }
 
     /**
+     * @deprecated
      * @param string $interface
      *
      * @return bool
