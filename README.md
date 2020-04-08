@@ -1,4 +1,5 @@
 ![PHP Composer](https://github.com/jeyroik/extas-foundation/workflows/PHP%20Composer/badge.svg?branch=master)
+![codecov.io](https://codecov.io/gh/jeyroik/extas-foundation/coverage.svg?branch=master)
 
 # Описание
 
