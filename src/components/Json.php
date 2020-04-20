@@ -30,7 +30,7 @@ class Json implements IJson
     public static function decode(string $json, bool $asArray = false)
     {
         $decoded = json_decode($json, $asArray);
-        if (isset($decoded[static::MARKER__CLASS])) {
+        if ($asArray && isset($decoded[static::MARKER__CLASS])) {
             $className = $decoded[static::MARKER__CLASS];
             unset($decoded[static::MARKER__CLASS]);
             return new $className($decoded);
