@@ -24,7 +24,7 @@ class Json implements IJson
 
     /**
      * @param string $json
-     * @param bool $asArray
+     * @param bool $asArray WARNING: will return IItem if decoded array has IJson::MARKER__CLASS
      * @return array|object|IItem
      */
     public static function decode(string $json, bool $asArray = false)

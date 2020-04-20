@@ -41,7 +41,7 @@ class JsonTest extends TestCase
         /**
          * @var Plugin $plugin
          */
-        $plugin = Json::decode(json_encode($pluginData));
+        $plugin = Json::decode(json_encode($pluginData), true);
         $this->assertTrue($plugin instanceof Plugin);
         $this->assertEquals('NotExistingClass', $plugin->getClass());
         $this->assertEquals('not.existing.stage', $plugin->getStage());
