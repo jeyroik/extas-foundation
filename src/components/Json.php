@@ -27,7 +27,7 @@ class Json implements IJson
      * @param bool $asArray
      * @return array|object|IItem
      */
-    public static function decode(string $json, bool $asArray = true)
+    public static function decode(string $json, bool $asArray = false)
     {
         $decoded = json_decode($json, $asArray);
         if (isset($decoded[static::MARKER__CLASS])) {

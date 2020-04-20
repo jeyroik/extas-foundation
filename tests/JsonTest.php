@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * Class JsonTest
- * 
+ *
  * @package tests
  * @author jeyroik@gmail.com
  */
