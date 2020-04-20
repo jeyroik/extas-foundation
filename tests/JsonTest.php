@@ -46,7 +46,7 @@ class JsonTest extends TestCase
         $this->assertEquals('NotExistingClass', $plugin->getClass());
         $this->assertEquals('not.existing.stage', $plugin->getStage());
 
-        $std = Json::decode(json_encode(['test']));
+        $std = Json::decode(json_encode(['{"test":1}']));
         $this->assertTrue($std instanceof \stdClass);
     }
 }
