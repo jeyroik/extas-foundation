@@ -3,7 +3,8 @@
   "description": "Extas foundation package",
   "require": {
     "league/container": "3.*",
-    "jeyroik/extas-base": "2.*"
+    "jeyroik/extas-base": "2.*",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit": "^9",

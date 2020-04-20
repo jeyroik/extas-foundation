@@ -35,6 +35,17 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
     public function __toInt(): int;
 
     /**
+     * @return string
+     */
+    public function __toJson(): string;
+
+    /**
+     * @param IItem $other
+     * @return bool
+     */
+    public function __equal(IItem $other): bool;
+
+    /**
      * @param $item
      * @param $repo IRepository
      *

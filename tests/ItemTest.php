@@ -237,6 +237,35 @@ class ItemTest extends TestCase
         $child->__toArray();
     }
 
+    public function testStageEntityToJsonIsRising()
+    {
+        $this->createPlugin('to.json');
+        $this->pluginRepo->reload();
+        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $child = new class extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        $child->__toJson();
+    }
+
+    public function testStageEntityToJsonIsNotRising()
+    {
+        $this->createPlugin('to.json');
+        $this->pluginRepo->reload();
+        $child = new class([]) extends Item {
+            protected bool $isAllowToJsonStage = false;
+
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+        $this->assertEquals(json_encode($child->__toArray()), $child->__toJson());
+    }
+
     public function testStageEntityToArrayIsNotRising()
     {
         $this->createPlugin('to.array');

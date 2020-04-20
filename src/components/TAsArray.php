@@ -9,7 +9,7 @@ namespace extas\components;
  * @package extas\components
  * @author jeyroik <jeyroik@gmail.com>
  */
-trait TIsArray
+trait TAsArray
 {
     /**
      * @var int

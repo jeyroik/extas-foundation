@@ -8,17 +8,13 @@ use extas\interfaces\repositories\IRepository;
 /**
  * Class Item
  *
- * @property $id
- * @property int $created_at
- * @property int $updated_at
- *
  * @package extas\components
  * @author jeyroik@gmail.com
  */
 abstract class Item implements IItem
 {
     use TExtendable;
-    use TIsArray;
+    use TAsArray;
 
     /**
      * @var array
@@ -31,6 +27,7 @@ abstract class Item implements IItem
     protected bool $isAllowToArrayStage = true;
     protected bool $isAllowToStringStage = true;
     protected bool $isAllowToIntStage = true;
+    protected bool $isAllowToJsonStage = true;
 
     /**
      * Item constructor.
@@ -57,7 +54,6 @@ abstract class Item implements IItem
 
     /**
      * @param $name
-     *
      * @return mixed|null
      */
     public function __get($name)
@@ -68,7 +64,6 @@ abstract class Item implements IItem
     /**
      * @param $name
      * @param $value
-     *
      * @return void
      */
     public function __set($name, $value)
@@ -112,7 +107,6 @@ abstract class Item implements IItem
     /**
      * @param $item
      * @param $repo IRepository
-     *
      * @return $this|IItem
      */
     public function __created($item, $repo)
@@ -127,8 +121,44 @@ abstract class Item implements IItem
     }
 
     /**
+     * @return string
+     */
+    public function __toJson(): string
+    {
+        $dataToJson = $this->__toArray();
+        $this->isAllowToJsonStage && $this->triggerStageTo('json', $dataToJson);
+
+        return json_encode($dataToJson);
+    }
+
+    /**
+     * @param IItem $other
+     * @return bool
+     */
+    public function __equal(IItem $other): bool
+    {
+        $attributes = $this->__toArray();
+        $otherAttributes = $other->__toArray();
+
+        $equal = true;
+
+        foreach ($attributes as $name => $value) {
+            if (!isset($otherAttributes[$name])) {
+                $equal = false;
+                break;
+            }
+
+            if ($otherAttributes[$name] != $value) {
+                $equal = false;
+                break;
+            }
+        }
+
+        return $equal;
+    }
+
+    /**
      * @param $config
-     *
      * @return IItem|mixed
      */
     protected function setConfig($config)
@@ -168,7 +198,6 @@ abstract class Item implements IItem
 
     /**
      * @param $stage
-     *
      * @return string
      */
     protected function getBaseStageName($stage)
