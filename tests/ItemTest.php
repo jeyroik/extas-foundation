@@ -339,6 +339,63 @@ class ItemTest extends TestCase
         $this->assertEquals(0, $child->__toInt());
     }
 
+    public function testEqual()
+    {
+        $object1 = new class ([
+            'test' => 1
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $object2 = new class ([
+            'test' => 1
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $this->assertTrue($object1->__equal($object2));
+
+        $object3 = new class ([
+            'test' => 2
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $this->assertFalse($object1->__equal($object3));
+
+        $object4 = new class ([
+            'test_1' => 1
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $this->assertFalse($object1->__equal($object4));
+
+        $object5 = new class ([
+            'test' => 1,
+            'test2' => 1
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $this->assertFalse($object1->__equal($object5));
+    }
+
     /**
      * Create plugin and stage records.
      *
