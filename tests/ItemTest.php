@@ -394,6 +394,7 @@ class ItemTest extends TestCase
         };
 
         $this->assertFalse($object1->__equal($object5));
+        $this->assertFalse($object5->__equal($object1));
     }
 
     /**

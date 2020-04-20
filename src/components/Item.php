@@ -140,17 +140,21 @@ abstract class Item implements IItem
         $attributes = $this->__toArray();
         $otherAttributes = $other->__toArray();
 
-        $equal = true;
+        if (count($attributes) != count($otherAttributes)) {
+            $equal = false;
+        } else {
+            $equal = true;
 
-        foreach ($attributes as $name => $value) {
-            if (!isset($otherAttributes[$name])) {
-                $equal = false;
-                break;
-            }
+            foreach ($attributes as $name => $value) {
+                if (!isset($otherAttributes[$name])) {
+                    $equal = false;
+                    break;
+                }
 
-            if ($otherAttributes[$name] != $value) {
-                $equal = false;
-                break;
+                if ($otherAttributes[$name] != $value) {
+                    $equal = false;
+                    break;
+                }
             }
         }
 
