@@ -52,4 +52,10 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
      * @return $this
      */
     public function __created($item, $repo);
+
+    /**
+     * @param string ...$params
+     * @return bool
+     */
+    public function has(...$params): bool;
 }

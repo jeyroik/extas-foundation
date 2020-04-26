@@ -104,6 +104,21 @@ class ItemTest extends TestCase
         $this->assertEquals(true, isset($child['name']));
     }
 
+    public function testHas()
+    {
+        $child = new class([
+            'name' => 'child',
+            'test' => 'is ok'
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $this->assertTrue($child->has('name', 'test'));
+    }
+
     public function testAllowUnsetProperty()
     {
         $child = new class(['name' => 'child']) extends Item {

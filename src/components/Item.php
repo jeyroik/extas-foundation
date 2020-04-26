@@ -162,6 +162,24 @@ abstract class Item implements IItem
     }
 
     /**
+     * @param string ...$params
+     * @return bool
+     */
+    public function has(...$params): bool
+    {
+        $hasAll = true;
+
+        foreach ($params as $param) {
+            if (!isset($this->config[$param])) {
+                $hasAll = false;
+                break;
+            }
+        }
+
+        return $hasAll;
+    }
+
+    /**
      * @param $config
      * @return IItem|mixed
      */
