@@ -104,6 +104,18 @@ class ItemTest extends TestCase
         $this->assertEquals(true, isset($child['name']));
     }
 
+    public function testMagicIssetIsWorking()
+    {
+        $child = new class(['name' => 'child']) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $this->assertEquals(['child'], array_column([$child], 'name'));
+    }
+
     public function testHas()
     {
         $child = new class([

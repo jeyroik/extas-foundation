@@ -72,6 +72,15 @@ abstract class Item implements IItem
     }
 
     /**
+     * @param $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->config[$name]);
+    }
+
+    /**
      * @return string
      */
     public function __toString(): string
