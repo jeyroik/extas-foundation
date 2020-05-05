@@ -28,7 +28,7 @@ class Extension extends Item implements IExtension
 
         return method_exists($this, $methodName)
             ? call_user_func_array([$this, $methodName], $args)
-            : null;
+            : $this->wildcardMethod($methodName, ...$args);
     }
 
     /**
@@ -89,6 +89,16 @@ class Extension extends Item implements IExtension
         $this->config[static::FIELD__METHODS] = $methods;
 
         return $this;
+    }
+
+    /**
+     * @param string $methodName
+     * @param mixed ...$args
+     * @return mixed
+     */
+    protected function wildcardMethod(string $methodName, ...$args)
+    {
+        return null;
     }
 
     /**

@@ -56,10 +56,6 @@ trait TExtendable
             throw new \Exception('Unknown method "' . get_class($this) . ':' . $name . '".');
         }
 
-        foreach ($this->getPluginsByStage(IExtendable::STAGE__EXTENDED_METHOD_CALL) as $plugin) {
-            $plugin($this, $name, $arguments);
-        }
-
         $extensionDispatcher = $extension->buildClassWithParameters([
             IExtension::FIELD__CLASS => $extension->getClass(),
             IExtension::FIELD__INTERFACE => $extension->getInterface(),
