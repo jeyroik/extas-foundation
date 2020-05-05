@@ -116,6 +116,29 @@ class ItemTest extends TestCase
         $this->assertEquals(['child'], array_column([$child], 'name'));
     }
 
+    public function testMerge()
+    {
+        $child = new class([
+            'name' => 'child',
+            'test' => 'is ok'
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $child->__merge(['name' => 'parent', 'new' => 'is ok']);
+        $this->assertEquals(
+            [
+                'name' => 'parent',
+                'test' => 'is ok',
+                'new' => 'is ok'
+            ],
+            $child->__toArray()
+        );
+    }
+
     public function testHas()
     {
         $child = new class([

@@ -1,6 +1,8 @@
 <?php
 namespace extas\components;
 
+use extas\interfaces\IItem;
+
 /**
  * Trait TIsArray
  *
@@ -20,6 +22,19 @@ trait TAsArray
      * @var array
      */
     protected array $keyMap = [];
+
+    /**
+     * @param array $data
+     * @return $this
+     */
+    public function __merge(array $data)
+    {
+        foreach ($data as $key => $value) {
+            $this->config[$key] = $value;
+        }
+
+        return $this;
+    }
 
     /**
      * @param mixed $offset

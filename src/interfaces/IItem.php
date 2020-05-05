@@ -46,6 +46,12 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
     public function __equal(IItem $other): bool;
 
     /**
+     * @param array $data
+     * @return $this
+     */
+    public function __merge(array $data);
+
+    /**
      * @param $item
      * @param $repo IRepository
      *
