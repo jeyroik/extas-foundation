@@ -60,6 +60,11 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
     public function __created($item, $repo);
 
     /**
+     * @return string
+     */
+    public function __subject(): string;
+
+    /**
      * @param string ...$params
      * @return bool
      */

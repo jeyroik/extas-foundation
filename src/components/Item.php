@@ -174,6 +174,14 @@ abstract class Item implements IItem
     }
 
     /**
+     * @return string
+     */
+    public function __subject(): string
+    {
+        return $this->getSubjectForExtension();
+    }
+
+    /**
      * @param string ...$params
      * @return bool
      */

@@ -138,6 +138,18 @@ class ItemTest extends TestCase
             $child->__toArray()
         );
     }
+    
+    public function testSubject()
+    {
+        $child = new class() extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $this->assertEquals('test.child', $child->__subject());
+    }
 
     public function testHas()
     {
