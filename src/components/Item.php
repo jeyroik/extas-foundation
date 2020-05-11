@@ -4,6 +4,7 @@ namespace extas\components;
 use extas\components\extensions\TExtendable;
 use extas\interfaces\IItem;
 use extas\interfaces\repositories\IRepository;
+use extas\interfaces\stages\IStageItemInit;
 
 /**
  * Class Item
@@ -114,6 +115,8 @@ abstract class Item implements IItem
     }
 
     /**
+     * todo: remove $item argument
+     *
      * @param $item
      * @param $repo IRepository
      * @return $this|IItem
@@ -206,7 +209,7 @@ abstract class Item implements IItem
      */
     protected function triggerInit()
     {
-        foreach ($this->getPluginsByStage($this->getBaseStageName('init')) as $plugin) {
+        foreach ($this->getPluginsByStage($this->getBaseStageName(IStageItemInit::NAME__SUFFIX)) as $plugin) {
             $plugin($this);
         }
 
