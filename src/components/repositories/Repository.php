@@ -124,7 +124,7 @@ class Repository extends Item implements IRepository
     {
         if ($this->isAllowUpdateBeforeStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.before') as $plugin) {
-                $plugin($item, $where);
+                $plugin($item, $where, $this);
             }
         }
 
@@ -133,7 +133,7 @@ class Repository extends Item implements IRepository
 
         if ($this->isAllowUpdateAfterStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.update.after') as $plugin) {
-                $plugin($result, $where, $item);
+                $plugin($result, $where, $item, $this);
             }
         }
 
@@ -151,7 +151,7 @@ class Repository extends Item implements IRepository
     {
         if ($this->isAllowDeleteBeforeStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.before') as $plugin) {
-                $plugin($item, $where);
+                $plugin($item, $where, $this);
             }
         }
 
@@ -160,7 +160,7 @@ class Repository extends Item implements IRepository
 
         if ($this->isAllowDeleteAfterStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.delete.after') as $plugin) {
-                $plugin($result, $where, $item);
+                $plugin($result, $where, $item, $this);
             }
         }
 
