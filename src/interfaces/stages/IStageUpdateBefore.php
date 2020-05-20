@@ -13,9 +13,9 @@ use extas\interfaces\repositories\IRepository;
 interface IStageUpdateBefore
 {
     /**
-     * @param IItem $item
+     * @param IItem|null $item
      * @param array $where
      * @param IRepository $itemRepository
      */
-    public function __invoke(IItem &$item, array &$where, IRepository $itemRepository): void;
+    public function __invoke(?IItem &$item, array &$where, IRepository $itemRepository): void;
 }

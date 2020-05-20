@@ -14,9 +14,9 @@ interface IStageUpdateAfter
 {
     /**
      * @param bool $result
-     * @param IItem $item
      * @param array $where
+     * @param IItem|null $item
      * @param IRepository $itemRepository
      */
-    public function __invoke(bool &$result, array $where, IItem $item, IRepository $itemRepository): void;
+    public function __invoke(bool &$result, array $where, ?IItem $item, IRepository $itemRepository): void;
 }
