@@ -13,13 +13,14 @@ use extas\interfaces\plugins\IPlugin;
 trait TPluginAcceptable
 {
     /**
-     * @param $stage
+     * @param string $stage
+     * @param array $config
      *
      * @return \Generator|IPlugin
      */
-    public function getPluginsByStage($stage)
+    public function getPluginsByStage(string $stage, array $config = [])
     {
-        foreach (Plugins::byStage($stage, $this) as $plugin) {
+        foreach (Plugins::byStage($stage, $this, $config) as $plugin) {
             yield $plugin;
         }
     }

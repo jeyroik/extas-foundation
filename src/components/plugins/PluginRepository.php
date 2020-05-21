@@ -45,12 +45,13 @@ class PluginRepository extends Repository implements IPluginRepository
     protected bool $isAllowFindAfterStage = false;
 
     /**
-     * @param $stage
+     * @param string $stage
+     * @param array $config
      *
      * @return \Generator
      * @throws
      */
-    public function getStagePlugins($stage)
+    public function getStagePlugins(string $stage, array $config = [])
     {
         if (!isset(self::$stagesWithPlugins[$stage])) {
             /**
@@ -64,9 +65,8 @@ class PluginRepository extends Repository implements IPluginRepository
                 [IPlugin::FIELD__PRIORITY, -1]
             );
             foreach ($plugins as $plugin) {
-                self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters([
-                    IPlugin::FIELD__STAGE => $stage
-                ]);
+                $config[IPlugin::FIELD__STAGE] = $stage;
+                self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters($config);
             }
         }
 

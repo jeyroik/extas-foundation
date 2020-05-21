@@ -17,10 +17,11 @@ class Plugins implements IPlugins
     /**
      * @param string $stage
      * @param object $riser
+     * @param array $config
      *
      * @return IPlugin|\Generator
      */
-    public static function byStage(string $stage, $riser = null)
+    public static function byStage(string $stage, $riser = null, array $config = [])
     {
         /**
          * @var $pluginRepo IPluginRepository
@@ -29,7 +30,7 @@ class Plugins implements IPlugins
         $riser = $riser ?: new static();
         $logIndex = PluginLog::log($riser, $stage);
 
-        foreach ($pluginRepo->getStagePlugins($stage) as $plugin) {
+        foreach ($pluginRepo->getStagePlugins($stage, $config) as $plugin) {
             PluginLog::logPluginClass(get_class($plugin), $logIndex);
             yield $plugin;
         }

@@ -11,8 +11,9 @@ interface IPluginsAcceptable
 {
     /**
      * @param string $stage
+     * @param array $config
      *
      * @return IPlugin[]
      */
-    public function getPluginsByStage($stage);
+    public function getPluginsByStage(string $stage, array $config = []);
 }
