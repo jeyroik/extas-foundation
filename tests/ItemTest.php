@@ -138,7 +138,7 @@ class ItemTest extends TestCase
             $child->__toArray()
         );
     }
-    
+
     public function testSubject()
     {
         $child = new class() extends Item {
