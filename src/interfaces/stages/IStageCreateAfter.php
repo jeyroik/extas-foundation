@@ -2,6 +2,7 @@
 namespace extas\interfaces\stages;
 
 use extas\interfaces\IItem;
+use extas\interfaces\repositories\IRepository;
 
 /**
  * Interface IStageCreateAfter
@@ -14,6 +15,7 @@ interface IStageCreateAfter
     /**
      * @param IItem $createdItem
      * @param IItem $sourceItem
+     * @param IRepository $repository
      */
-    public function __invoke(IItem &$createdItem, IItem $sourceItem): void;
+    public function __invoke(IItem &$createdItem, IItem $sourceItem, IRepository $repository = null): void;
 }

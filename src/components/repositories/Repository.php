@@ -98,7 +98,7 @@ class Repository extends Item implements IRepository
     {
         if ($this->isAllowCreateBeforeStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.before') as $plugin) {
-                $plugin($item);
+                $plugin($item, $this);
             }
         }
 
@@ -106,7 +106,7 @@ class Repository extends Item implements IRepository
 
         if ($this->isAllowCreateAfterStage) {
             foreach ($this->getPluginsByStage('extas.' . $this->getName() . '.create.after') as $plugin) {
-                $plugin($result, $item);
+                $plugin($result, $item, $this);
             }
         }
 
