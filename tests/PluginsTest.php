@@ -1,5 +1,7 @@
 <?php
+namespace tests;
 
+use extas\components\plugins\TSnuffPlugins;
 use \PHPUnit\Framework\TestCase;
 use \extas\components\plugins\Plugin;
 use \extas\components\plugins\PluginRepository;
@@ -15,6 +17,8 @@ use Dotenv\Dotenv;
  */
 class PluginsTest extends TestCase
 {
+    use TSnuffPlugins;
+
     /**
      * @var IRepository|null
      */
@@ -41,6 +45,15 @@ class PluginsTest extends TestCase
     public function tearDown(): void
     {
         $this->pluginRepo->delete([Plugin::FIELD__CLASS => Plugins::class]);
+        $this->deleteSnuffPlugins();
+    }
+
+    public function testPluginConfig()
+    {
+        $this->createPluginEmpty(['test']);
+        foreach (Plugins::byStage('test', $this, ['test' => 'is ok']) as $plugin) {
+            $this->assertEquals('is ok', $plugin['test'], 'Plugin missed config param');
+        }
     }
 
     public function testGetPluginsByStageWithoutPassingRiser()

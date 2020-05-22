@@ -12,9 +12,10 @@ use extas\interfaces\repositories\IRepository;
 interface IPluginRepository extends IRepository
 {
     /**
-     * @param $stage
+     * @param string $stage
+     * @param array $config
      *
      * @return \Generator
      */
-    public function getStagePlugins($stage);
+    public function getStagePlugins(string $stage, array $config = []);
 }
