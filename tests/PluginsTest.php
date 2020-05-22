@@ -51,7 +51,7 @@ class PluginsTest extends TestCase
     public function testPluginConfig()
     {
         $this->createPluginEmpty(['test']);
-        foreach (Plugins::byStage('test', ['test' => 'is ok']) as $plugin) {
+        foreach (Plugins::byStage('test', $this, ['test' => 'is ok']) as $plugin) {
             $this->assertEquals('is ok', $plugin['test'], 'Plugin missed config param');
         }
     }
