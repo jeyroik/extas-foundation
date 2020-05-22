@@ -17,4 +17,10 @@ interface IExtendable
      * @return bool
      */
     public function isImplementsInterface(string $interface): bool;
+
+    /**
+     * @param string $methodName
+     * @return bool
+     */
+    public function hasMethod(string $methodName): bool;
 }
