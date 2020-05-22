@@ -41,14 +41,18 @@ class TExtendableTest extends TestCase
         };
 
         $repo = new ExtensionRepository();
-        $extension = new Extension([
+        $repo->create(new Extension([
             Extension::FIELD__CLASS => Extension::class,
             Extension::FIELD__SUBJECT => 'test',
             Extension::FIELD__INTERFACE => '',
             Extension::FIELD__METHODS => ['getClass']
-        ]);
-        $repo->create($extension);
+        ]));
 
-        $this->assertEquals(Extension::class, $subject->getClass());
+        $this->assertTrue($subject->hasMethod('getClass'), 'Subject has no method `getClass`');
+        $this->assertEquals(
+            Extension::class,
+            $subject->getClass(),
+            'Incorrect extension class: ' . $subject->getClass()
+        );
     }
 }
