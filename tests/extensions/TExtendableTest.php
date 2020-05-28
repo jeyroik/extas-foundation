@@ -34,6 +34,8 @@ class TExtendableTest extends TestCase
         $subject = new class {
             use TExtendable;
 
+            public function testMe(){}
+
             protected function getSubjectForExtension(): string
             {
                 return 'test';
@@ -49,6 +51,7 @@ class TExtendableTest extends TestCase
         ]));
 
         $this->assertTrue($subject->hasMethod('getClass'), 'Subject has no method `getClass`');
+        $this->assertTrue($subject->hasMethod('testMe'), 'Subject has no method `testMe`');
         $this->assertEquals(
             Extension::class,
             $subject->getClass(),
