@@ -91,6 +91,10 @@ trait TExtendable
      */
     public function hasMethod(string $methodName): bool
     {
+        if (method_exists($this, $methodName)) {
+            return true;
+        }
+
         /**
          * @var $extRepo IExtensionRepository
          */
