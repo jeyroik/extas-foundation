@@ -4,6 +4,7 @@ namespace extas\interfaces\plugins;
 use extas\interfaces\IHasClass;
 use extas\interfaces\IHasId;
 use extas\interfaces\IItem;
+use extas\interfaces\samples\parameters\IHasSampleParameters;
 
 /**
  * Interface IPlugin
@@ -11,7 +12,7 @@ use extas\interfaces\IItem;
  * @package extas\interfaces\plugins
  * @author jeyroik@gmail.com
  */
-interface IPlugin extends IItem, IHasClass
+interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters
 {
     public const SUBJECT = 'plugin';
 

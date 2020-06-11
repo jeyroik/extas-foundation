@@ -1,6 +1,8 @@
 <?php
 namespace extas\interfaces\stages;
 
+use extas\interfaces\IHasDescription;
+use extas\interfaces\IHasName;
 use extas\interfaces\IItem;
 
 /**
@@ -9,27 +11,15 @@ use extas\interfaces\IItem;
  * @package extas\interfaces\stages
  * @author jeyroik@gmail.com
  */
-interface IStage extends IItem
+interface IStage extends IItem, IHasName, IHasDescription
 {
     public const SUBJECT = 'extas.stage';
 
-    public const FIELD__NAME = 'name';
-    public const FIELD__DESCRIPTION = 'description';
     public const FIELD__INPUT = 'input';
     public const FIELD__OUTPUT = 'output';
 
     public const ARG__TYPE = 'type';
     public const ARG__NAME = 'arg';
-
-    /**
-     * @return string
-     */
-    public function getName(): string;
-
-    /**
-     * @return string
-     */
-    public function getDescription(): string;
 
     /**
      * @return string
@@ -50,20 +40,6 @@ interface IStage extends IItem
      * @return array
      */
     public function getOutputAsArray(): array;
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName(string $name);
-
-    /**
-     * @param string $description
-     *
-     * @return $this
-     */
-    public function setDescription(string $description);
 
     /**
      * @param string $input

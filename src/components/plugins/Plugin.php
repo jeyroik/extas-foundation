@@ -1,7 +1,9 @@
 <?php
 namespace extas\components\plugins;
 
+use extas\components\samples\parameters\THasSampleParameters;
 use extas\components\THasClass;
+use extas\components\THasId;
 use extas\interfaces\plugins\IPlugin;
 use extas\components\Item;
 
@@ -18,6 +20,8 @@ use extas\components\Item;
 class Plugin extends Item implements IPlugin
 {
     use THasClass;
+    use THasId;
+    use THasSampleParameters;
 
     protected bool $isAllowToStringStage = false;
     protected bool $isAllowToIntStage = false;

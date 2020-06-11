@@ -19,6 +19,8 @@ class PluginTest extends \PHPUnit\Framework\TestCase
     {
         $plugin = new Plugin();
         $plugin->setStage('stage');
+        $plugin->setPriority(10);
         $this->assertEquals('stage', $plugin->getStage());
+        $this->assertEquals(10, $plugin->getPriority());
     }
 }

@@ -2,6 +2,8 @@
 namespace extas\components\stages;
 
 use extas\components\Item;
+use extas\components\THasDescription;
+use extas\components\THasName;
 use extas\interfaces\stages\IStage;
 
 /**
@@ -12,6 +14,9 @@ use extas\interfaces\stages\IStage;
  */
 class Stage extends Item implements IStage
 {
+    use THasName;
+    use THasDescription;
+
     protected bool $isAllowInitStage = false;
     protected bool $isAllowAfterStage = false;
     protected bool $isAllowCreatedStage = false;

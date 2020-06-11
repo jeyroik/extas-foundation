@@ -2,10 +2,7 @@
 namespace extas\components\extensions;
 
 use extas\components\plugins\TPluginAcceptable;
-use extas\components\SystemContainer;
-use extas\interfaces\extensions\IExtendable;
 use extas\interfaces\extensions\IExtension;
-use extas\interfaces\extensions\IExtensionRepository;
 
 /**
  * Trait TExtendable
@@ -38,10 +35,7 @@ trait TExtendable
      */
     public function __call($name, $arguments)
     {
-        /**
-         * @var $extRepo IExtensionRepository
-         */
-        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+        $extRepo = new ExtensionRepository();
 
         /**
          * @var $extension IExtension
@@ -60,24 +54,21 @@ trait TExtendable
             IExtension::FIELD__CLASS => $extension->getClass(),
             IExtension::FIELD__INTERFACE => $extension->getInterface(),
             IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
-            IExtension::FIELD__METHODS => $name
+            IExtension::FIELD__METHODS => $name,
+            IExtension::FIELD__PARAMETERS => $extension->getParametersValues()
         ]);
 
         return $extensionDispatcher->runMethod($this, $name, $arguments);
     }
 
     /**
-     * @deprecated
      * @param string $interface
-     *
      * @return bool
+     * @throws \Exception
      */
     public function isImplementsInterface(string $interface): bool
     {
-        /**
-         * @var $extRepo IExtensionRepository
-         */
-        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+        $extRepo = new ExtensionRepository();
 
         return $extRepo->one([
             IExtension::FIELD__INTERFACE => $interface,
