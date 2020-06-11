@@ -72,7 +72,28 @@ trait TExtendable
 
         return $extRepo->one([
             IExtension::FIELD__INTERFACE => $interface,
-            IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
+            IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
+        ]) ? true : false;
+    }
+
+    /**
+     * @param string $methodName
+     * @return bool
+     */
+    public function hasMethod(string $methodName): bool
+    {
+        if (method_exists($this, $methodName)) {
+            return true;
+        }
+
+        /**
+         * @var $extRepo IExtensionRepository
+         */
+        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+
+        return $extRepo->one([
+            IExtension::FIELD__METHODS => $methodName,
+            IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
         ]) ? true : false;
     }
 
