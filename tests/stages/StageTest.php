@@ -50,11 +50,11 @@ class StageTest extends TestCase
             ],
             [
                 'type' => 'int',
-                'name' => 'test'
+                'arg' => 'test'
             ],
             [
                 'type' => '',
-                'name' => 'alone'
+                'arg' => 'alone'
             ]
         ];
     }
