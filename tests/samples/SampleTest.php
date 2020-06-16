@@ -53,6 +53,20 @@ class SampleTest extends TestCase
                 ]
             ]
         ]);
+        
+        $this->assertEquals(
+            [
+                'test1' => [
+                    ISampleParameter::FIELD__NAME => 'test1',
+                    ISampleParameter::FIELD__VALUE => 'test1-v'
+                ],
+                'test2' => [
+                    ISampleParameter::FIELD__NAME => 'test2',
+                    ISampleParameter::FIELD__VALUE => 'test2-v'
+                ]
+            ],
+            $sample->getParametersOptions()
+        );
 
         $this->assertTrue($sample->hasParameter('test1'));
         $this->assertCount(2, $sample->getParameters());
