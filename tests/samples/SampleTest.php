@@ -53,7 +53,7 @@ class SampleTest extends TestCase
                 ]
             ]
         ]);
-        
+
         $this->assertEquals(
             [
                 'test1' => [

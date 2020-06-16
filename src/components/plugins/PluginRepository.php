@@ -66,7 +66,7 @@ class PluginRepository extends Repository implements IPluginRepository
             );
             foreach ($plugins as $plugin) {
                 $config[IPlugin::FIELD__STAGE] = $stage;
-                $config[IPlugin::FIELD__PARAMETERS] = $plugin->getParametersValues();
+                $config[IPlugin::FIELD__PARAMETERS] = $plugin->getParametersOptions();
                 self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters($config);
             }
         }
