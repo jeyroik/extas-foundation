@@ -25,7 +25,7 @@ class StageTest extends TestCase
     {
         $stage = new Stage();
         $stage->setInput('string input, int test, alone');
-        $stage->setOutput('string output, int test, alone');
+        $stage->setOutput('string input, int test, alone');
         $this->assertEquals(
             $this->getWright(),
             $stage->getInputAsArray(),
