@@ -102,6 +102,14 @@ trait THasSampleParameters
     }
 
     /**
+     * @return array
+     */
+    public function getParametersOptions(): array
+    {
+        return $this->config[IHasSampleParameters::FIELD__PARAMETERS] ?? [];
+    }
+
+    /**
      * Return a parameter value.
      *
      * @param string $parameterName
