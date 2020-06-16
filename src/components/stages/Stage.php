@@ -162,6 +162,8 @@ class Stage extends Item implements IStage
      */
     protected function splitArgString($argString, $onPart = self::ARG__NAME)
     {
+        $argString = trim($argString);
+
         if (strpos($argString, ' ') !== false) {
             list($type, $argName) = explode(' ', $argString);
         } else {
