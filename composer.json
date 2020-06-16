@@ -4,7 +4,6 @@
   "require": {
     "league/container": "3.*",
     "jeyroik/extas-base": "2.*",
-    "jeyroik/extas-samples": "3.*",
     "ext-json": "*"
   },
   "require-dev": {
