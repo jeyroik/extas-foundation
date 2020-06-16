@@ -60,7 +60,7 @@ class ClientTest extends TestCase
 
     public function testEmptyDsn()
     {
-        $this->expectExceptionMessage('Empty dsn');
+        $this->expectExceptionMessage('Missed or unknown dsn');
         new class ('') extends Client {
             protected string $clientName = 'test';
 

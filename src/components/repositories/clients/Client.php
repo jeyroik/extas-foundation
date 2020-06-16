@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\repositories\clients;
 
+use extas\components\exceptions\MissedOrUnknown;
 use extas\interfaces\repositories\clients\IClient;
 
 /**
@@ -17,14 +18,13 @@ abstract class Client implements IClient
     /**
      * Client constructor.
      *
-     * @param array $dsn
-     *
-     * @throws
+     * @param $dsn
+     * @throws MissedOrUnknown
      */
     public function __construct($dsn)
     {
         if (empty($dsn)) {
-            throw new \Exception('Empty dsn');
+            throw new MissedOrUnknown('dsn');
         }
 
         if (is_array($dsn)) {

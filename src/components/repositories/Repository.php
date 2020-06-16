@@ -77,7 +77,7 @@ class Repository extends Item implements IRepository
      * @param int $offset
      * @param array $orderBy
      * @param array $fields
-     * @return IItem[]
+     * @return array|IItem[]
      * @throws \Exception
      */
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
@@ -90,9 +90,8 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $item
-     *
-     * @return mixed
-     * @throws
+     * @return IItem
+     * @throws \Exception
      */
     public function create($item)
     {
@@ -115,10 +114,9 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $item
-     * @param $where
-     *
+     * @param array $where
      * @return int
-     * @throws
+     * @throws \Exception
      */
     public function update($item, $where = []): int
     {
@@ -142,10 +140,9 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $where
-     * @param mixed $item
-     *
+     * @param null $item
      * @return int
-     * @throws
+     * @throws \Exception
      */
     public function delete($where, $item = null): int
     {
@@ -169,8 +166,7 @@ class Repository extends Item implements IRepository
 
     /**
      * @param array $byFields
-     *
-     * @return $this
+     * @return $this|IRepository
      * @throws \Exception
      */
     public function group(array $byFields): IRepository
@@ -239,11 +235,8 @@ class Repository extends Item implements IRepository
     }
 
     /**
-     * @param $method string Method name
+     * @param $method
      * @param $result
-     *
-     * @return void
-     * @throws
      */
     protected function findAfter($method, &$result): void
     {
@@ -268,8 +261,7 @@ class Repository extends Item implements IRepository
     }
 
     /**
-     * @param $repo IClientTable
-     *
+     * @param $repo
      * @return $this
      */
     protected function setRepoInstance($repo)
@@ -289,7 +281,6 @@ class Repository extends Item implements IRepository
 
     /**
      * @param $stage
-     *
      * @return string
      */
     protected function getBaseStageName($stage)

@@ -109,7 +109,24 @@ class Stage extends Item implements IStage
      */
     public function getInputAsArray(): array
     {
-        $input = trim($this->getInput());
+        return $this->getAsArray($this->getInput());
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutputAsArray(): array
+    {
+        return $this->getAsArray($this->getOutput());
+    }
+
+    /**
+     * @param string $stringToParse
+     * @return array
+     */
+    protected function getAsArray(string $stringToParse): array
+    {
+        $input = trim($stringToParse);
         $args = [];
 
         if (strpos($input, ',') !== false) {
@@ -123,15 +140,6 @@ class Stage extends Item implements IStage
         }
 
         return $args;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOutputAsArray(): array
-    {
-        $output = trim($this->getOutput());
-        return $this->splitArgString($output, static::ARG__TYPE);
     }
 
     /**

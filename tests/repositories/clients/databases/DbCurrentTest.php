@@ -48,7 +48,7 @@ class DbCurrentTest extends TestCase
     public function testGetTableException()
     {
         putenv('TEST_DRIVER__NOT_EXISTING_REPO=not.existing.driver');
-        $this->expectExceptionMessage('Unknown driver "not.existing.driver"');
+        $this->expectExceptionMessage('Missed or unknown driver "not.existing.driver"');
         DbCurrent::getTable('not.existing.repo', 'test');
     }
 }

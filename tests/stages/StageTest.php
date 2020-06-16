@@ -26,7 +26,24 @@ class StageTest extends TestCase
         $stage = new Stage();
         $stage->setInput('string input, int test, alone');
         $stage->setOutput('string output, int test, alone');
-        $this->assertEquals([
+        $this->assertEquals(
+            $this->getWright(),
+            $stage->getInputAsArray(),
+            'Current input: ' . print_r($stage->getInputAsArray(), true)
+        );
+        $this->assertEquals(
+            $this->getWright(),
+            $stage->getOutputAsArray(),
+            'Current input: ' . print_r($stage->getOutputAsArray(), true)
+        );
+    }
+
+    /**
+     * @return string[][]
+     */
+    protected function getWright(): array
+    {
+        return [
             [
                 'type' => 'string',
                 'arg' => 'input'
@@ -39,20 +56,6 @@ class StageTest extends TestCase
                 'type' => '',
                 'name' => 'alone'
             ]
-        ], $stage->getInputAsArray(), 'Current input: ' . print_r($stage->getInputAsArray(), true));
-        $this->assertEquals([
-            [
-                'type' => 'string',
-                'arg' => 'input'
-            ],
-            [
-                'type' => 'int',
-                'name' => 'test'
-            ],
-            [
-                'type' => '',
-                'name' => 'alone'
-            ]
-        ], $stage->getOutputAsArray(), 'Current input: ' . print_r($stage->getOutputAsArray(), true));
+        ];
     }
 }
