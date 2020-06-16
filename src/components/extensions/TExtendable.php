@@ -1,11 +1,9 @@
 <?php
 namespace extas\components\extensions;
 
+use extas\components\exceptions\MissedOrUnknown;
 use extas\components\plugins\TPluginAcceptable;
-use extas\components\SystemContainer;
-use extas\interfaces\extensions\IExtendable;
 use extas\interfaces\extensions\IExtension;
-use extas\interfaces\extensions\IExtensionRepository;
 
 /**
  * Trait TExtendable
@@ -32,16 +30,12 @@ trait TExtendable
     /**
      * @param $name
      * @param $arguments
-     *
-     * @return mixed|null
-     * @throws \Exception
+     * @return mixed
+     * @throws MissedOrUnknown
      */
     public function __call($name, $arguments)
     {
-        /**
-         * @var $extRepo IExtensionRepository
-         */
-        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+        $extRepo = new ExtensionRepository();
 
         /**
          * @var $extension IExtension
@@ -53,31 +47,28 @@ trait TExtendable
         ]);
 
         if (!$extension) {
-            throw new \Exception('Unknown method "' . get_class($this) . ':' . $name . '".');
+            throw new MissedOrUnknown('method "' . get_class($this) . ':' . $name . '".');
         }
 
         $extensionDispatcher = $extension->buildClassWithParameters([
             IExtension::FIELD__CLASS => $extension->getClass(),
             IExtension::FIELD__INTERFACE => $extension->getInterface(),
             IExtension::FIELD__SUBJECT => $this->getSubjectForExtension(),
-            IExtension::FIELD__METHODS => $name
+            IExtension::FIELD__METHODS => $name,
+            IExtension::FIELD__PARAMETERS => $extension->getParametersValues()
         ]);
 
         return $extensionDispatcher->runMethod($this, $name, $arguments);
     }
 
     /**
-     * @deprecated
      * @param string $interface
-     *
      * @return bool
+     * @throws \Exception
      */
     public function isImplementsInterface(string $interface): bool
     {
-        /**
-         * @var $extRepo IExtensionRepository
-         */
-        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+        $extRepo = new ExtensionRepository();
 
         return $extRepo->one([
             IExtension::FIELD__INTERFACE => $interface,
@@ -88,6 +79,7 @@ trait TExtendable
     /**
      * @param string $methodName
      * @return bool
+     * @throws \Exception
      */
     public function hasMethod(string $methodName): bool
     {
@@ -95,10 +87,7 @@ trait TExtendable
             return true;
         }
 
-        /**
-         * @var $extRepo IExtensionRepository
-         */
-        $extRepo = SystemContainer::getItem(IExtensionRepository::class);
+        $extRepo = new ExtensionRepository();
 
         return $extRepo->one([
             IExtension::FIELD__METHODS => $methodName,

@@ -2,7 +2,9 @@
 namespace extas\components\extensions;
 
 use extas\components\Item;
+use extas\components\samples\parameters\THasSampleParameters;
 use extas\components\THasClass;
+use extas\components\THasId;
 use extas\interfaces\extensions\IExtension;
 
 /**
@@ -14,6 +16,8 @@ use extas\interfaces\extensions\IExtension;
 class Extension extends Item implements IExtension
 {
     use THasClass;
+    use THasId;
+    use THasSampleParameters;
 
     /**
      * @param $subject

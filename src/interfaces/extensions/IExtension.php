@@ -2,7 +2,9 @@
 namespace extas\interfaces\extensions;
 
 use extas\interfaces\IHasClass;
+use extas\interfaces\IHasId;
 use extas\interfaces\IItem;
+use extas\interfaces\samples\parameters\IHasSampleParameters;
 
 /**
  * Interface IExtension
@@ -10,7 +12,7 @@ use extas\interfaces\IItem;
  * @package extas\interfaces\extensions
  * @author jeyroik@gmail.com
  */
-interface IExtension extends IItem, IHasClass
+interface IExtension extends IItem, IHasClass, IHasId, IHasSampleParameters
 {
     public const SUBJECT = 'extas.extension';
 

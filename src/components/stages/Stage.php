@@ -2,6 +2,8 @@
 namespace extas\components\stages;
 
 use extas\components\Item;
+use extas\components\THasDescription;
+use extas\components\THasName;
 use extas\interfaces\stages\IStage;
 
 /**
@@ -12,6 +14,9 @@ use extas\interfaces\stages\IStage;
  */
 class Stage extends Item implements IStage
 {
+    use THasName;
+    use THasDescription;
+
     protected bool $isAllowInitStage = false;
     protected bool $isAllowAfterStage = false;
     protected bool $isAllowCreatedStage = false;
@@ -104,7 +109,24 @@ class Stage extends Item implements IStage
      */
     public function getInputAsArray(): array
     {
-        $input = trim($this->getInput());
+        return $this->getAsArray($this->getInput());
+    }
+
+    /**
+     * @return array
+     */
+    public function getOutputAsArray(): array
+    {
+        return $this->getAsArray($this->getOutput());
+    }
+
+    /**
+     * @param string $stringToParse
+     * @return array
+     */
+    protected function getAsArray(string $stringToParse): array
+    {
+        $input = trim($stringToParse);
         $args = [];
 
         if (strpos($input, ',') !== false) {
@@ -118,15 +140,6 @@ class Stage extends Item implements IStage
         }
 
         return $args;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOutputAsArray(): array
-    {
-        $output = trim($this->getOutput());
-        return $this->splitArgString($output, static::ARG__TYPE);
     }
 
     /**
@@ -149,6 +162,8 @@ class Stage extends Item implements IStage
      */
     protected function splitArgString($argString, $onPart = self::ARG__NAME)
     {
+        $argString = trim($argString);
+
         if (strpos($argString, ' ') !== false) {
             list($type, $argName) = explode(' ', $argString);
         } else {

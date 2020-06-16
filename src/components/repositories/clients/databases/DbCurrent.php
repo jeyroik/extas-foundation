@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\repositories\clients\databases;
 
+use extas\components\exceptions\MissedOrUnknown;
 use extas\interfaces\repositories\drivers\IDriver;
 use extas\interfaces\repositories\drivers\IDriverRepository;
 use extas\components\SystemContainer;
@@ -18,9 +19,8 @@ class DbCurrent
     /**
      * @param $repoName
      * @param $scope
-     *
      * @return mixed
-     * @throws \Exception
+     * @throws MissedOrUnknown
      */
     public static function getTable($repoName, $scope)
     {
@@ -43,7 +43,7 @@ class DbCurrent
             $driver = $driverRepo->findOne([IDriver::FIELD__NAME => $driverName]);
 
             if (!$driver) {
-                throw new \Exception('Unknown driver "' . $driverName . '"');
+                throw new MissedOrUnknown('driver "' . $driverName . '"');
             }
 
             $client = $driver->createClient($clientDSN);

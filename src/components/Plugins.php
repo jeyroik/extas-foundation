@@ -2,9 +2,9 @@
 namespace extas\components;
 
 use extas\components\plugins\PluginLog;
+use extas\components\plugins\PluginRepository;
 use extas\interfaces\IPlugins;
 use extas\interfaces\plugins\IPlugin;
-use extas\interfaces\plugins\IPluginRepository;
 
 /**
  * Class Plugins
@@ -23,10 +23,7 @@ class Plugins implements IPlugins
      */
     public static function byStage(string $stage, $riser = null, array $config = [])
     {
-        /**
-         * @var $pluginRepo IPluginRepository
-         */
-        $pluginRepo = SystemContainer::getItem(IPluginRepository::class);
+        $pluginRepo = new PluginRepository();
         $riser = $riser ?: new static();
         $logIndex = PluginLog::log($riser, $stage);
 

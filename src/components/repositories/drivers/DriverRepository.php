@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\repositories\drivers;
 
+use extas\components\exceptions\MissedOrUnknown;
 use extas\interfaces\repositories\drivers\IDriver;
 use extas\interfaces\repositories\drivers\IDriverRepository;
 
@@ -82,7 +83,7 @@ class DriverRepository implements IDriverRepository
 
     /**
      * @return $this
-     * @throws \Exception
+     * @throws MissedOrUnknown
      */
     protected function initStorage()
     {
@@ -93,7 +94,7 @@ class DriverRepository implements IDriverRepository
                     ?: getcwd() . '/resources/drivers.dist.json');
 
             if (!is_file($driverStoragePath)) {
-                throw new \Exception('Missed or restricted driver storage path "' . $driverStoragePath . '"');
+                throw new MissedOrUnknown('driver storage path "' . $driverStoragePath . '"');
             }
 
             self::$storage = json_decode(file_get_contents($driverStoragePath), true);
