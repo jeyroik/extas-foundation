@@ -53,28 +53,23 @@ class PluginRepository extends Repository implements IPluginRepository
      */
     public function getStagePlugins(string $stage, array $config = [])
     {
-        if (!isset(self::$stagesWithPlugins[$stage])) {
+        $hash = $stage . sha1(json_encode($config));
+        if (!isset(self::$stagesWithPlugins[$hash])) {
             /**
              * @var $plugins IPlugin[]
              */
-            self::$stagesWithPlugins[$stage] = [];
-            $plugins = $this->all(
+            self::$stagesWithPlugins[$hash] = $this->all(
                 [IPlugin::FIELD__STAGE => $stage],
                 0,
                 0,
                 [IPlugin::FIELD__PRIORITY, -1]
             );
-            foreach ($plugins as $plugin) {
-                $config[IPlugin::FIELD__STAGE] = $stage;
-                $config[IPlugin::FIELD__PARAMETERS] = $plugin->getParametersOptions();
-                self::$stagesWithPlugins[$stage][] = $plugin->buildClassWithParameters($config);
-            }
         }
 
-        $plugins = self::$stagesWithPlugins[$stage];
-
-        foreach ($plugins as $plugin) {
-            yield $plugin;
+        foreach (self::$stagesWithPlugins[$hash] as $plugin) {
+            $config[IPlugin::FIELD__STAGE] = $stage;
+            $config[IPlugin::FIELD__PARAMETERS] = $plugin->getParametersOptions();
+            yield $plugin->buildClassWithParameters($config);
         }
     }
 }
