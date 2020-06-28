@@ -95,7 +95,7 @@ class PluginRepositoryTest extends TestCase
 
         $hash = sha1(json_encode([]));
         $must = [
-            'not.existing.stage'.$hash => [$plugin1, $plugin2],
+            'not.existing.stage'.$hash => [$plugin2, $plugin1], // by priority
             'extas.extension.init'.$hash => [], // this one, cause we are using Extension class as Plugin
             'extas.extension.after'.$hash => [] // this one, cause we are using Extension class as Plugin
         ];
