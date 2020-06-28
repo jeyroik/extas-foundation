@@ -47,20 +47,18 @@ class PluginRepositoryTest extends TestCase
     {
         $this->pluginRepo->reload();
 
-        $this->pluginRepo->create(new Plugin([
+        $plugin1 = new Plugin([
             Plugin::FIELD__STAGE => 'not.existing.stage',
             Plugin::FIELD__CLASS => Extension::class
-        ]));
-
-        $correctPlugin = null;
+        ]);
+        $this->pluginRepo->create($plugin1);
         foreach ($this->pluginRepo->getStagePlugins('not.existing.stage') as $plugin) {
             $this->assertEquals(Extension::class, get_class($plugin));
-            $correctPlugin = $plugin;
         }
         $hash = sha1(json_encode([]));
 
         $must = [
-            'not.existing.stage'.$hash => [$correctPlugin],
+            'not.existing.stage'.$hash => [$plugin1],
             'extas.extension.init'.$hash => [] // this one, cause we are using Extension class as Plugin
         ];
 
@@ -71,19 +69,21 @@ class PluginRepositoryTest extends TestCase
     {
         $this->pluginRepo->reload();
 
-        $this->pluginRepo->create(new Plugin([
+        $plugin1 = new Plugin([
             Plugin::FIELD__STAGE => 'not.existing.stage',
             Plugin::FIELD__CLASS => Extension::class,
             Plugin::FIELD__PRIORITY => 1
-        ]));
+        ]);
+        $this->pluginRepo->create($plugin1);
 
-        $this->pluginRepo->create(new Plugin([
+        $plugin2 = new Plugin([
             Plugin::FIELD__STAGE => 'not.existing.stage',
             Plugin::FIELD__CLASS => Plugin::class,
             Plugin::FIELD__PRIORITY => 10
-        ]));
+        ]);
+        $this->pluginRepo->create($plugin2);
 
-        $correctPlugins = [];
+        $correctPlugins = [$plugin1, $plugin2];
         $count = 0;
         foreach ($this->pluginRepo->getStagePlugins('not.existing.stage') as $plugin) {
             if ($count == 0) {
