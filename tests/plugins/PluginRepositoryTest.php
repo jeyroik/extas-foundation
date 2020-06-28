@@ -57,10 +57,11 @@ class PluginRepositoryTest extends TestCase
             $this->assertEquals(Extension::class, get_class($plugin));
             $correctPlugin = $plugin;
         }
+        $hash = sha1(json_encode([]));
 
         $must = [
-            'not.existing.stage' => [$correctPlugin],
-            'extas.extension.init' => [] // this one, cause we are using Extension class as Plugin
+            'not.existing.stage'.$hash => [$correctPlugin],
+            'extas.extension.init'.$hash => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
@@ -94,10 +95,11 @@ class PluginRepositoryTest extends TestCase
             $correctPlugins[] = $plugin;
         }
 
+        $hash = sha1(json_encode([]));
         $must = [
-            'not.existing.stage' => $correctPlugins,
-            'extas.extension.init' => [], // this one, cause we are using Extension class as Plugin
-            'extas.extension.after' => [] // this one, cause we are using Extension class as Plugin
+            'not.existing.stage'.$hash => $correctPlugins,
+            'extas.extension.init'.$hash => [], // this one, cause we are using Extension class as Plugin
+            'extas.extension.after'.$hash => [] // this one, cause we are using Extension class as Plugin
         ];
 
         $this->assertEquals($must, $this->pluginRepo->getStageWithPlugins());
