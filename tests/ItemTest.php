@@ -182,7 +182,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('created');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -220,7 +220,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('init');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -259,7 +259,7 @@ class ItemTest extends TestCase
                 return 'test.child';
             }
         };
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         unset($child);
     }
 
@@ -289,7 +289,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('to.array');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -303,7 +303,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('to.json');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -347,7 +347,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('to.string');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -376,7 +376,7 @@ class ItemTest extends TestCase
     {
         $this->createPlugin('to.int');
         $this->pluginRepo->reload();
-        $this->expectExceptionMessage('Class \'NotExistingClass\' not found');
+        $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
