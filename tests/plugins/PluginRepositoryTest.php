@@ -83,7 +83,6 @@ class PluginRepositoryTest extends TestCase
         ]);
         $this->pluginRepo->create($plugin2);
 
-        $correctPlugins = [$plugin1, $plugin2];
         $count = 0;
         foreach ($this->pluginRepo->getStagePlugins('not.existing.stage') as $plugin) {
             if ($count == 0) {
@@ -92,12 +91,11 @@ class PluginRepositoryTest extends TestCase
             } else {
                 $this->assertEquals(Extension::class, get_class($plugin));
             }
-            $correctPlugins[] = $plugin;
         }
 
         $hash = sha1(json_encode([]));
         $must = [
-            'not.existing.stage'.$hash => $correctPlugins,
+            'not.existing.stage'.$hash => [$plugin1, $plugin2],
             'extas.extension.init'.$hash => [], // this one, cause we are using Extension class as Plugin
             'extas.extension.after'.$hash => [] // this one, cause we are using Extension class as Plugin
         ];
