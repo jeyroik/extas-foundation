@@ -182,6 +182,25 @@ abstract class Item implements IItem
     }
 
     /**
+     * @param array $attributes
+     * @return $this|Item
+     */
+    public function __select(array $attributes)
+    {
+        $current = $this->__toArray();
+        $filtered = [];
+        $attributes = array_flip($attributes);
+
+        foreach ($current as $name => $value) {
+            if (isset($attributes[$name])) {
+                $filtered[$name] = $value;
+            }
+        }
+
+        return new static($filtered);
+    }
+
+    /**
      * @param string ...$params
      * @return bool
      */

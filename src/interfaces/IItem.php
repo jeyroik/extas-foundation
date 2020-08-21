@@ -69,4 +69,10 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
      * @return bool
      */
     public function has(...$params): bool;
+
+    /**
+     * @param array $attributes
+     * @return $this
+     */
+    public function __select(array $attributes);
 }

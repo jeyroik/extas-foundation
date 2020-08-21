@@ -151,6 +151,36 @@ class ItemTest extends TestCase
         $this->assertEquals('test.child', $child->__subject());
     }
 
+    public function testSelect()
+    {
+        $child = new class([
+            'arg0' => 0,
+            'arg1' => '1',
+            'arg2' => '2'
+        ]) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $filtered = $child->__select(['arg1', 'arg2']);
+
+        $this->assertEquals(
+            ['arg1' => 1, 'arg2' => 2],
+            $filtered->__toArray()
+        );
+
+        $this->assertEquals(
+            [
+                'arg0' => 0,
+                'arg1' => '1',
+                'arg2' => '2'
+            ],
+            $child->__toArray()
+        );
+    }
+
     public function testHas()
     {
         $child = new class([
