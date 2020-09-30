@@ -20,7 +20,10 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $plugin = new Plugin();
         $plugin->setStage('stage');
         $plugin->setPriority(10);
+        $plugin->setHash('test');
         $this->assertEquals('stage', $plugin->getStage());
         $this->assertEquals(10, $plugin->getPriority());
+        $this->assertEquals('test', $plugin->getHash());
+        $this->assertEquals('install', $plugin->getInstallOn());
     }
 }
