@@ -2,6 +2,7 @@
 namespace extas\interfaces\plugins;
 
 use extas\interfaces\IHasClass;
+use extas\interfaces\IHasHash;
 use extas\interfaces\IHasId;
 use extas\interfaces\IItem;
 use extas\interfaces\samples\parameters\IHasSampleParameters;
@@ -12,7 +13,7 @@ use extas\interfaces\samples\parameters\IHasSampleParameters;
  * @package extas\interfaces\plugins
  * @author jeyroik@gmail.com
  */
-interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters
+interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters, IHasHash
 {
     public const SUBJECT = 'plugin';
 
@@ -21,6 +22,7 @@ interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters
 
     public const FIELD__STAGE = 'stage';
     public const FIELD__PRIORITY = 'priority';
+    public const FIELD__INSTALL_ON = 'install_on';
 
     /**
      * @return int
@@ -44,4 +46,9 @@ interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters
      * @return $this
      */
     public function setStage(string $stage): IPlugin;
+
+    /**
+     * @return string
+     */
+    public function getInstallOn(): string;
 }
