@@ -1,3 +1,10 @@
+# 5.14.1
+
+- Composite names for `Replace` are allowed. Possible delimiters are:
+  - `.` (dot)
+  - `-` (hyphen)
+  - `_` (underscore)
+
 # 5.14.0
 
 - Added `hash` and `install on` for the `Plugin`.

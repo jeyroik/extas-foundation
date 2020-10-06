@@ -134,7 +134,9 @@ class Replace implements IReplace
      */
     protected function makePattern($field)
     {
-        return '/\@' . $field . '/i';
+        preg_match('/\S+(_|\.|-)\S+/i', $field, $found);
+
+        return empty($found) ? '/\@' . $field . '/i' : '/\@{' . $field . '}/i';
     }
 
     /**

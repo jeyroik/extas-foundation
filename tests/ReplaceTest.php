@@ -11,10 +11,18 @@ class ReplaceTest extends TestCase
 {
     public function testSingleOneLevelReplace()
     {
-        $template = 'Who are you, mr. @user?';
-        $must = 'Who are you, mr. Test?';
+        $template = 'Who are you, mr. @{user_2}? I am not @user, but @{user.3} can help you, @{user-4}.';
+        $must = 'Who are you, mr. Test? I am not Broken, but someone can help you, mr. Unknown.';
 
-        $this->assertEquals($must, Replace::please()->apply(['user' => 'Test'])->to($template));
+        $this->assertEquals(
+            $must,
+            Replace::please()->apply([
+                'user' => 'Broken',
+                'user_2' => 'Test',
+                'user.3' => 'someone',
+                'user-4' => 'mr. Unknown',
+            ])->to($template)
+        );
     }
 
     public function testSingleMultiLevelReplace()
