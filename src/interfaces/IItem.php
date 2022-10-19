@@ -74,5 +74,5 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
      * @param array $attributes
      * @return $this
      */
-    public function __select(array $attributes);
+    public function __select(...$attributes);
 }

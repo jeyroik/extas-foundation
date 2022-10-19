@@ -185,7 +185,7 @@ abstract class Item implements IItem
      * @param array $attributes
      * @return $this|Item
      */
-    public function __select(array $attributes)
+    public function __select(...$attributes)
     {
         $current = $this->__toArray();
         $filtered = [];

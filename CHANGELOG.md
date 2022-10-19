@@ -1,3 +1,8 @@
+# 6.0.0
+- `IItem::__select(...$attributes)` interfaced has changed, 
+  - `$item->__select('arg1', 'arg2')` is possible now, instead of 
+  - `$item->__select(['arg1', 'arg2'])`.
+
 # 5.14.1
 
 - Composite names for `Replace` are allowed. Possible delimiters are:
