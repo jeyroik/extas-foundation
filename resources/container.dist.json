@@ -20,9 +20,5 @@
   {
     "interface": "extas\\interfaces\\repositories\\IRepository",
     "class": "extas\\components\\repositories\\Repository"
-  },
-  {
-    "interface": "extas\\interfaces\\repositories\\drivers\\IDriverRepository",
-    "class": "extas\\components\\repositories\\drivers\\DriverRepository"
   }
 ]

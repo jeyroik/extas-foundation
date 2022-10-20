@@ -1,0 +1,53 @@
+{
+    "name": "my/app",
+    "storage": [
+        {
+            "driver": "\\extas\\components\\repositories\\drivers\\DriverFileJson",
+            "options": {
+                "host": "configs/",
+                "db": "system"
+            },
+            "tables": {
+                "examples": {
+                    "item_class": "\\extas\\components\\plugigns\\Plugin",
+                    "pk": "name",
+                    "aliases": ["examples", "exs"],
+                    "hooks": {
+                        "one-before-hook": true
+                    }
+                },
+                "tests": {
+                    "item_class": "\\extas\\components\\plugins\\Plugin",
+                    "pk": "name",
+                    "aliases": ["tests"]
+                }
+            }
+        }
+    ],
+    "entities": [
+        {
+            "name": "examples",
+            "items": [
+                {
+                    "id": "{uuid4}",
+                    "name": "Ex#1"
+                },
+                {
+                    "id": "{uuid4}",
+                    "name": "Ex#2"
+                }
+            ]
+        },
+        {
+            "name": "tests",
+            "items": [
+                {
+                    "name": "Test#1"
+                },
+                {
+                    "name": "Test#2"
+                }
+            ]
+        }
+    ]
+}

@@ -9,5 +9,4 @@ return [
     I\stages\IStageRepository::class => C\stages\StageRepository::class,
     I\packages\IPackageClassRepository::class => C\packages\PackageClassRepository::class,
     I\repositories\IRepository::class => C\repositories\Repository::class,
-    I\repositories\drivers\IDriverRepository::class => C\repositories\drivers\DriverRepository::class
 ];

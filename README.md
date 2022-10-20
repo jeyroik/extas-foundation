@@ -302,7 +302,13 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
         {
             "driver": "\\extas\\components\\drivers\\DriverFileJson",
             "dsn": "{username}:{userpassword}@{host}:{port}/{db} | {path/to/db}",
-            "options": {...},
+            "options": {
+                "username": "",
+                "password": "",
+                "host": "",
+                "port": "",
+                "db": ""
+            },
             "tables": {
                 "t1": {
                     "item_class": "",

@@ -1,0 +1,3 @@
+foreach($this->getPluginsByStage('{table_name}.drop.after') as $plugin) {
+    $plugin($result);
+}

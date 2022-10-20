@@ -1,0 +1,3 @@
+foreach($this->getPluginsByStage('{table_name}.update.after') as $plugin) {
+    $plugin($result, $where, $item, $this);
+}
