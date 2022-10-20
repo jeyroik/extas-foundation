@@ -292,3 +292,32 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
 
 Внимание! Чтобы вышеуказанный пример сработал, расширение должно быть установлено в системе.
 Детали см пакет `jeyroik/extas-installer`.
+
+# extas.json
+
+```json
+{
+    "name": "vendor/package",
+    "storage": [
+        {
+            "driver": "\\extas\\components\\drivers\\DriverFileJson",
+            "dsn": "{username}:{userpassword}@{host}:{port}/{db} | {path/to/db}",
+            "options": {...},
+            "tables": {
+                "t1": {
+                    "item_class": "",
+                    "pk": "",
+                    "aliases": ["alias1", ...],
+                    "hooks": {
+                        "create-before": true,
+                        "update-before": true,
+                        "update-after": true,
+                        ...
+                    }
+                }, 
+                ...
+            }
+        }
+    ]
+}
+```
