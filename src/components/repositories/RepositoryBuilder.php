@@ -2,11 +2,35 @@
 namespace extas\components\repositories;
 
 use extas\components\Item;
+use extas\components\SystemContainer;
 
 class RepositoryBuilder
 {
     protected string $savePath = '';
     protected string $templatePath = '';
+    protected array $placeholders = [
+        '{namespace}',
+        '{uc_table_name}',
+        '{name}',
+        '{scope}',
+        '{pk}',
+        '{item_class}',
+        '{subject}',
+        '{one-before-hook}',
+        '{one-after-hook}',
+        '{all-before-hook}',
+        '{all-after-hook}',
+        '{create-before-hook}',
+        '{create-after-hook}',
+        '{update-before-hook}',
+        '{update-after-hook}',
+        '{delete-before-hook}',
+        '{delete-after-hook}',
+        '{drop-before-hook}',
+        '{drop-after-hook}',
+        '{driver-class}',
+        '{driver-options}'
+    ];
 
     public function __construct(string $savePath, string $templatePath)
     {
@@ -19,34 +43,21 @@ class RepositoryBuilder
         $template = file_get_contents($this->templatePath . '/repository_template.txt');
         $repoContent = '';
         $driverClass = $driverConfig['driver'];
-        $driver = new $driverClass();
+        $driverOptions = '';
+        foreach ($driverConfig['options'] as $name => $value) {
+            $driverOptions .= "'".$name."'" . " => '" . $value . "', ";
+        }
 
         foreach ($driverConfig['tables'] as $tableName => $tableConfig) {
+            $ns = $tableConfig['namespace'] ?? 'extas\components\repositories';
             $repoContent = str_replace(
+                $this->placeholders,
                 [
-                    '{uc_table_name}',
-                    'name',
-                    'scope',
-                    'item_class',
-                    'subject',
-                    'one-before-hook',
-                    'one-after-hook',
-                    'all-before-hook',
-                    'all-after-hook',
-                    'create-before-hook',
-                    'create-after-hook',
-                    'update-before-hook',
-                    'update-after-hook',
-                    'delete-before-hook',
-                    'delete-after-hook',
-                    'drop-before-hook',
-                    'drop-after-hook',
-                    'driver-get-table'
-                ],
-                [
+                    $ns,
                     ucfirst($tableName),
                     $tableName,
                     $tableConfig['scope'] ?? 'extas',
+                    $tableConfig['pk'] ?? 'id',
                     $tableConfig['item_class'] ?? Item::class,
                     $tableConfig['subject'] ?? $tableName,
                     $this->createHook('one-before-hook', $tableName, $tableConfig),
@@ -61,11 +72,25 @@ class RepositoryBuilder
                     $this->createHook('delete-after-hook', $tableName, $tableConfig),
                     $this->createHook('drop-before-hook', $tableName, $tableConfig),
                     $this->createHook('drop-after-hook', $tableName, $tableConfig),
-                    $driver->render($driverConfig, $tableName)
+                    $driverClass,
+                    $driverOptions
                 ],
                 $template
             );
-            file_put_contents($this->savePath . '/Repository'.ucfirst($tableName).'.php', $repoContent);
+            
+            file_put_contents($this->savePath . '/Repository'.ucfirst($tableName) .'.php', $repoContent);
+            foreach ($tableConfig['aliases'] as $alias) {
+                SystemContainer::saveItem($alias, $ns . '\\Repository' . ucfirst($tableName));
+            }
+        }
+
+        SystemContainer::reset();
+    }
+
+    protected function validateSavePath(): void
+    {
+        if (!is_dir($this->savePath)) {
+            throw new \Exception('Missed save path "' . $this->savePath . '"');
         }
     }
 

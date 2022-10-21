@@ -1,9 +1,6 @@
 <?php
 namespace tests;
 
-use extas\components\Item;
-use extas\components\Json;
-use extas\components\plugins\Plugin;
 use extas\components\repositories\RepositoryBuilder;
 use PHPUnit\Framework\TestCase;
 
@@ -17,7 +14,8 @@ class InstallCommandTest extends TestCase
 {
     public function testRepoBuilder()
     {
-        $builder = new RepositoryBuilder(getcwd() . '/extas_build', __DIR__ . '/../resources');
+        $builder = new RepositoryBuilder(getcwd() . '/tests/tmp', __DIR__ . '/../resources');
+
         $builder->build([
             "driver" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
             "options" => [
@@ -25,13 +23,34 @@ class InstallCommandTest extends TestCase
                 "db" => "system"
             ],
             "tables" => [
-                "plugins" => [
+                "plugins2" => [
+                    "namespace" => "tests\\tmp",
                     "item_class"=> "\\extas\\components\\plugins\\Plugin",
                     "pk"=> "name",
-                    "aliases"=> ["plugins"]
+                    "aliases"=> ["plugins2"],
+                    "hooks" => [
+                        "one-before-hook" => true,
+                        "one-after-hook" => true,
+                        "all-before-hook" => true,
+                        "all-after-hook" => true,
+                        "create-before-hook" => true,
+                        "create-after-hook" => true,
+                        "update-before-hook" => true,
+                        "update-after-hook" => true,
+                        "delete-before-hook" => true,
+                        "delete-after-hook" => true,
+                        "drop-before-hook" => true,
+                        "drop-after-hook" => true,
+                    ]
                 ]
             ]
         ]);
-        $this->assertEquals(file_get_contents(getcwd() . '/extas_build/RepositoryPlugins.php'), '');
+        
+        $this->assertEquals(
+            file_get_contents(getcwd() . '/tests/tmp/RepositoryPlugins2.php'),
+            file_get_contents(getcwd() . '/tests/resources/RepositoryPlugins2.php')
+        );
+
+        unlink(getcwd() . '/tests/tmp/RepositoryPlugins2.php');
     }
 }

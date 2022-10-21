@@ -1,16 +1,16 @@
 <?php
-namespace {namespace};
+namespace tests\tmp;
 
 use extas\components\repositories\Repository;
 
-class Repository{uc_table_name} extends Repository
+class RepositoryPlugins extends Repository
 {
     protected $table = null;
-    protected string $name = '{name}';
-    protected string $scope = '{scope}';
-    protected string $pk = '{pk}';
-    protected string $itemClass = '{item_class}';
-    protected string $repoSubject = '{subject}';
+    protected string $name = 'plugins';
+    protected string $scope = 'extas';
+    protected string $pk = 'name';
+    protected string $itemClass = '\extas\components\plugins\Plugin';
+    protected string $repoSubject = 'plugins';
 
     /**
      * Repository constructor.
@@ -35,9 +35,9 @@ class Repository{uc_table_name} extends Repository
      */
     public function one($where, int $offset = 0, array $fields = [])
     {
-        {one-before-hook}
+        
         $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
-        {one-after-hook}
+        
 
         return $result;
     }
@@ -53,9 +53,9 @@ class Repository{uc_table_name} extends Repository
      */
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
-        {all-before-hook}
+        
         $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
-        {all-after-hook}
+        
 
         $itemClass = $this->itemClass;
 
@@ -73,9 +73,9 @@ class Repository{uc_table_name} extends Repository
      */
     public function create($item)
     {
-        {create-before-hook}
+        
         $result = $this->getRepoInstance()->insert($item);
-        {create-after-hook}
+        
 
         return $result;
     }
@@ -88,10 +88,10 @@ class Repository{uc_table_name} extends Repository
      */
     public function update($item, $where = []): int
     {
-        {update-before-hook}
+        
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->update($item) : $repo->updateMany($where, $item);
-        {update-after-hook}
+        
 
         return $result;
     }
@@ -104,10 +104,10 @@ class Repository{uc_table_name} extends Repository
      */
     public function delete($where, $item = null): int
     {
-        {delete-before-hook}
+        
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->delete($item) : $repo->deleteMany($where);
-        {delete-after-hook}
+        
 
         return $result;
     }
@@ -118,10 +118,10 @@ class Repository{uc_table_name} extends Repository
      */
     public function drop(): bool
     {
-        {drop-before-hook}
+        
         $repo = $this->getRepoInstance();
         $result = $repo->drop();
-        {drop-after-hook}
+        
 
         return $result;
     }
@@ -133,8 +133,8 @@ class Repository{uc_table_name} extends Repository
     protected function getRepoInstance()
     {
         if (!$this->table) {
-            $this->table = new {driver-class}([
-                {driver-options}
+            $this->table = new \extas\components\repositories\drivers\DriverFileJson([
+                'path' => '/tmp/', 'db' => 'system', 
             ]);
         }
 

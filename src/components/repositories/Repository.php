@@ -1,8 +1,9 @@
 <?php
 namespace extas\components\repositories;
 
+use extas\components\basics\THasConfig;
+use extas\components\TAsArray;
 use extas\interfaces\repositories\IRepository;
-use extas\components\Item;
 
 /**
  * Class Repository
@@ -10,25 +11,16 @@ use extas\components\Item;
  * @package extas\components
  * @author jeyroik@gmail.com
  */
-abstract class Repository extends Item implements IRepository
+abstract class Repository implements IRepository
 {
+    use TAsArray;
+    use THasConfig;
+
     protected string $name = '';
     protected string $scope = 'extas';
     protected string $pk = '_id';
     protected string $itemClass = Item::class;
     protected string $repoSubject = 'extas.repo';
-
-    /**
-     * Repository constructor.
-     *
-     * @param array $config
-     *
-     * @throws
-     */
-    public function __construct(array $config = [])
-    {
-        parent::__construct($config);
-    }
 
     /**
      * @param array $byFields

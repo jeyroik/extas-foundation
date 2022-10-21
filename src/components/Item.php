@@ -1,9 +1,9 @@
 <?php
 namespace extas\components;
 
+use extas\components\basics\THasConfig;
 use extas\components\extensions\TExtendable;
 use extas\interfaces\IItem;
-use extas\interfaces\repositories\IRepository;
 use extas\interfaces\stages\IStageItemInit;
 
 /**
@@ -16,19 +16,7 @@ abstract class Item implements IItem
 {
     use TExtendable;
     use TAsArray;
-
-    /**
-     * @var array
-     */
-    protected array $config = [];
-
-    protected bool $isAllowInitStage = true;
-    protected bool $isAllowAfterStage = true;
-    protected bool $isAllowCreatedStage = true;
-    protected bool $isAllowToArrayStage = true;
-    protected bool $isAllowToStringStage = true;
-    protected bool $isAllowToIntStage = true;
-    protected bool $isAllowToJsonStage = true;
+    use THasConfig;
 
     /**
      * Item constructor.
@@ -38,7 +26,7 @@ abstract class Item implements IItem
     public function __construct(array $config = [])
     {
         $this->setConfig($config);
-        $this->isAllowInitStage && $this->triggerInit();
+        $this->triggerInit();
     }
 
     /**
@@ -46,30 +34,9 @@ abstract class Item implements IItem
      */
     public function __destruct()
     {
-        if ($this->isAllowAfterStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('after')) as $plugin) {
-                $plugin($this);
-            }
+        foreach ($this->getPluginsByStage($this->getBaseStageName('after')) as $plugin) {
+            $plugin($this);
         }
-    }
-
-    /**
-     * @param $name
-     * @return mixed|null
-     */
-    public function __get($name)
-    {
-        return $this->config[$name] ?? null;
-    }
-
-    /**
-     * @param $name
-     * @param $value
-     * @return void
-     */
-    public function __set($name, $value)
-    {
-        $this->config[$name] = $value;
     }
 
     /**
@@ -87,7 +54,7 @@ abstract class Item implements IItem
     public function __toString(): string
     {
         $string = '';
-        $this->isAllowToStringStage && $this->triggerStageTo('string', $string);
+        $this->triggerStageTo('string', $string);
 
         return $string;
     }
@@ -98,7 +65,7 @@ abstract class Item implements IItem
     public function __toArray(): array
     {
         $array = $this->config;
-        $this->isAllowToArrayStage && $this->triggerStageTo('array', $array);
+        $this->triggerStageTo('array', $array);
 
         return $array;
     }
@@ -109,7 +76,7 @@ abstract class Item implements IItem
     public function __toInt(): int
     {
         $int = 0;
-        $this->isAllowToIntStage && $this->triggerStageTo('int', $int);
+        $this->triggerStageTo('int', $int);
 
         return $int;
     }
@@ -123,10 +90,9 @@ abstract class Item implements IItem
      */
     public function __created($item, $repo)
     {
-        if ($this->isAllowCreatedStage) {
-            foreach ($this->getPluginsByStage($this->getBaseStageName('created')) as $plugin) {
-                $plugin($this, $item, $repo);
-            }
+        echo __METHOD__ . ': run get plugins by stage ' . $this->getBaseStageName('created').PHP_EOL;
+        foreach ($this->getPluginsByStage($this->getBaseStageName('created')) as $plugin) {
+            $plugin($this, $item, $repo);
         }
 
         return $this;
@@ -138,7 +104,7 @@ abstract class Item implements IItem
     public function __toJson(): string
     {
         $dataToJson = $this->__toArray();
-        $this->isAllowToJsonStage && $this->triggerStageTo('json', $dataToJson);
+        $this->triggerStageTo('json', $dataToJson);
 
         return json_encode($dataToJson);
     }
@@ -216,19 +182,6 @@ abstract class Item implements IItem
         }
 
         return $hasAll;
-    }
-
-    /**
-     * @param $config
-     * @return IItem|mixed
-     */
-    protected function setConfig($config)
-    {
-        !empty($config) && $this->config = $config;
-        $this->keyMap = array_keys($config);
-        $this->currentKey = 0;
-
-        return $this;
     }
 
     /**

@@ -1,10 +1,9 @@
 <?php
 namespace extas\components;
 
-use extas\components\plugins\PluginLog;
-use extas\components\plugins\PluginRepository;
 use extas\interfaces\IPlugins;
 use extas\interfaces\plugins\IPlugin;
+use extas\interfaces\repositories\IRepository;
 
 /**
  * Class Plugins
@@ -14,6 +13,8 @@ use extas\interfaces\plugins\IPlugin;
  */
 class Plugins implements IPlugins
 {
+    protected static array $stagesWithPlugins = [];
+
     /**
      * @param string $stage
      * @param object $riser
@@ -23,13 +24,34 @@ class Plugins implements IPlugins
      */
     public static function byStage(string $stage, $riser = null, array $config = [])
     {
-        $pluginRepo = new PluginRepository();
+        $pluginRepo = SystemContainer::getItem(getenv('EXTAS__PLUGINS_REPOSITORY') ?: 'plugins');
         $riser = $riser ?: new static();
-        $logIndex = PluginLog::log($riser, $stage);
 
-        foreach ($pluginRepo->getStagePlugins($stage, $config) as $plugin) {
-            PluginLog::logPluginClass(get_class($plugin), $logIndex);
+        foreach (self::getStagePlugins($pluginRepo, $stage, $config) as $plugin) {
             yield $plugin;
+        }
+    }
+
+    protected static function getStagePlugins(IRepository $pluginRepo, string $stage, array $config = [])
+    {
+        $hash = $stage . sha1(json_encode($config));
+        if (!isset(self::$stagesWithPlugins[$hash])) {
+            /**
+             * @var $plugins IPlugin[]
+             */
+            $r = $pluginRepo->all(
+                [IPlugin::FIELD__STAGE => $stage],
+                0,
+                0,
+                [IPlugin::FIELD__PRIORITY, -1]
+            );
+            self::$stagesWithPlugins[$hash] = $r;
+        }
+
+        foreach (self::$stagesWithPlugins[$hash] as $plugin) {
+            $config[IPlugin::FIELD__STAGE] = $stage;
+            $config[IPlugin::FIELD__PARAMETERS] = $plugin->getParametersOptions();
+            yield $plugin->buildClassWithParameters($config);
         }
     }
 }

@@ -4,7 +4,6 @@ namespace extas\interfaces\plugins;
 use extas\interfaces\IHasClass;
 use extas\interfaces\IHasHash;
 use extas\interfaces\IHasId;
-use extas\interfaces\IItem;
 use extas\interfaces\samples\parameters\IHasSampleParameters;
 
 /**
@@ -13,7 +12,7 @@ use extas\interfaces\samples\parameters\IHasSampleParameters;
  * @package extas\interfaces\plugins
  * @author jeyroik@gmail.com
  */
-interface IPlugin extends IItem, IHasClass, IHasId, IHasSampleParameters, IHasHash
+interface IPlugin extends \ArrayAccess, \Iterator, IHasClass, IHasId, IHasSampleParameters, IHasHash
 {
     public const SUBJECT = 'plugin';
 

@@ -1,3 +1,3 @@
 foreach($this->getPluginsByStage('{table_name}.delete.before') as $plugin) {
-    $plugin($item, $where, $this);
-}
+            $plugin($item, $where, $this);
+        }

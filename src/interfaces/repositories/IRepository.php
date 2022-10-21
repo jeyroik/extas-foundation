@@ -1,15 +1,13 @@
 <?php
 namespace extas\interfaces\repositories;
 
-use extas\interfaces\IItem;
-
 /**
  * Interface IRepository
  *
  * @package extas\interfaces\repositories
  * @author jeyroik@gmail.com
  */
-interface IRepository extends IItem
+interface IRepository extends \ArrayAccess, \Iterator
 {
     public const OPTION__REPOSITORY_NAME = 'repository.name';
     public const OPTION__REPOSITORY_SCOPE = 'repository.scope';

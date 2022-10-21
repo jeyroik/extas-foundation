@@ -3,7 +3,6 @@ namespace extas\interfaces;
 
 use extas\interfaces\extensions\IExtendable;
 use extas\interfaces\plugins\IPluginsAcceptable;
-use extas\interfaces\repositories\IRepository;
 
 /**
  * Interface IItem

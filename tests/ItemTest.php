@@ -4,8 +4,8 @@ use \PHPUnit\Framework\TestCase;
 use extas\interfaces\repositories\IRepository;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
-use extas\components\plugins\PluginRepository;
 use Dotenv\Dotenv;
+use tests\resources\TBuildRepository;
 
 /**
  * Class ItemTest
@@ -13,6 +13,8 @@ use Dotenv\Dotenv;
  */
 class ItemTest extends TestCase
 {
+    use TBuildRepository;
+
     /**
      * @var IRepository|null
      */
@@ -24,16 +26,7 @@ class ItemTest extends TestCase
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
-        /**
-         * For faster operations PluginRepository caches plugins->stage map in memory.
-         * But we are creating new plugins runtime, so we need to have possibility to reload memory cache.
-         */
-        $this->pluginRepo = new class extends PluginRepository {
-            public function reload()
-            {
-                parent::$stagesWithPlugins = [];
-            }
-        };
+        $this->pluginRepo = $this->buildPluginsRepo();
     }
 
     /**
@@ -41,11 +34,13 @@ class ItemTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
+        $this->pluginRepo->drop();
     }
     
     public function testAllowConfigOnConstruct(): void
     {
+        $this->pluginRepo->drop();
+
         $must = [
             'name' => 'child',
             'type' => 'test'
@@ -164,7 +159,7 @@ class ItemTest extends TestCase
             }
         };
 
-        $filtered = $child->__select(['arg1', 'arg2']);
+        $filtered = $child->__select('arg1', 'arg2');
 
         $this->assertEquals(
             ['arg1' => 1, 'arg2' => 2],
@@ -210,8 +205,8 @@ class ItemTest extends TestCase
 
     public function testStageEntityCreatedIsRising()
     {
+        $this->pluginRepo->drop();
         $this->createPlugin('created');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -224,11 +219,11 @@ class ItemTest extends TestCase
 
     public function testStageEntityCreatedIsNotRising()
     {
+        
         $this->createPlugin('created');
-        $this->pluginRepo->reload();
+        $this->pluginRepo->drop();
         $this->expectOutputString('Worked');
         $child = new class extends Item {
-            protected bool $isAllowCreatedStage = false;
             public function __created($item, $repo)
             {
                 parent::__created($item, $repo);
@@ -249,7 +244,6 @@ class ItemTest extends TestCase
     public function testStageEntityInitIsRising()
     {
         $this->createPlugin('init');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         new class extends Item {
             protected function getSubjectForExtension(): string
@@ -262,7 +256,6 @@ class ItemTest extends TestCase
     public function testStageEntityInitIsNotRising()
     {
         $this->createPlugin('init');
-        $this->pluginRepo->reload();
         $this->expectOutputString('Worked');
         new class extends Item {
             protected bool $isAllowInitStage = false;
@@ -282,7 +275,6 @@ class ItemTest extends TestCase
     public function testStageEntityAfterIsRising()
     {
         $this->createPlugin('after');
-        $this->pluginRepo->reload();
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -296,7 +288,6 @@ class ItemTest extends TestCase
     public function testStageEntityAfterIsNotRising()
     {
         $this->createPlugin('after');
-        $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowAfterStage = false;
             public function __destruct()
@@ -318,7 +309,6 @@ class ItemTest extends TestCase
     public function testStageEntityToArrayIsRising()
     {
         $this->createPlugin('to.array');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -332,7 +322,6 @@ class ItemTest extends TestCase
     public function testStageEntityToJsonIsRising()
     {
         $this->createPlugin('to.json');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -346,7 +335,6 @@ class ItemTest extends TestCase
     public function testStageEntityToJsonIsNotRising()
     {
         $this->createPlugin('to.json');
-        $this->pluginRepo->reload();
         $child = new class([]) extends Item {
             protected bool $isAllowToJsonStage = false;
 
@@ -361,7 +349,6 @@ class ItemTest extends TestCase
     public function testStageEntityToArrayIsNotRising()
     {
         $this->createPlugin('to.array');
-        $this->pluginRepo->reload();
         $child = new class([]) extends Item {
             protected bool $isAllowToArrayStage = false;
 
@@ -376,7 +363,6 @@ class ItemTest extends TestCase
     public function testStageEntityToStringIsRising()
     {
         $this->createPlugin('to.string');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -391,7 +377,6 @@ class ItemTest extends TestCase
     public function testStageEntityToStringIsNotRising()
     {
         $this->createPlugin('to.string');
-        $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowToStringStage = false;
             protected function getSubjectForExtension(): string
@@ -405,7 +390,6 @@ class ItemTest extends TestCase
     public function testStageEntityToIntIsRising()
     {
         $this->createPlugin('to.int');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -420,7 +404,6 @@ class ItemTest extends TestCase
     public function testStageEntityToIntIsNotRising()
     {
         $this->createPlugin('to.int');
-        $this->pluginRepo->reload();
         $child = new class extends Item {
             protected bool $isAllowToIntStage = false;
             protected function getSubjectForExtension(): string
