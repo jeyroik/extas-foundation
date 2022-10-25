@@ -31,6 +31,7 @@ abstract class Crawler
         }
 
         $appConfig = [];
+        $finder = new Finder();
         $finder->name($appFilename);
 
         foreach ($finder->in($path)->files() as $file) {
