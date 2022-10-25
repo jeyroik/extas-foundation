@@ -49,7 +49,7 @@ class CrawlerStorageTest extends TestCase
                 [
                     "class" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
                     "options" => [
-                        "path" => "/tmp/",
+                        "path" => "tests/tmp/",
                         "db" => "system"
                     ],
                     "tables" => [
