@@ -1,3 +1,0 @@
-foreach($this->getPluginsByStage('{table_name}.create.before') as $plugin) {
-            $plugin($item, $this);
-        }

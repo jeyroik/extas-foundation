@@ -1,7 +1,7 @@
 <?php
 namespace extas\components\repositories;
 
-use extas\components\basics\THasConfig;
+use extas\components\THasConfig;
 use extas\components\TAsArray;
 use extas\interfaces\repositories\IRepository;
 

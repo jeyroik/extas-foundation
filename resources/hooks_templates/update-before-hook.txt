@@ -1,3 +1,0 @@
-foreach($this->getPluginsByStage('{table_name}.update.before') as $plugin) {
-            $plugin($item, $where, $this);
-        }

@@ -1,4 +1,0 @@
-
-        foreach($this->getPluginsByStage('{table_name}.delete.after') as $plugin) {
-            $plugin($result, $where, $item, $this);
-        }

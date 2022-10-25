@@ -10,7 +10,6 @@ class PluginTest extends \PHPUnit\Framework\TestCase
 {
     protected function setUp(): void
     {
-        $this->markTestSkipped('This test is not updated to the Foundation v6');
         parent::setUp();
         $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
         $env->load();

@@ -54,4 +54,9 @@ class Plugins implements IPlugins
             yield $plugin->buildClassWithParameters($config);
         }
     }
+
+    public static function reset(): void
+    {
+        self::$stagesWithPlugins = [];
+    }
 }

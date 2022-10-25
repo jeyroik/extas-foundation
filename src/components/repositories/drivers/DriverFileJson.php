@@ -1,15 +1,15 @@
 <?php
 namespace extas\components\repositories\drivers;
 
-use extas\components\basics\THasConfig;
+use extas\components\THasConfig;
 use extas\interfaces\IItem;
-use extas\interfaces\repositories\clients\IClientTable;
+use extas\interfaces\repositories\drivers\IDriver;
 
-class DriverFileJson// implements IClientTable
+class DriverFileJson extends Driver implements IDriver
 {
     protected const FIELD__PATH = 'path';
     protected const FIELD__DB = 'db';
-    protected const FIELD__ITEM_CLASS = 'item_class';
+    protected const FIELD__TABLE = 'table';
 
     use THasConfig;
     use THasConfig {
@@ -19,10 +19,33 @@ class DriverFileJson// implements IClientTable
     protected array $data = [];
     protected string $hash = '';
 
+    public function __construct(array $config)
+    {
+        $this->baseConstruct($config);
+
+        $this->initData();
+    }
+
+    /**
+     * @param IItem $item
+     * @return void
+     */
+    public function insert($item)
+    {
+        if (!isset($this->data[$this->getTableName()])) {
+            $this->data[$this->getTableName()] = [];
+        }
+
+        $this->data[$this->getTableName()][] = $item->__toArray();
+
+        $this->saveData();
+
+        return $item;
+    }
+
     public function drop(): bool
     {
-        $this->data = [];
-
+        $this->data[$this->getTableName()] = [];
         $this->saveData();
 
         return true;
@@ -30,38 +53,167 @@ class DriverFileJson// implements IClientTable
 
     public function deleteMany($query)
     {
-        return 0;
+        $deleted = 0;
+        $data = $this->getTableData();
+
+        foreach ($data as $index => $item) {
+            $applicable = true;
+            foreach ($query as $field => $value) {
+                if (!isset($item[$field])) {
+                    $applicable = false;
+                    break;
+                }
+
+                $applicable = $this->compareValue($item[$field], $value);
+                
+                if (!$applicable) {
+                    break;
+                }
+            }
+
+            if ($applicable) {
+                unset($this->data[$this->getTableName()][$index]);
+                $deleted++;
+            }
+        }
+
+        $this->saveData();
+
+        return $deleted;
     }
 
+    /**
+     * @param $item IItem
+     *
+     * @return bool|\Exception
+     */
     public function delete($item): bool
     {
-        return false;
+        $query = $item->__toArray();
+        $data = $this->getTableData();
+
+        foreach ($data as $index => $item) {
+            $applicable = true;
+            foreach ($query as $field => $value) {
+                if (!isset($item[$field])) {
+                    $applicable = false;
+                    break;
+                }
+                $applicable = $this->compareValue($item[$field], $value);
+                
+                if (!$applicable) {
+                    break;
+                }
+            }
+
+            if ($applicable) {
+                unset($this->data[$this->getTableName()][$index]);
+                $this->saveData();
+                break;
+            }
+        }
+
+        return true;
     }
 
     public function updateMany($query, $data)
     {
-        
+        $matched = 0;
+        $table = $this->getTableData();
+
+        foreach ($table as $index => $item) {
+            $applicable = true;
+            foreach ($query as $field => $value) {
+                if (!isset($item[$field])) {
+                    $applicable = false;
+                    break;
+                }
+                $applicable = $this->compareValue($item[$field], $value);
+                
+                if (!$applicable) {
+                    break;
+                }
+            }
+
+            if ($applicable) {
+                foreach ($data as $field => $value) {
+                    $item[$field] = $value;
+                }
+                $this->data[$this->getTableName()][$index] = $item;
+                $matched++;
+            }
+        }
+
+        $this->saveData();
+
+        return $matched;
     }
 
     public function update($item): bool
     {
+        $pk = $this->getPk();
+        $data = $this->getTableData();
+
+        foreach ($data as $index => $record) {
+            if ($record[$pk] == $item[$pk]) {
+                foreach($item as $field => $value) {
+                    $record[$field] = $value;
+                }
+                $this->data[$this->getTableName()][$index] = $record;
+                $this->saveData();
+                return true;
+            }
+        }
+
         return false;
     }
 
     public function findOne(array $query = [], int $offset = 0, array $fields = [])
     {
-        return [];
+        $found = 0;
+        $data = $this->getTableData();
+
+        foreach ($data as $item) {
+            $applicable = true;
+            foreach ($query as $field => $value) {
+                if (!isset($item[$field])) {
+                    $applicable = false;
+                    break;
+                }
+                $applicable = $this->compareValue($item[$field], $value);
+                
+                if (!$applicable) {
+                    break;
+                }
+            }
+
+            if ($applicable) {
+                if ($found == $offset) {
+                    return $this->allFilterFields($item, $fields);
+                } else {
+                    $found++;
+                }
+            }
+        }
+
+        return null;
     }
 
     public function findAll(array $query = [], int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
         $matched = [];
+        $data = $this->getTableData();
 
-        foreach ($this->data as $item) {
+        foreach ($data as $item) {
             $applicable = true;
             foreach ($query as $field => $value) {
-                if ($item[$field] != $value) {
+                if (!isset($item[$field])) {
                     $applicable = false;
+                    break;
+                }
+                $applicable = $this->compareValue($item[$field], $value);
+                
+                if (!$applicable) {
                     break;
                 }
             }
@@ -77,6 +229,63 @@ class DriverFileJson// implements IClientTable
         return $matched;
     }
 
+    public function group(array $groupBy)
+    {
+        throw new \Exception('Method "group" is not implemented yet');
+    }
+
+    protected function compareValue($source, $compareTo): bool
+    {
+        $checkers = [
+            'isEqualBasic',
+            'isEqualIn'
+        ];
+
+        $applicable = true;
+
+        foreach ($checkers as $method) {
+            $applicable = $this->$method($source, $compareTo);
+            if ($applicable) {
+                break;
+            }
+        }
+
+        return $applicable;
+    }
+
+    protected function isEqualBasic($source, $compareTo): bool
+    {
+        if (is_array($source)) {
+            foreach ($source as $value) {
+                if ($value == $compareTo) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        return $source == $compareTo;
+    }
+
+    protected function isEqualIn($source, $compareTo): bool
+    {
+        if (is_array($compareTo)) {
+            foreach ($compareTo as $value) {
+                if (is_array($source)) {
+                    $equal = $this->isEqualBasic($source, $value);
+                    if ($equal) {
+                        return true;
+                    }
+                }
+                elseif ($source == $value) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
     protected function allFilterFields(array $item, array $fields): array
     {
         if (!empty($fields)) {
@@ -86,6 +295,7 @@ class DriverFileJson// implements IClientTable
             }
             $item = $short;
         }
+
         return $item;
     }
 
@@ -133,24 +343,9 @@ class DriverFileJson// implements IClientTable
         return $matched;
     }
 
-    /**
-     * @param IItem $item
-     * @return void
-     */
-    public function insert($item)
+    protected function getTableData(): array
     {
-        $this->data[] = $item->__toArray();
-
-        $this->saveData();
-
-        return $item;
-    }
-
-    public function __construct(array $config)
-    {
-        $this->baseConstruct($config);
-
-        $this->initData();
+        return $this->data[$this->getTableName()] ?? [];
     }
 
     protected function saveData(): void

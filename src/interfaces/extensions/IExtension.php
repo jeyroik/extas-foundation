@@ -3,6 +3,7 @@ namespace extas\interfaces\extensions;
 
 use extas\interfaces\IHasClass;
 use extas\interfaces\IHasId;
+use extas\interfaces\IHaveConfig;
 use extas\interfaces\samples\parameters\IHasSampleParameters;
 
 /**
@@ -11,7 +12,7 @@ use extas\interfaces\samples\parameters\IHasSampleParameters;
  * @package extas\interfaces\extensions
  * @author jeyroik@gmail.com
  */
-interface IExtension extends \ArrayAccess, \Iterator, IHasClass, IHasId, IHasSampleParameters
+interface IExtension extends \ArrayAccess, \Iterator, IHasClass, IHasId, IHasSampleParameters, IHaveConfig
 {
     public const SUBJECT = 'extas.extension';
 

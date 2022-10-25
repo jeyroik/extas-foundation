@@ -35,9 +35,16 @@ class Repository{uc_table_name} extends Repository
      */
     public function one($where, int $offset = 0, array $fields = [])
     {
+        {one-before-code}
         {one-before-hook}
         $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+
+        if ($result) {
+            $itemClass = $this->itemClass;
+            $result = new $itemClass($result);
+        }
         {one-after-hook}
+        {one-after-code}
 
         return $result;
     }
@@ -53,6 +60,7 @@ class Repository{uc_table_name} extends Repository
      */
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
+        {all-before-code}
         {all-before-hook}
         $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
         {all-after-hook}
@@ -62,6 +70,8 @@ class Repository{uc_table_name} extends Repository
         foreach($result as $index => $item) {
             $result[$index] = new $itemClass($item);
         }
+
+        {all-after-code}
 
         return $result;
     }
@@ -73,9 +83,11 @@ class Repository{uc_table_name} extends Repository
      */
     public function create($item)
     {
+        {create-before-code}
         {create-before-hook}
         $result = $this->getRepoInstance()->insert($item);
         {create-after-hook}
+        {create-after-code}
 
         return $result;
     }
@@ -88,10 +100,12 @@ class Repository{uc_table_name} extends Repository
      */
     public function update($item, $where = []): int
     {
+        {update-before-code}
         {update-before-hook}
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->update($item) : $repo->updateMany($where, $item);
         {update-after-hook}
+        {update-after-code}
 
         return $result;
     }
@@ -104,10 +118,12 @@ class Repository{uc_table_name} extends Repository
      */
     public function delete($where, $item = null): int
     {
+        {delete-before-code}
         {delete-before-hook}
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->delete($item) : $repo->deleteMany($where);
         {delete-after-hook}
+        {delete-after-code}
 
         return $result;
     }
@@ -118,10 +134,12 @@ class Repository{uc_table_name} extends Repository
      */
     public function drop(): bool
     {
+        {drop-before-code}
         {drop-before-hook}
         $repo = $this->getRepoInstance();
         $result = $repo->drop();
         {drop-after-hook}
+        {drop-after-code}
 
         return $result;
     }
@@ -134,7 +152,7 @@ class Repository{uc_table_name} extends Repository
     {
         if (!$this->table) {
             $this->table = new {driver-class}([
-                {driver-options}
+                'table' => $this, {driver-options}
             ]);
         }
 

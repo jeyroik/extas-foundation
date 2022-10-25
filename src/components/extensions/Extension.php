@@ -1,7 +1,7 @@
 <?php
 namespace extas\components\extensions;
 
-use extas\components\basics\THasConfig;
+use extas\components\THasConfig;
 use extas\components\samples\parameters\THasSampleParameters;
 use extas\components\TAsArray;
 use extas\components\THasClass;

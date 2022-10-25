@@ -35,15 +35,22 @@ class RepositoryPlugins2 extends Repository
      */
     public function one($where, int $offset = 0, array $fields = [])
     {
+        //one-before-code
         foreach($this->getPluginsByStage('plugins2.one.before') as $plugin) {
             $plugin($where, $offset, $fields);
         }
 
         $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+
+        if ($result) {
+            $itemClass = $this->itemClass;
+            $result = new $itemClass($result);
+        }
         
         foreach($this->getPluginsByStage('plugins2.one.after') as $plugin) {
             $plugin($result);
         }
+        //one-after-code
 
         return $result;
     }
@@ -59,6 +66,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
+        //all-before-code
         foreach($this->getPluginsByStage('plugins2.all.before') as $plugin) {
             $plugin($where, $offset, $fields);
         }
@@ -75,6 +83,8 @@ class RepositoryPlugins2 extends Repository
             $result[$index] = new $itemClass($item);
         }
 
+        //all-after-code
+
         return $result;
     }
 
@@ -85,6 +95,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function create($item)
     {
+        //create-before-code
         foreach($this->getPluginsByStage('plugins2.create.before') as $plugin) {
             $plugin($item, $this);
         }
@@ -94,6 +105,7 @@ class RepositoryPlugins2 extends Repository
         foreach($this->getPluginsByStage('plugins2.create.after') as $plugin) {
             $plugin($result, $item, $this);
         }
+        //create-after-code
 
         return $result;
     }
@@ -106,6 +118,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function update($item, $where = []): int
     {
+        //update-before-code
         foreach($this->getPluginsByStage('plugins2.update.before') as $plugin) {
             $plugin($item, $where, $this);
         }
@@ -116,6 +129,7 @@ class RepositoryPlugins2 extends Repository
         foreach($this->getPluginsByStage('plugins2.update.after') as $plugin) {
             $plugin($result, $where, $item, $this);
         }
+        //update-after-code
 
         return $result;
     }
@@ -128,6 +142,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function delete($where, $item = null): int
     {
+        //delete-before-code
         foreach($this->getPluginsByStage('plugins2.delete.before') as $plugin) {
             $plugin($item, $where, $this);
         }
@@ -138,6 +153,7 @@ class RepositoryPlugins2 extends Repository
         foreach($this->getPluginsByStage('plugins2.delete.after') as $plugin) {
             $plugin($result, $where, $item, $this);
         }
+        //delete-after-code
 
         return $result;
     }
@@ -148,6 +164,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function drop(): bool
     {
+        //drop-before-code
         foreach($this->getPluginsByStage('plugins2.drop.before') as $plugin) {
             $plugin($this);
         }
@@ -158,6 +175,7 @@ class RepositoryPlugins2 extends Repository
         foreach($this->getPluginsByStage('plugins2.drop.after') as $plugin) {
             $plugin($result);
         }
+        \extas\components\Plugins::reset();
 
         return $result;
     }
@@ -170,7 +188,7 @@ class RepositoryPlugins2 extends Repository
     {
         if (!$this->table) {
             $this->table = new \extas\components\repositories\drivers\DriverFileJson([
-                'path' => 'configs/', 'db' => 'system', 
+                'table' => $this, 'path' => 'configs/', 'db' => 'system', 
             ]);
         }
 

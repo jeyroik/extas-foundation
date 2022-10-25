@@ -55,6 +55,12 @@ class SystemContainer implements ISystemContainer
         return static::getInstance()->add($name, $value);
     }
 
+    public static function refresh(): void
+    {
+        $path = self::getConfigPath();
+        file_put_contents($path, json_encode([]));
+    }
+
     public static function saveItem($alias, $class): void
     {
         $path = self::getConfigPath();

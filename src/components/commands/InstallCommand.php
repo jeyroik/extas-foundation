@@ -1,8 +1,10 @@
 <?php
 namespace extas\components\commands;
 
-use extas\components\crawlers\CrawlerExtas;
-use extas\components\repositories\RepositoryBuilder;
+use extas\components\crawlers\CrawlerEntities;
+use extas\components\crawlers\CrawlerStorage;
+use extas\components\installers\InstallerEntities;
+use extas\components\installers\InstallerStorage;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -10,8 +12,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class InstallCommand extends Command
 {
-    public const OPTION__TEMPLATES_PATH = 'repo_templates_path';
-    public const BUILD__PATH = '/extas_build/';
+    public const OPTION__PATH_TEMPLATES = 'path_templates';
+    public const OPTION__PATH_SAVE = 'path_save';
 
     /**
      * Configure the current command.
@@ -24,11 +26,18 @@ class InstallCommand extends Command
             ->setDescription('Install entities using extas-compatible package file.')
             ->setHelp('This command allows you to install entities using extas-compatible package file.')
             ->addOption(
-                static::OPTION__TEMPLATES_PATH,
+                static::OPTION__PATH_TEMPLATES,
                 't',
                 InputOption::VALUE_OPTIONAL,
                 'Repository templates directory absolute path',
                 getcwd() . '/resources'
+            )
+            ->addOption(
+                static::OPTION__PATH_SAVE,
+                's',
+                InputOption::VALUE_OPTIONAL,
+                'Generated repositories classes save directory absolute path',
+                getcwd() . '/extas_build'
             )
         ;
     }
@@ -42,53 +51,29 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $crawler = new CrawlerExtas();
-        list($appConfig, $packages) = $crawler(getcwd());
+        $pathSave = $input->getOption(static::OPTION__PATH_SAVE);
+        $pathTemplates = $input->getOption(static::OPTION__PATH_TEMPLATES);
 
-        $templatesPath = $input->getOption(static::OPTION__TEMPLATES_PATH);
+        // Install storages with plugins and extensions
+        list($appStorage, $packagesStorages) = $this->getStorageConfigs();
+        $storageInstaller = new InstallerStorage($appStorage, $packagesStorages);
+        $storageInstaller->install($pathSave, $pathTemplates);
 
-        $this->installPackage($appConfig, $templatesPath);
-
-        foreach ($packages as $package) {
-            $this->installPackage($package, $templatesPath);
-        }
+        // Install other entities
+        list($appEntities, $packagesEntities) = $this->getEntitiesConfigs();
+        $entitiesInstaller = new InstallerEntities($appEntities, $packagesEntities);
+        $entitiesInstaller->install();
     }
 
-    protected function installPackage(array $package)
+    protected function getStorageConfigs(): array
     {
-        $this->installStorage($package['storage']);
-        // installPlugins($package['plugins']);
-        // installExtensions($package['extensions']);
-        // installEntities($package['entities]);
+        $crawler = new CrawlerStorage();
+        return $crawler(getcwd());
     }
 
-    protected function installStorage(array $storageConfig): void
+    protected function getEntitiesConfigs(): array
     {
-        $builder = new RepositoryBuilder(getcwd() . static::BUILD__PATH, '');
-
-        foreach ($storageConfig as $driverConfig) {
-            $builder->build($driverConfig);
-        }
-    }
-
-    protected function installPlugins(array $plugins): void
-    {
-        foreach ($plugins as $plugin) {
-            Repositories::get('plugins')->create($plugin);
-        }
-    }
-
-    protected function installExtensions(array $extensions): void
-    {
-        foreach ($extensions as $extension) {
-            Repositories::get('extensions')->create($extension);
-        }
-    }
-
-    protected function installEntities(array $entities): void
-    {
-        foreach ($entities as $entity) {
-            
-        }
+        $crawler = new CrawlerEntities();
+        return $crawler(getcwd());
     }
 }

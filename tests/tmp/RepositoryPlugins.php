@@ -8,7 +8,7 @@ class RepositoryPlugins extends Repository
     protected $table = null;
     protected string $name = 'plugins';
     protected string $scope = 'extas';
-    protected string $pk = 'name';
+    protected string $pk = 'id';
     protected string $itemClass = '\extas\components\plugins\Plugin';
     protected string $repoSubject = 'plugins';
 
@@ -36,7 +36,14 @@ class RepositoryPlugins extends Repository
     public function one($where, int $offset = 0, array $fields = [])
     {
         
+        
         $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+
+        if ($result) {
+            $itemClass = $this->itemClass;
+            $result = new $itemClass($result);
+        }
+        
         
 
         return $result;
@@ -54,6 +61,7 @@ class RepositoryPlugins extends Repository
     public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
     {
         
+        
         $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
         
 
@@ -62,6 +70,8 @@ class RepositoryPlugins extends Repository
         foreach($result as $index => $item) {
             $result[$index] = new $itemClass($item);
         }
+
+        
 
         return $result;
     }
@@ -74,7 +84,9 @@ class RepositoryPlugins extends Repository
     public function create($item)
     {
         
+        
         $result = $this->getRepoInstance()->insert($item);
+        
         
 
         return $result;
@@ -89,8 +101,10 @@ class RepositoryPlugins extends Repository
     public function update($item, $where = []): int
     {
         
+        
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->update($item) : $repo->updateMany($where, $item);
+        
         
 
         return $result;
@@ -105,8 +119,10 @@ class RepositoryPlugins extends Repository
     public function delete($where, $item = null): int
     {
         
+        
         $repo = $this->getRepoInstance();
         $result = empty($where) ? $repo->delete($item) : $repo->deleteMany($where);
+        
         
 
         return $result;
@@ -119,9 +135,11 @@ class RepositoryPlugins extends Repository
     public function drop(): bool
     {
         
+        
         $repo = $this->getRepoInstance();
         $result = $repo->drop();
         
+        \extas\components\Plugins::reset();
 
         return $result;
     }
@@ -134,7 +152,7 @@ class RepositoryPlugins extends Repository
     {
         if (!$this->table) {
             $this->table = new \extas\components\repositories\drivers\DriverFileJson([
-                'path' => '/tmp/', 'db' => 'system', 
+                'table' => $this, 'path' => '/tmp/', 'db' => 'system', 
             ]);
         }
 

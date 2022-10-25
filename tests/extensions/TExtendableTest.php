@@ -1,10 +1,10 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use extas\components\extensions\ExtensionRepository;
 use \extas\components\extensions\Extension;
 use \extas\components\extensions\TExtendable;
 use Dotenv\Dotenv;
+use extas\components\repositories\TSnuffRepository;
 
 /**
  * Class TExtendableTest
@@ -13,12 +13,14 @@ use Dotenv\Dotenv;
  */
 class TExtendableTest extends TestCase
 {
+    use TSnuffRepository;
+
     protected function setUp(): void
     {
-        $this->markTestSkipped('This test is not updated to the Foundation v6');
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
+        $this->buildBasicRepos();
     }
 
     /**
@@ -26,8 +28,7 @@ class TExtendableTest extends TestCase
      */
     public function tearDown(): void
     {
-        $repo = new ExtensionRepository();
-        $repo->delete([Extension::FIELD__SUBJECT => 'test']);
+        $this->unregisterSnuffRepos();
     }
 
     public function testDecoration()
@@ -43,20 +44,15 @@ class TExtendableTest extends TestCase
             }
         };
 
-        $repo = new ExtensionRepository();
+        $repo = $subject->extensions();
         $repo->create(new Extension([
             Extension::FIELD__CLASS => Extension::class,
             Extension::FIELD__SUBJECT => 'test',
             Extension::FIELD__INTERFACE => '',
-            Extension::FIELD__METHODS => ['getClass']
+            Extension::FIELD__METHODS => ['getSomething']
         ]));
 
-        $this->assertTrue($subject->hasMethod('getClass'), 'Subject has no method `getClass`');
+        $this->assertTrue($subject->hasMethod('getSomething'), 'Subject has no method `getSomething`');
         $this->assertTrue($subject->hasMethod('testMe'), 'Subject has no method `testMe`');
-        $this->assertEquals(
-            Extension::class,
-            $subject->getClass(),
-            'Incorrect extension class: ' . $subject->getClass()
-        );
     }
 }

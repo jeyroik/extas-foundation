@@ -2,6 +2,7 @@
 namespace tests;
 
 use extas\components\repositories\RepositoryBuilder;
+use extas\components\SystemContainer;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,10 +15,13 @@ class InstallCommandTest extends TestCase
 {
     public function testRepoBuilder()
     {
-        $builder = new RepositoryBuilder(getcwd() . '/tests/tmp', __DIR__ . '/../resources');
+        $builder = new RepositoryBuilder([
+            RepositoryBuilder::FIELD__PATH_SAVE => getcwd() . '/tests/tmp',
+            RepositoryBuilder::FIELD__PATH_TEMPLATE => __DIR__ . '/../resources'
+        ]);
 
         $builder->build([
-            "driver" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
+            "class" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
             "options" => [
                 "path" => "configs/",
                 "db" => "system"
@@ -29,18 +33,32 @@ class InstallCommandTest extends TestCase
                     "pk"=> "name",
                     "aliases"=> ["plugins2"],
                     "hooks" => [
-                        "one-before-hook" => true,
-                        "one-after-hook" => true,
-                        "all-before-hook" => true,
-                        "all-after-hook" => true,
-                        "create-before-hook" => true,
-                        "create-after-hook" => true,
-                        "update-before-hook" => true,
-                        "update-after-hook" => true,
-                        "delete-before-hook" => true,
-                        "delete-after-hook" => true,
-                        "drop-before-hook" => true,
-                        "drop-after-hook" => true,
+                        "one-before" => true,
+                        "one-after" => true,
+                        "all-before" => true,
+                        "all-after" => true,
+                        "create-before" => true,
+                        "create-after" => true,
+                        "update-before" => true,
+                        "update-after" => true,
+                        "delete-before" => true,
+                        "delete-after" => true,
+                        "drop-before" => true,
+                        "drop-after" => true
+                    ],
+                    "code" => [
+                        "one-before" => "//one-before-code",
+                        "one-after" => "//one-after-code",
+                        "all-before" => "//all-before-code",
+                        "all-after" => "//all-after-code",
+                        "create-before" => "//create-before-code",
+                        "create-after" => "//create-after-code",
+                        "update-before" => "//update-before-code",
+                        "update-after" => "//update-after-code",
+                        "delete-before" => "//delete-before-code",
+                        "delete-after" => "//delete-after-code",
+                        "drop-before" => "//drop-before-code",
+                        "drop-after" => "\\extas\\components\\Plugins::reset();"
                     ]
                 ]
             ]
@@ -52,5 +70,6 @@ class InstallCommandTest extends TestCase
         );
 
         unlink(getcwd() . '/tests/tmp/RepositoryPlugins2.php');
+        SystemContainer::refresh();
     }
 }

@@ -13,7 +13,6 @@ class ExtensionTest extends TestCase
 {
     protected function setUp(): void
     {
-        $this->markTestSkipped('This test is not updated to the Foundation v6');
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();

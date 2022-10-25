@@ -1,3 +1,0 @@
-foreach($this->getPluginsByStage('{table_name}.one.before') as $plugin) {
-            $plugin($where, $offset, $fields);
-        }

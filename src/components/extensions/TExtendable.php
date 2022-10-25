@@ -36,6 +36,10 @@ trait TExtendable
         ]);
 
         if (!$extension) {
+            if ($fromContainer = $this->getFromContainer($name)) {
+                return $fromContainer;
+            }
+            
             throw new MissedOrUnknown('method "' . get_class($this) . ':' . $name . '".');
         }
 
@@ -61,12 +65,21 @@ trait TExtendable
             return true;
         }
 
-        $extRepo = new ExtensionRepository();
+        $extRepo = SystemContainer::getItem(getenv('EXTAS__EXTENSIONS_REPOSITORY') ?: 'extensions');
 
         return $extRepo->one([
             IExtension::FIELD__METHODS => $methodName,
             IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
         ]) ? true : false;
+    }
+
+    protected function getFromContainer(string $alias)
+    {
+        try {
+            return SystemContainer::getItem($alias);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

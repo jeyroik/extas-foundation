@@ -1,7 +1,7 @@
 <?php
 namespace extas\components;
 
-use extas\components\basics\THasConfig;
+use extas\components\THasConfig;
 use extas\components\extensions\TExtendable;
 use extas\interfaces\IItem;
 use extas\interfaces\stages\IStageItemInit;
@@ -90,7 +90,6 @@ abstract class Item implements IItem
      */
     public function __created($item, $repo)
     {
-        echo __METHOD__ . ': run get plugins by stage ' . $this->getBaseStageName('created').PHP_EOL;
         foreach ($this->getPluginsByStage($this->getBaseStageName('created')) as $plugin) {
             $plugin($this, $item, $repo);
         }

@@ -6,22 +6,41 @@ use extas\interfaces\repositories\IRepository;
 
 trait TBuildRepository
 {
-    protected function buildPluginsRepo(): IRepository
+    protected string $templatesPath = '';
+    protected string $extasDriver = '\\extas\\components\\repositories\\drivers\\DriverFileJson';
+    protected array $extasDriverOptions = [
+        "path" => "/tmp/",
+        "db" => "system"
+    ];
+
+    protected function buildRepo(string $templatesPath, array $tables): void
     {
-        $builder = new RepositoryBuilder(getcwd() . '/tests/tmp', __DIR__ . '/../../resources');
+        $builder = new RepositoryBuilder([
+            RepositoryBuilder::FIELD__PATH_SAVE => getcwd() . '/tests/tmp',
+            RepositoryBuilder::FIELD__PATH_TEMPLATE => $templatesPath
+        ]);
 
         $builder->build([
-            "driver" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
-            "options" => [
-                "path" => "/tmp/",
-                "db" => "system"
-            ],
-            "tables" => [
-                "plugins" => [
-                    "namespace" => "tests\\tmp",
-                    "item_class"=> "\\extas\\components\\plugins\\Plugin",
-                    "pk"=> "name",
-                    "aliases"=> ["plugins"]
+            "class" => $this->extasDriver,
+            "options" => $this->extasDriverOptions,
+            "tables" => $tables
+        ]);
+    }
+
+    protected function deleteRepo(string $alias): void
+    {
+        unlink(getcwd() . '/tests/tmp/Repository' . ucfirst($alias) . '.php');
+    }
+
+    protected function buildPluginsRepo(): IRepository
+    {
+        $this->buildRepo($this->templatesPath ?: __DIR__ . '/../../resources', [
+            "plugins" => [
+                'namespace' => 'tests\\tmp',
+                'item_class' => '\\extas\\components\\plugins\\Plugin',
+                'pk' => 'id',
+                'code' => [
+                    'drop-after' => '\\extas\\components\\Plugins::reset();'
                 ]
             ]
         ]);
@@ -36,25 +55,15 @@ trait TBuildRepository
 
     protected function buildExtensionsRepo(): IRepository
     {
-        $builder = new RepositoryBuilder(getcwd() . '/tests/tmp', __DIR__ . '/../../resources');
-
-        $builder->build([
-            "driver" => "\\extas\\components\\repositories\\drivers\\DriverFileJson",
-            "options" => [
-                "path" => "configs/",
-                "db" => "system"
-            ],
-            "tables" => [
-                "plugins" => [
-                    "namespace" => "tests\\tmp",
-                    "item_class"=> "\\extas\\components\\extensions\\Extension",
-                    "pk"=> "name",
-                    "aliases"=> ["extensions"]
-                ]
+        $this->buildRepo(__DIR__ . '/../../resources', [
+            "extensions" => [
+                "namespace" => "tests\\tmp",
+                "item_class"=> "\\extas\\components\\extensions\\Extension",
+                "pk"=> "name"
             ]
         ]);
 
-        return new tests\tmp\RepositoryExtensions();
+        return new \tests\tmp\RepositoryExtensions();
     }
 
     protected function removePExtenionsRepo(): void

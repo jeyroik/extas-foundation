@@ -24,17 +24,13 @@ use tests\resources\TBuildRepository;
 class SampleTest extends TestCase
 {
     use TSnuffRepository;
-    use TBuildRepository;
 
     protected function setUp(): void
     {
-        $this->markTestSkipped('This test is not updated to the Foundation v6');
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
-        $this->registerSnuffRepos([
-            'extensionRepository' => ExtensionRepository::class
-        ]);
+        $this->buildBasicRepos();
     }
 
     protected function tearDown(): void
