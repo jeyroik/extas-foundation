@@ -1,0 +1,40 @@
+{
+    "name": "extas/foundation",
+    "drivers": [
+        {
+            "class": "\\extas\\components\\repositories\\drivers\\DriverFileJson",
+            "options": {
+                "host": "configs/",
+                "db": "system"
+            },
+            "tables": [
+                "plugins", "extensions"
+            ]
+        }
+    ],
+    "tables": {
+        "plugins": {
+            "item_class": "\\extas\\components\\plugins\\Plugin",
+            "pk": "name",
+            "aliases": ["plugins"],
+            "code": {
+                "drop-after": "\\extas\\components\\Plugins::reset();"
+            }
+        }, 
+        "extensions": {
+            "item_class": "\\extas\\components\\plugins\\Extension",
+            "pk": "name",
+            "aliases": ["extensions"]
+        }
+    },
+    "plugins": [
+        {
+
+        }
+    ],
+    "extensions": [
+        {
+            
+        }
+    ]
+}

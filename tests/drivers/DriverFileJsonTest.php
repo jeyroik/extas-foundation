@@ -1,0 +1,172 @@
+<?php
+
+use \PHPUnit\Framework\TestCase;
+use Dotenv\Dotenv;
+use extas\components\plugins\Plugin;
+use extas\components\repositories\TSnuffRepository;
+use extas\components\SystemContainer;
+
+/**
+ * Class DriverFileJsonTest
+ *
+ * @author jeyroik@gmail.com
+ */
+class DriverFileJsonTest extends TestCase
+{
+    use TSnuffRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $env = Dotenv::create(getcwd() . '/tests/');
+        $env->load();
+
+        $this->buildBasicRepos();
+    }
+
+    public function tearDown(): void
+    {
+       $this->unregisterSnuffRepos();
+    }
+
+    public function testInsertAndFind()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $repo->create(new Plugin([
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]));
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => ['NotExisting']]);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class in [NotExisting]');
+
+        $plugin = $repo->all([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin by all()');
+
+        $plugin = $repo->all([Plugin::FIELD__CLASS => ['NotExisting']]);
+        $this->assertNotEmpty($plugin, 'Can not find plugin by all() in [NotExisting]');
+
+        $plugin = $repo->one([Plugin::FIELD__STAGE => 'not']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin by stage "not"');
+
+        $plugin = $repo->one([Plugin::FIELD__STAGE => ['not']]);
+        $this->assertNotEmpty($plugin, 'Can not find plugin by stage in [not]');
+    }
+
+    public function testUpdateOne()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $plugin = new Plugin([
+            Plugin::FIELD__ID => '1',
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]);
+
+        $repo->create($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $plugin->setClass('Existing not today');
+
+        $repo->update($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'Existing not today']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = Existing not today');
+    }
+
+    public function testUpdateMany()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $plugin = new Plugin([
+            Plugin::FIELD__ID => '1',
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]);
+
+        $repo->create($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $plugin->setClass('Existing not today');
+
+        $result = $repo->update($plugin, [Plugin::FIELD__CLASS => 'NotExisting']);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'Existing not today']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = Existing not today');
+
+        $this->assertEquals($result, 1);
+    }
+
+    public function testDeleteOne()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $plugin = new Plugin([
+            Plugin::FIELD__ID => '1',
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]);
+
+        $repo->create($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $repo->delete($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertEmpty($plugin, 'Found plugin with class = NotExisting');
+    }
+
+    public function testDeleteMany()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $plugin = new Plugin([
+            Plugin::FIELD__ID => '1',
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]);
+
+        $repo->create($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $result = $repo->delete([Plugin::FIELD__CLASS => 'NotExisting']);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertEmpty($plugin, 'Found plugin with class = NotExisting');
+
+        $this->assertEquals($result, 1);
+    }
+
+    public function testDrop()
+    {
+        $repo = SystemContainer::getItem('plugins');
+
+        $plugin = new Plugin([
+            Plugin::FIELD__ID => '1',
+            Plugin::FIELD__CLASS => 'NotExisting',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]);
+
+        $repo->create($plugin);
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
+
+        $repo->drop();
+
+        $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertEmpty($plugin, 'Found plugin with class = NotExisting');
+    }
+}

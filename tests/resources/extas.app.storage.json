@@ -1,0 +1,48 @@
+{
+    "name": "some/app",
+    "drivers": [
+        {
+            "class": "\\extas\\components\\repositories\\drivers\\DriverFileJson",
+            "options": {
+                "path": "/tmp/",
+                "db": "system"
+            },
+            "tables": [
+                "plugins", "extensions", "entries"
+            ]
+        }
+    ],
+    "tables": {
+        "plugins": {
+            "namespace": "tests\\tmp_install",
+            "item_class": "\\extas\\components\\plugins\\Plugin",
+            "pk": "name",
+            "code": {
+                "drop-after": "\\extas\\components\\Plugins::reset();"
+            }
+        }, 
+        "extensions": {
+            "namespace": "tests\\tmp_install",
+            "item_class": "\\extas\\components\\extensions\\Extension",
+            "pk": "name"
+        }
+    },
+    "plugins": [
+        {
+            "class": "tests\\resources\\PluginCheckStage",
+            "stage": "extas.before.install.entity"
+        },
+        {
+            "class": "testP",
+            "stage": "testP"
+        }
+    ],
+    "extensions": [
+        {
+            "class": "testE",
+            "interface": "itestE",
+            "subject": "test",
+            "methods": ["some"]
+        }
+    ]
+}

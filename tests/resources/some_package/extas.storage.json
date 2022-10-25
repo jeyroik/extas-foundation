@@ -1,0 +1,11 @@
+{
+    "name": "some/package",
+    "tables": {
+        "entries": {
+            "namespace": "tests\\tmp_install",
+            "item_class": "\\extas\\components\\plugins\\Plugin",
+            "pk": "name",
+            "aliases": ["entries"]
+        }
+    }
+}
