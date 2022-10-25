@@ -30,7 +30,7 @@ class InstallerStorage
         $drivers = $this->app[static::FIELD__DRIVERS] ?? [];
 
         if (empty($drivers)) {
-            throw new MissedOrUnknown('storage drivers in '.print_r($this->app, true));
+            throw new MissedOrUnknown('storage drivers in '.print_r($this->app, true).' and '.print_r($this->packages, true));
         }
 
         $tables = $this->merge(static::FIELD__TABLES);
