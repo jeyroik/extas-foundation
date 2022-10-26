@@ -29,15 +29,6 @@ class Plugin implements IPlugin
     use THasConfig;
 
     /**
-     * @param $name
-     * @return bool
-     */
-    public function __isset($name)
-    {
-        return isset($this->config[$name]);
-    }
-
-    /**
      * @return int
      */
     public function getPriority(): int
@@ -82,13 +73,5 @@ class Plugin implements IPlugin
     public function getInstallOn(): string
     {
         return $this->config[static::FIELD__INSTALL_ON] ?? 'install';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSubjectForExtension(): string
-    {
-        return static::SUBJECT;
     }
 }

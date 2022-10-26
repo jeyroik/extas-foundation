@@ -107,12 +107,4 @@ class Extension implements IExtension
     {
         return null;
     }
-
-    /**
-     * @return string
-     */
-    protected function getSubjectForExtension(): string
-    {
-        return static::SUBJECT;
-    }
 }

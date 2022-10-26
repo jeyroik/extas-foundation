@@ -15,6 +15,15 @@ trait THasConfig
     {
         $this->setConfig($config);
     }
+
+    /**
+     * @param $name
+     * @return bool
+     */
+    public function __isset($name)
+    {
+        return isset($this->config[$name]);
+    }
     
     /**
      * @param $config
