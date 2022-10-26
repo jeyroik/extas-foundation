@@ -120,7 +120,7 @@ class DriverFileJsonTest extends TestCase
         $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
         $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
 
-        $repo->delete($plugin);
+        $repo->delete([], $plugin);
 
         $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
         $this->assertEmpty($plugin, 'Found plugin with class = NotExisting');

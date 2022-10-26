@@ -5,6 +5,7 @@ use extas\interfaces\repositories\IRepository;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
 use Dotenv\Dotenv;
+use tests\resources\PluginEqual;
 use tests\resources\TBuildRepository;
 
 /**
@@ -295,12 +296,17 @@ class ItemTest extends TestCase
 
     public function testEqual()
     {
+        $this->pluginRepo->create(new Plugin([
+            Plugin::FIELD__CLASS => PluginEqual::class,
+            Plugin::FIELD__STAGE => 'o.equal'
+        ]));
+
         $object1 = new class ([
             'test' => 1
         ]) extends Item {
             protected function getSubjectForExtension(): string
             {
-                return '';
+                return 'o';
             }
         };
 
@@ -343,11 +349,11 @@ class ItemTest extends TestCase
         ]) extends Item {
             protected function getSubjectForExtension(): string
             {
-                return '';
+                return 'o';
             }
         };
 
-        $this->assertFalse($object1->__equal($object5));
+        $this->assertTrue($object1->__equal($object5));
         $this->assertFalse($object5->__equal($object1));
     }
 

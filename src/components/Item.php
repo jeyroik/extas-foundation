@@ -4,6 +4,7 @@ namespace extas\components;
 use extas\components\THasConfig;
 use extas\components\extensions\TExtendable;
 use extas\interfaces\IItem;
+use extas\interfaces\stages\IStageItemEqual;
 use extas\interfaces\stages\IStageItemInit;
 
 /**
@@ -114,25 +115,10 @@ abstract class Item implements IItem
      */
     public function __equal(IItem $other): bool
     {
-        $attributes = $this->__toArray();
-        $otherAttributes = $other->__toArray();
+        $equal = true;
 
-        if (count($attributes) != count($otherAttributes)) {
-            $equal = false;
-        } else {
-            $equal = true;
-
-            foreach ($attributes as $name => $value) {
-                if (!isset($otherAttributes[$name])) {
-                    $equal = false;
-                    break;
-                }
-
-                if ($otherAttributes[$name] != $value) {
-                    $equal = false;
-                    break;
-                }
-            }
+        foreach ($this->getPluginsByStage($this->getBaseStageName(IStageItemEqual::NAME)) as $plugin) {
+            $plugin($this, $other, $equal);
         }
 
         return $equal;
