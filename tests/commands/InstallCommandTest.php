@@ -60,8 +60,8 @@ class InstallCommandTest extends TestCase
         $outputText = $output->fetch();
 
         $this->assertStringContainsString('Extas Foundation v6 Installer', $outputText);
-        $this->assertStringContainsString('Found app configuration + 1 package(s) configurations.', $outputText);
-        $this->assertStringContainsString('Found app entitiies + 1 package(s) configurations.', $outputText);
+        $this->assertStringContainsString('Found app configurations + 1 package(s) configurations.', $outputText);
+        $this->assertStringContainsString('Found app entities + 1 package(s) entities.', $outputText);
         $this->assertStringContainsString('Installation finished', $outputText);
     }
 

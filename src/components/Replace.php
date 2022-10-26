@@ -72,32 +72,43 @@ class Replace implements IReplace
     public function apply(array $values): IReplace
     {
         foreach ($values as $entity => $fields) {
-            if (is_object($fields) && method_exists($fields, static::METHOD__TO_ARRAY)) {
-                $fields = $fields->__toArray();
-            }
-            if (is_array($fields)) {
-                foreach ($fields as $name => $value) {
-                    if (is_array($value)) {
-                        $this->apply([$this->escapeField($entity . '.' . $name) => $value]);
-                    } elseif (is_object($value)) {
-                        $value = method_exists($value, static::METHOD__TO_ARRAY)
-                            ? $value->__toArray()
-                            : (array)$value;
-                        $this->apply([$this->escapeField($entity . '.' . $name) => $value]);
-                    } else {
-                        $this->patterns[] = $entity
-                            ? $this->makeFieldPattern($entity, $name)
-                            : $this->makePattern($name);
-                        $this->values[] = $value;
-                    }
-                }
-            } else {
-                $this->patterns[] = $this->makePattern($entity);
-                $this->values[] = $fields;
-            }
+            $this->applyValue($entity, $fields);
         }
 
         return $this;
+    }
+
+    protected function applyValue($entity, $fields): void
+    {
+        if (is_object($fields) && method_exists($fields, static::METHOD__TO_ARRAY)) {
+            $fields = $fields->__toArray();
+        }
+
+        if (is_array($fields)) {
+            foreach ($fields as $name => $value) {
+                $this->applyFieldValue($entity, $name, $value);
+            }
+        } else {
+            $this->patterns[] = $this->makePattern($entity);
+            $this->values[] = $fields;
+        }
+    }
+
+    protected function applyFieldValue($entity, $name, $value): void
+    {
+        if (is_array($value)) {
+            $this->apply([$this->escapeField($entity . '.' . $name) => $value]);
+        } elseif (is_object($value)) {
+            $value = method_exists($value, static::METHOD__TO_ARRAY)
+                ? $value->__toArray()
+                : (array)$value;
+            $this->apply([$this->escapeField($entity . '.' . $name) => $value]);
+        } else {
+            $this->patterns[] = $entity
+                ? $this->makeFieldPattern($entity, $name)
+                : $this->makePattern($name);
+            $this->values[] = $value;
+        }
     }
 
     /**
