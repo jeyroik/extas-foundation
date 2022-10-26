@@ -1,86 +1,34 @@
 <?php
 namespace extas\components\repositories\drivers;
 
-use extas\interfaces\repositories\clients\IClient;
 use extas\interfaces\repositories\drivers\IDriver;
 
 /**
- * Class Driver
+ * Class ClientTableAbstract
  *
- * @package extas\components\repositories\drivers
+ * @package extas\components\repositories\clients
  * @author jeyroik@gmail.com
  */
 abstract class Driver implements IDriver
 {
     /**
-     * @var array
-     */
-    protected array $config = [];
-
-    /**
-     * @var string
-     */
-    protected string $clientClass = '';
-
-    /**
      * @return string
      */
-    public function getName(): string
+    public function getPk(): string
     {
-        return $this->config[static::FIELD__NAME] ?? '';
+        return $this->table->getPk();
     }
 
     /**
      * @return string
      */
-    public function getClass(): string
+    public function getItemClass(): string
     {
-        return $this->config[static::FIELD__CLASS] ?? '';
+        return $this->table->getItemClass();
     }
 
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
+    public function getTableName(): string
     {
-        $this->config[static::FIELD__NAME] = $name;
-
-        return $this;
-    }
-
-    /**
-     * @param string $class
-     *
-     * @return $this
-     */
-    public function setClass($class)
-    {
-        $this->config[static::FIELD__CLASS] = $class;
-
-        return $this;
-    }
-
-    /**
-     * @param array $config
-     *
-     * @return IClient
-     */
-    public function createClient($config = [])
-    {
-        $clientClass = $this->clientClass;
-
-        return new $clientClass($config);
-    }
-
-    /**
-     * @param $string
-     *
-     * @return bool
-     */
-    protected function isNotDsn($string)
-    {
-        return strpos($string, '://') === false;
+        return $this->table->getName();
     }
 }

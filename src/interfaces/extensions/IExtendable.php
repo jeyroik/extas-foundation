@@ -10,13 +10,6 @@ namespace extas\interfaces\extensions;
 interface IExtendable
 {
     /**
-     * @param string $interface
-     *
-     * @return bool
-     */
-    public function isImplementsInterface(string $interface): bool;
-
-    /**
      * @param string $methodName
      * @return bool
      */

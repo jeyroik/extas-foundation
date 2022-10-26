@@ -1,0 +1,161 @@
+<?php
+namespace {namespace};
+
+use extas\components\repositories\Repository;
+
+class Repository{uc_table_name} extends Repository
+{
+    protected $table = null;
+    protected string $name = '{name}';
+    protected string $scope = '{scope}';
+    protected string $pk = '{pk}';
+    protected string $itemClass = '{item_class}';
+    protected string $repoSubject = '{subject}';
+
+    /**
+     * Repository constructor.
+     *
+     * @param array $config
+     *
+     * @throws
+     */
+    public function __construct(array $config = [])
+    {
+        parent::__construct($config);
+
+        $this->table = $this->getRepoInstance();
+    }
+
+    /**
+     * @param $where
+     * @param int $offset
+     * @param array $fields
+     * @return IItem|mixed|null
+     * @throws \Exception
+     */
+    public function one($where, int $offset = 0, array $fields = [])
+    {
+        {one-before-code}
+        {one-before-hook}
+        $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+
+        if ($result) {
+            $itemClass = $this->itemClass;
+            $result = new $itemClass($result);
+        }
+        {one-after-hook}
+        {one-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $where
+     * @param int $limit
+     * @param int $offset
+     * @param array $orderBy
+     * @param array $fields
+     * @return array|IItem[]
+     * @throws \Exception
+     */
+    public function all($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
+    {
+        {all-before-code}
+        {all-before-hook}
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
+        {all-after-hook}
+
+        $itemClass = $this->itemClass;
+
+        foreach($result as $index => $item) {
+            $result[$index] = new $itemClass($item);
+        }
+
+        {all-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $item
+     * @return IItem
+     * @throws \Exception
+     */
+    public function create($item)
+    {
+        {create-before-code}
+        {create-before-hook}
+        $result = $this->getRepoInstance()->insert($item);
+        {create-after-hook}
+        {create-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $item
+     * @param array $where
+     * @return int
+     * @throws \Exception
+     */
+    public function update($item, $where = []): int
+    {
+        {update-before-code}
+        {update-before-hook}
+        $repo = $this->getRepoInstance();
+        $result = empty($where) ? $repo->update($item) : $repo->updateMany($where, $item);
+        {update-after-hook}
+        {update-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $where
+     * @param null $item
+     * @return int
+     * @throws \Exception
+     */
+    public function delete($where, $item = null): int
+    {
+        {delete-before-code}
+        {delete-before-hook}
+        $repo = $this->getRepoInstance();
+        $result = empty($where) ? $repo->delete($item) : $repo->deleteMany($where);
+        {delete-after-hook}
+        {delete-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function drop(): bool
+    {
+        {drop-before-code}
+        {drop-before-hook}
+        $repo = $this->getRepoInstance();
+        $result = $repo->drop();
+        {drop-after-hook}
+        {drop-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @return IClientTable
+     * @throws \Exception
+     */
+    protected function getRepoInstance()
+    {
+        if (!$this->table) {
+            $this->table = new {driver-class}([
+                'table' => $this, {driver-options}
+            ]);
+        }
+
+        return $this->table;
+    }
+}

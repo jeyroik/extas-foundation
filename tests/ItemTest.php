@@ -4,8 +4,8 @@ use \PHPUnit\Framework\TestCase;
 use extas\interfaces\repositories\IRepository;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
-use extas\components\plugins\PluginRepository;
 use Dotenv\Dotenv;
+use tests\resources\TBuildRepository;
 
 /**
  * Class ItemTest
@@ -13,6 +13,8 @@ use Dotenv\Dotenv;
  */
 class ItemTest extends TestCase
 {
+    use TBuildRepository;
+
     /**
      * @var IRepository|null
      */
@@ -24,16 +26,7 @@ class ItemTest extends TestCase
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
 
-        /**
-         * For faster operations PluginRepository caches plugins->stage map in memory.
-         * But we are creating new plugins runtime, so we need to have possibility to reload memory cache.
-         */
-        $this->pluginRepo = new class extends PluginRepository {
-            public function reload()
-            {
-                parent::$stagesWithPlugins = [];
-            }
-        };
+        $this->pluginRepo = $this->buildPluginsRepo();
     }
 
     /**
@@ -41,7 +34,7 @@ class ItemTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => 'NotExistingClass']);
+        $this->pluginRepo->drop();
     }
     
     public function testAllowConfigOnConstruct(): void
@@ -164,7 +157,7 @@ class ItemTest extends TestCase
             }
         };
 
-        $filtered = $child->__select(['arg1', 'arg2']);
+        $filtered = $child->__select('arg1', 'arg2');
 
         $this->assertEquals(
             ['arg1' => 1, 'arg2' => 2],
@@ -211,33 +204,8 @@ class ItemTest extends TestCase
     public function testStageEntityCreatedIsRising()
     {
         $this->createPlugin('created');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        $child->__created($child, $this->pluginRepo);
-    }
-
-    public function testStageEntityCreatedIsNotRising()
-    {
-        $this->createPlugin('created');
-        $this->pluginRepo->reload();
-        $this->expectOutputString('Worked');
-        $child = new class extends Item {
-            protected bool $isAllowCreatedStage = false;
-            public function __created($item, $repo)
-            {
-                parent::__created($item, $repo);
-
-                echo 'Worked';
-
-                return $this;
-            }
-
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -249,29 +217,8 @@ class ItemTest extends TestCase
     public function testStageEntityInitIsRising()
     {
         $this->createPlugin('init');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         new class extends Item {
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-    }
-
-    public function testStageEntityInitIsNotRising()
-    {
-        $this->createPlugin('init');
-        $this->pluginRepo->reload();
-        $this->expectOutputString('Worked');
-        new class extends Item {
-            protected bool $isAllowInitStage = false;
-            public function __construct($config = [])
-            {
-                parent::__construct($config);
-                echo 'Worked';
-            }
-
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -282,7 +229,6 @@ class ItemTest extends TestCase
     public function testStageEntityAfterIsRising()
     {
         $this->createPlugin('after');
-        $this->pluginRepo->reload();
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
             {
@@ -293,32 +239,9 @@ class ItemTest extends TestCase
         unset($child);
     }
 
-    public function testStageEntityAfterIsNotRising()
-    {
-        $this->createPlugin('after');
-        $this->pluginRepo->reload();
-        $child = new class extends Item {
-            protected bool $isAllowAfterStage = false;
-            public function __destruct()
-            {
-                parent::__destruct();
-                echo 'Worked';
-            }
-
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        unset($child);
-
-        $this->expectOutputString('Worked');
-    }
-
     public function testStageEntityToArrayIsRising()
     {
         $this->createPlugin('to.array');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -332,7 +255,6 @@ class ItemTest extends TestCase
     public function testStageEntityToJsonIsRising()
     {
         $this->createPlugin('to.json');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -343,40 +265,9 @@ class ItemTest extends TestCase
         $child->__toJson();
     }
 
-    public function testStageEntityToJsonIsNotRising()
-    {
-        $this->createPlugin('to.json');
-        $this->pluginRepo->reload();
-        $child = new class([]) extends Item {
-            protected bool $isAllowToJsonStage = false;
-
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        $this->assertEquals(json_encode($child->__toArray()), $child->__toJson());
-    }
-
-    public function testStageEntityToArrayIsNotRising()
-    {
-        $this->createPlugin('to.array');
-        $this->pluginRepo->reload();
-        $child = new class([]) extends Item {
-            protected bool $isAllowToArrayStage = false;
-
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        $this->assertEquals([], $child->__toArray());
-    }
-
     public function testStageEntityToStringIsRising()
     {
         $this->createPlugin('to.string');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -388,24 +279,9 @@ class ItemTest extends TestCase
         $empty = (string) $child;
     }
 
-    public function testStageEntityToStringIsNotRising()
-    {
-        $this->createPlugin('to.string');
-        $this->pluginRepo->reload();
-        $child = new class extends Item {
-            protected bool $isAllowToStringStage = false;
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        $this->assertEquals('', (string) $child);
-    }
-
     public function testStageEntityToIntIsRising()
     {
         $this->createPlugin('to.int');
-        $this->pluginRepo->reload();
         $this->expectExceptionMessage('Missed or unknown class "NotExistingClass"');
         $child = new class extends Item {
             protected function getSubjectForExtension(): string
@@ -415,20 +291,6 @@ class ItemTest extends TestCase
         };
 
         $child->__toInt();
-    }
-
-    public function testStageEntityToIntIsNotRising()
-    {
-        $this->createPlugin('to.int');
-        $this->pluginRepo->reload();
-        $child = new class extends Item {
-            protected bool $isAllowToIntStage = false;
-            protected function getSubjectForExtension(): string
-            {
-                return 'test.child';
-            }
-        };
-        $this->assertEquals(0, $child->__toInt());
     }
 
     public function testEqual()

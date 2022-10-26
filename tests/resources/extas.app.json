@@ -1,0 +1,8 @@
+{
+    "name": "some/app",
+    "entries": [
+        {
+            "class": "app__some"
+        }
+    ]
+}

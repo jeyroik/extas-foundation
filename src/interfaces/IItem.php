@@ -3,7 +3,6 @@ namespace extas\interfaces;
 
 use extas\interfaces\extensions\IExtendable;
 use extas\interfaces\plugins\IPluginsAcceptable;
-use extas\interfaces\repositories\IRepository;
 
 /**
  * Interface IItem
@@ -11,19 +10,8 @@ use extas\interfaces\repositories\IRepository;
  * @package extas\interfaces
  * @author jeyroik@gmail.com
  */
-interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
+interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable, IHaveConfig
 {
-    /**
-     * IItem constructor.
-     * @param array $config
-     */
-    public function __construct(array $config = []);
-
-    /**
-     * @return array
-     */
-    public function __toArray(): array;
-
     /**
      * @return string
      */
@@ -74,5 +62,5 @@ interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable
      * @param array $attributes
      * @return $this
      */
-    public function __select(array $attributes);
+    public function __select(...$attributes);
 }

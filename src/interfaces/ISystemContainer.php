@@ -24,6 +24,14 @@ interface ISystemContainer
     public static function hasItem(string $name): bool;
 
     /**
+     * @param string $alias
+     * @param string $class
+     *
+     * @return void
+     */
+    public static function saveItem($alias, $class): void;
+
+    /**
      * @param $name string
      * @param $value
      *

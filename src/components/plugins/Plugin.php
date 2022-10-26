@@ -1,12 +1,13 @@
 <?php
 namespace extas\components\plugins;
 
+use extas\components\THasConfig;
 use extas\components\samples\parameters\THasSampleParameters;
 use extas\components\THasClass;
 use extas\components\THasHash;
 use extas\components\THasId;
 use extas\interfaces\plugins\IPlugin;
-use extas\components\Item;
+use extas\components\TAsArray;
 
 /**
  * Class Plugin
@@ -18,19 +19,14 @@ use extas\components\Item;
  * @package extas\components\plugins
  * @author jeyroik@gmail.com
  */
-class Plugin extends Item implements IPlugin
+class Plugin implements IPlugin
 {
     use THasClass;
     use THasId;
     use THasSampleParameters;
     use THasHash;
-
-    protected bool $isAllowToStringStage = false;
-    protected bool $isAllowToIntStage = false;
-    protected bool $isAllowToArrayStage = false;
-    protected bool $isAllowCreatedStage = false;
-    protected bool $isAllowAfterStage = false;
-    protected bool $isAllowInitStage = false;
+    use TAsArray;
+    use THasConfig;
 
     /**
      * @return int
@@ -69,21 +65,5 @@ class Plugin extends Item implements IPlugin
     public function getStage(): string
     {
         return $this->config[static::FIELD__STAGE] ?? '';
-    }
-
-    /**
-     * @return string
-     */
-    public function getInstallOn(): string
-    {
-        return $this->config[static::FIELD__INSTALL_ON] ?? 'install';
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSubjectForExtension(): string
-    {
-        return static::SUBJECT;
     }
 }

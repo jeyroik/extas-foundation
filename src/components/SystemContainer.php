@@ -12,6 +12,8 @@ use League\Container\Container;
  */
 class SystemContainer implements ISystemContainer
 {
+    protected const DEFAULT__DIST_PATH = '/resources/container.dist.json';
+
     /**
      * @var ISystemContainer
      */
@@ -53,6 +55,26 @@ class SystemContainer implements ISystemContainer
         return static::getInstance()->add($name, $value);
     }
 
+    public static function refresh(): void
+    {
+        $path = self::getConfigPath();
+        file_put_contents($path, json_encode([]));
+    }
+
+    public static function saveItem($alias, $class): void
+    {
+        $path = self::getConfigPath();
+        
+        if (!is_file($path)) {
+            file_put_contents($path, '[]');
+        }
+
+        $config = json_decode(file_get_contents($path), true);
+        $config[$alias] = $class;
+
+        file_put_contents($path, json_encode($config));
+    }
+
     /**
      * @return ISystemContainer
      */
@@ -72,6 +94,22 @@ class SystemContainer implements ISystemContainer
         return self::$instance ?: self::$instance = new static();
     }
 
+    public static function getConfigPath(): string
+    {
+        return getenv('EXTAS__CONTAINER_PATH_STORAGE_LOCK') ?: getcwd() . static::DEFAULT__DIST_PATH;
+    }
+
+    public static function getConfig(): array
+    {
+        $path = self::getConfigPath();
+
+        if (!is_file($path)) {
+            return [];
+        }
+
+        return json_decode(file_get_contents($path), true);
+    }
+
     /**
      * SystemContainer constructor.
      *
@@ -79,12 +117,11 @@ class SystemContainer implements ISystemContainer
      */
     protected function __construct()
     {
-        $containerConfigPath = getenv('EXTAS__CONTAINER_PATH_STORAGE_LOCK')
-            ?: getcwd() . '/resources/container.dist.php';
+        $containerConfigPath = self::getConfigPath();
 
         if (is_file($containerConfigPath)) {
             $this->container = new Container();
-            $containerConfig = include $containerConfigPath;
+            $containerConfig = self::getConfig();
 
             foreach ($containerConfig as $itemName => $itemValue) {
                 $this->container->add($itemName, $itemValue);

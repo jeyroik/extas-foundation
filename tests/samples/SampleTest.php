@@ -14,10 +14,11 @@ use extas\components\samples\parameters\SampleParameter;
 
 use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
+use tests\resources\TBuildRepository;
 
 /**
  * Class SampleTest
- *
+ * @skip
  * @author jeyroik@gmail.com
  */
 class SampleTest extends TestCase
@@ -29,14 +30,12 @@ class SampleTest extends TestCase
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
-        $this->registerSnuffRepos([
-            'extensionRepository' => ExtensionRepository::class
-        ]);
+        $this->buildBasicRepos();
     }
 
     protected function tearDown(): void
     {
-        $this->unregisterSnuffRepos();
+        $this->dropDatabase();
     }
 
     public function testParameters()

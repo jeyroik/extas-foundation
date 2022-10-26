@@ -15,19 +15,51 @@
 # Требования
 
 - PHP 7.4+
-- Какое-либо хранилище (для тестов по-умолчанию используется MongoDb: `jeyroik/extas-repositories-mongo`).
+- Какое-либо хранилище (для тестов по-умолчанию используется JSON-файл).
 
-# Установка
+# Установка пакета
 
-`# composer require jeyroik/extas-foundation:2.*`
+`# composer require jeyroik/extas-foundation:6.*`
 
-## Установка хранилища
+# Установка extas-совместимого приложения
 
-В `resources/` есть дистрибутивы для файлов конфигурации окружения. Если у вас установлена `MongoDb`, то можно просто скопировать файлы из `resources/` себе в директорию конфигов и обновить `EXTAS__BASE_PATH` в `env` файле.
+`# vendor/bin/extas install -t "repo/template/path" -s "repo/classes/save/path"`
+
+Для сущностей доступна стадия `extas\\interfaces\\stages\\IStageBeforeInstallEntity`, подключившись к которой можно проводить дополнительные манипуляции с данными сущности.
+
+Сушности приложения устанавливаются раньше сущностей библиотек.
+
+`# vendor/bin/extas extra`
+
+Подробнее про команду `extra` читайте ниже.
+
+# Установка прочих сущностей
+
+Для установки прочих сущностей, доступна команда `extra`.
+С помощью плагинов есть возможность подключиться к данной команде и через единый интерфейс этой команды устаналивать любые сущности и вообще выполнять любые действия, которые требуется.
+
+Чтобы посмотреть список доступных опций, используйте помощь по команде:
+
+`# vendor/bin/extas extra -h`
+
+# Конфигурация приложения
+
+- Для настройки конфигурации вашего приложения, необходимо создать два файла
+  -  `extas.app.storage.json` для кофигурации хранилища, плагинов и расширений;
+  -  `extas.app.json` для конфигурации сущностей.
+  - Минимальную конфигурацию можно найти в 
+    - `extas.app.storage.dist.json`, а также в текущей документации ниже по тексту.
+    - `extas.app.dist.json`, а также в текущей документации ниже по тексту.
+- Если вы разрабатываете бибилиотеку, то настройки для неё необходимо складывать в 
+  - `extas.storage.json` - конфигурация хранилища, плагинов и расширений.
+  - `extas.json` - конфигурация сущностей.
+  - Минимальную конфигурацию можно найти в
+    - `extas.storage.dist.json`, а также в текущей документации ниже по тексту.
+    - `extas.dist.json`, а также в текущей документации ниже по тексту.
 
 # Запуск тестов
 
-`# composer run-script test`
+`# composer test`
 
 # Использование
 
@@ -52,19 +84,27 @@ isset($my['fieldName']); // false
 ```
 - поддержку итератора: `foreach($my as $field => $value)`
 - поддержку декораторов: `$my->notExistingMethod($arg1, $arg2)`
+- поддержку быстрого доступа к хранилищу: `$my->myTable()->one(...)`
 - поддержку плагинов (событий): внутри метода класса `My`
+  - создание сущности `<сущность>.created`, срабатывает при сохранении нового экземпляра сущности в хранилище;
+  - инициализация сущности `<сущность>.init`, срабатывает при инициализации объекта сущности;
+  - удаление объекта сущности `<сущность>.after`, срабатывает при удалении объекта сущности
+  - конвертация в массив, строку и целочисленное значение соответственно `<сущность>.to.array`, `<сущность>.to.string`, `<сущность>.to.int`
+- поддержку целого ряда вспомогательных методов (каждый из которых предоставляет соответствующее событие для плагинов) вида
+  - __toArray()
+  - __toJson()
+  - __toInt()
+  - __equal(IItem $other) - сравнение с другой сущностью.
+  - __has('attr1', 'attr2', ...) - проверка наличия необходимых атрибутов.
+  - __select('attr1', 'attr2', ...) - получение сущности с ограниченным набором полей.
+- поддержку создания новых событий для плагинов:
 ```php
 foreach($this->getPluginsByStage('event.name') as $plugin)
 {
     $plugin($arg1, $arg2);
 }
 ```
-- встроенные события:
-  - создание сущности `<сущность>.created`, срабатывает при сохранении нового экземпляра сущности в хранилище;
-  - инициализация сущности `<сущность>.init`, срабатывает при инициализации объекта сущности;
-  - удаление объекта сущности `<сущность>.after`, срабатывает при удалении объекта сущности
-  - конвертация в массив, строку и целочисленное значение соответственно `<сущность>.to.array`, `<сущность>.to.string`, `<сущность>.to.int`
-  
+
 Ниже, после рассмотрения каждой базовой сущности, представлен рабочий пример использования всех сущностей вместе и по отдельности.
 
 ## Плагин
@@ -82,7 +122,7 @@ class MyPlugin extends extas\components\plugins\Plugin {}
 
 ### Предустановка плагинов
 
-В `extas.json`
+В `extas.app.storage.json` для приложения и в `extas.storage.json` для библиотек:
 ```json
 {
   "plugins": [
@@ -95,7 +135,7 @@ class MyPlugin extends extas\components\plugins\Plugin {}
 }
 ```
 
-`priority` - чем выше приоритет, тем раньше (относительно других плагинов на этйо стадии) выполнится плагин. Параметр является необязательным.
+`priority` - чем выше приоритет, тем раньше (относительно других плагинов на этой стадии) выполнится плагин. Параметр является необязательным.
 
 ## Расширение
 
@@ -108,7 +148,7 @@ class MyExtension extends extas\components\Extension implements IMyExtension{}
 
 ### Предустановка расширений
 
-В `extas.json`
+В `extas.app.storage.json` для приложения и в `extas.storage.json` для библиотек:
 
 ```json
 {
@@ -116,7 +156,7 @@ class MyExtension extends extas\components\Extension implements IMyExtension{}
     {
       "class": "extension\\Class",
       "interface": "extension\\Interface",
-      "subject": ["subject.name.1", "subject.name.2"],
+      "subject": ["subject.name.1", "subject.name.2", "*"],
       "methods": ["method1", "method2"]
     }
   ]
@@ -212,13 +252,25 @@ class PluginEmptyName extends Plugin
     }
 } 
 
+// extas.storage.json/extas.app.storage.json
+{
+    "plugins": [
+        {
+            "class": "my\\extas\\PluginEmptyName",
+            "stage": "my.name.get"
+        }
+    ]
+}
+
+// somewhere in a code
+
 $my = new My();
 echo $my->getName(); // 'Missed "name"'
 
 ```
 
 Внимание! Чтобы вышеуказанный пример сработал, плагин должен быть установлен в системе.
-Детали см пакет `jeyroik/extas-installer`.
+Детали см. в разделе `Установка`.
 
 ## Расширение
 
@@ -286,9 +338,144 @@ class MyGetMutatedName extends Extension implements IGetMutatedName
     }
 }
 
+// extas.storage.json/extas.app.storage.json
+{
+    "extensions": [
+        {
+            "class": "my\\extas\\MyGetMutatedName",
+            "interface": "my\\extas\\IGetMutatedName",
+            "subject": ["my"],
+            "methods": ["getMutatedName"]
+        }
+    ]
+}
+
+// somewhere in a code
+
 $my = new My(['name' => 'extas.extensions.extension.example']);
 echo $my->getMutatedName(); // extas\\extensions\\extension\\example
 ```
 
 Внимание! Чтобы вышеуказанный пример сработал, расширение должно быть установлено в системе.
-Детали см пакет `jeyroik/extas-installer`.
+Детали см. в разделе `Установка`.
+
+# extas.app.storage.json
+
+```json
+{
+    "name": "vendor/package",
+    "drivers": [
+        {
+            "driver": "\\driver\\Class",
+            "options": {
+                "dsn": "{username}:{userpassword}@{host}:{port}/{db} | {path/to/db}",
+                "username": "",
+                "password": "",
+                "host": "",
+                "port": "",
+                "db": ""
+            },
+            "tables": ["t1", ...]
+        }
+    ],
+    "tables": {
+        "some_entities": {
+            "item_class": "",
+            "pk": "",
+            "aliases": ["alias1", ...],
+            "hooks": {
+                "create-before": true,
+                "update-before": true,
+                "update-after": true,
+                ...
+            },
+            "code": {
+                "create-before": "echo 'any code you want';",
+                ...
+            }
+        }, 
+        ...
+    },
+    "plugins": [
+        {
+            ...
+        },
+        ...
+    ],
+    "extensions": [
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+# extas.app.json
+
+Сушности приложения устанавливаются раньше сущностей библиотек.
+
+```json
+{
+    "some_entities": [
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+# extas.storage.json
+
+`Внимание`: не размещайте в данной конфигурации секцию с настройкой драйверов - она будет игнорироваться.
+Драйвера настраиваются в `extas.app.storage.json`.
+
+```json
+{
+    "name": "vendor/package",
+    "tables": {
+        "some_entities": {
+            "item_class": "",
+            "pk": "",
+            "aliases": ["alias1", ...],
+            "hooks": {
+                "create-before": true,
+                "update-before": true,
+                "update-after": true,
+                ...
+            },
+            "code": {
+                "create-before": "echo 'any code you want';",
+                ...
+            }
+        }, 
+        ...
+    },
+    "plugins": [
+        {
+            ...
+        },
+        ...
+    ],
+    "extensions": [
+        {
+            ...
+        },
+        ...
+    ]
+}
+```
+
+# extas.json
+
+```json
+{
+    "some_entities": [
+        {
+            ...
+        },
+        ...
+    ]
+}
+```

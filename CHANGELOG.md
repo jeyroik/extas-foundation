@@ -1,3 +1,15 @@
+# 6.0.0
+- Added `install` command (instead of separeted package).
+- Added `extra` command (instead of separeted package).
+- Fully rebuilt storage logic.
+  - Removed clients, databases interfaces and classes. 
+- `DriverFileJson` added.
+- Repository getting by their aliases is now available by `Item` by default.
+- `IItem::__select(...$attributes)` interfaced has changed, 
+  - `$item->__select('arg1', 'arg2')` is possible now, instead of 
+  - `$item->__select(['arg1', 'arg2'])`.
+- Removed all flags for triggers in the `Item`. All triggers are running by default.
+
 # 5.14.1
 
 - Composite names for `Replace` are allowed. Possible delimiters are:

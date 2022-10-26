@@ -3,6 +3,7 @@ namespace extas\components\extensions;
 
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\plugins\TPluginAcceptable;
+use extas\components\SystemContainer;
 use extas\interfaces\extensions\IExtension;
 
 /**
@@ -16,18 +17,6 @@ trait TExtendable
     use TPluginAcceptable;
 
     /**
-     * @deprecated
-     * @var array
-     */
-    protected array $registeredInterfaces = [];
-
-    /**
-     * @deprecated
-     * @var array
-     */
-    protected array $extendedMethodToInterface = [];
-
-    /**
      * @param $name
      * @param $arguments
      * @return mixed
@@ -35,7 +24,7 @@ trait TExtendable
      */
     public function __call($name, $arguments)
     {
-        $extRepo = new ExtensionRepository();
+        $extRepo = SystemContainer::getItem(getenv('EXTAS__EXTENSIONS_REPOSITORY') ?: 'extensions');
 
         /**
          * @var $extension IExtension
@@ -47,6 +36,10 @@ trait TExtendable
         ]);
 
         if (!$extension) {
+            if ($fromContainer = $this->getFromContainer($name)) {
+                return $fromContainer;
+            }
+            
             throw new MissedOrUnknown('method "' . get_class($this) . ':' . $name . '".');
         }
 
@@ -62,21 +55,6 @@ trait TExtendable
     }
 
     /**
-     * @param string $interface
-     * @return bool
-     * @throws \Exception
-     */
-    public function isImplementsInterface(string $interface): bool
-    {
-        $extRepo = new ExtensionRepository();
-
-        return $extRepo->one([
-            IExtension::FIELD__INTERFACE => $interface,
-            IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
-        ]) ? true : false;
-    }
-
-    /**
      * @param string $methodName
      * @return bool
      * @throws \Exception
@@ -87,12 +65,21 @@ trait TExtendable
             return true;
         }
 
-        $extRepo = new ExtensionRepository();
+        $extRepo = SystemContainer::getItem(getenv('EXTAS__EXTENSIONS_REPOSITORY') ?: 'extensions');
 
         return $extRepo->one([
             IExtension::FIELD__METHODS => $methodName,
             IExtension::FIELD__SUBJECT => [$this->getSubjectForExtension(), IExtension::SUBJECT__WILDCARD],
         ]) ? true : false;
+    }
+
+    protected function getFromContainer(string $alias)
+    {
+        try {
+            return SystemContainer::getItem($alias);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 
     /**

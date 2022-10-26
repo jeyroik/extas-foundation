@@ -1,8 +1,9 @@
 <?php
 namespace extas\components\extensions;
 
-use extas\components\Item;
+use extas\components\THasConfig;
 use extas\components\samples\parameters\THasSampleParameters;
+use extas\components\TAsArray;
 use extas\components\THasClass;
 use extas\components\THasId;
 use extas\interfaces\extensions\IExtension;
@@ -13,11 +14,13 @@ use extas\interfaces\extensions\IExtension;
  * @package extas\components\extensions
  * @author jeyroik@gmail.com
  */
-class Extension extends Item implements IExtension
+class Extension implements IExtension
 {
     use THasClass;
     use THasId;
     use THasSampleParameters;
+    use TAsArray;
+    use THasConfig;
 
     /**
      * @param $subject
@@ -103,13 +106,5 @@ class Extension extends Item implements IExtension
     protected function wildcardMethod(string $methodName, ...$args)
     {
         return null;
-    }
-
-    /**
-     * @return string
-     */
-    protected function getSubjectForExtension(): string
-    {
-        return static::SUBJECT;
     }
 }

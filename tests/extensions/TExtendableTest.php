@@ -1,10 +1,11 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use extas\components\extensions\ExtensionRepository;
 use \extas\components\extensions\Extension;
 use \extas\components\extensions\TExtendable;
 use Dotenv\Dotenv;
+use extas\components\repositories\TSnuffRepository;
+use tests\resources\ExtensionCheckMethod;
 
 /**
  * Class TExtendableTest
@@ -13,11 +14,14 @@ use Dotenv\Dotenv;
  */
 class TExtendableTest extends TestCase
 {
+    use TSnuffRepository;
+
     protected function setUp(): void
     {
         parent::setUp();
         $env = Dotenv::create(getcwd() . '/tests/');
         $env->load();
+        $this->buildBasicRepos();
     }
 
     /**
@@ -25,14 +29,15 @@ class TExtendableTest extends TestCase
      */
     public function tearDown(): void
     {
-        $repo = new ExtensionRepository();
-        $repo->delete([Extension::FIELD__SUBJECT => 'test']);
+        $this->dropDatabase();
     }
 
     public function testDecoration()
     {
         $subject = new class {
             use TExtendable;
+
+            public $name = 'test-decoration';
 
             public function testMe(){}
 
@@ -42,20 +47,24 @@ class TExtendableTest extends TestCase
             }
         };
 
-        $repo = new ExtensionRepository();
+        $repo = $subject->extensions();
         $repo->create(new Extension([
-            Extension::FIELD__CLASS => Extension::class,
+            Extension::FIELD__CLASS => ExtensionCheckMethod::class,
             Extension::FIELD__SUBJECT => 'test',
             Extension::FIELD__INTERFACE => '',
-            Extension::FIELD__METHODS => ['getClass']
+            Extension::FIELD__METHODS => ['getSomething']
         ]));
 
-        $this->assertTrue($subject->hasMethod('getClass'), 'Subject has no method `getClass`');
+        $this->assertTrue($subject->hasMethod('getSomething'), 'Subject has no method `getSomething`');
         $this->assertTrue($subject->hasMethod('testMe'), 'Subject has no method `testMe`');
+        $this->assertFalse($subject->hasMethod('unknown'), 'Subject has unknown method');
+
         $this->assertEquals(
-            Extension::class,
-            $subject->getClass(),
-            'Incorrect extension class: ' . $subject->getClass()
+            'test-decoration',
+            $subject->getSomething(), 'Subject::getSomething() not worked. Check extension.'
         );
+
+        $this->expectExceptionMessageMatches('/Missed or unknown method/');
+        $subject->unknown();
     }
 }

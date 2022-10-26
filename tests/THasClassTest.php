@@ -6,6 +6,7 @@ use extas\interfaces\IHasClass;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
 use Dotenv\Dotenv;
+use extas\components\SystemContainer;
 
 /**
  * Class THasClassTest
