@@ -1,3 +1,6 @@
+# 6.1.1
+- Refactoring.
+
 # 6.1.0
 - Added stage `equal` for `IItem`, see `extas\interfaces\stages\IStageItemEqual` for details.
 - Refactoring DriverFileJson.

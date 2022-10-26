@@ -38,23 +38,39 @@ class DriverFileJsonTest extends TestCase
             Plugin::FIELD__STAGE => ['not','existing']
         ]));
 
+        $repo->create(new Plugin([
+            Plugin::FIELD__CLASS => 'NotExisting2',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]));
+
+        $repo->create(new Plugin([
+            Plugin::FIELD__CLASS => 'NotExisting3',
+            Plugin::FIELD__STAGE => ['not','existing']
+        ]));
+
         $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
         $this->assertNotEmpty($plugin, 'Can not find plugin with class = NotExisting');
 
         $plugin = $repo->one([Plugin::FIELD__CLASS => ['NotExisting']]);
         $this->assertNotEmpty($plugin, 'Can not find plugin with class in [NotExisting]');
 
-        $plugin = $repo->all([Plugin::FIELD__CLASS => 'NotExisting']);
-        $this->assertNotEmpty($plugin, 'Can not find plugin by all()');
+        $plugins = $repo->all([Plugin::FIELD__CLASS => 'NotExisting']);
+        $this->assertNotEmpty($plugins, 'Can not find plugin by all()');
 
-        $plugin = $repo->all([Plugin::FIELD__CLASS => ['NotExisting']]);
-        $this->assertNotEmpty($plugin, 'Can not find plugin by all() in [NotExisting]');
+        $plugins = $repo->all([Plugin::FIELD__CLASS => ['NotExisting']]);
+        $this->assertNotEmpty($plugins, 'Can not find plugin by all() in [NotExisting]');
 
         $plugin = $repo->one([Plugin::FIELD__STAGE => 'not']);
         $this->assertNotEmpty($plugin, 'Can not find plugin by stage "not"');
 
         $plugin = $repo->one([Plugin::FIELD__STAGE => ['not']]);
         $this->assertNotEmpty($plugin, 'Can not find plugin by stage in [not]');
+
+        $plugins = $repo->all([Plugin::FIELD__STAGE => ['not']], limit: 1, offset: 1);
+        $this->assertNotEmpty($plugins, 'Can not find plugin by all(limit=1, offset=1) in [NotExisting]');
+        $this->assertCount(1, $plugins, 'Invalid limit & offset working');
+        $plugin = array_shift($plugins);
+        $this->assertEquals('NotExisting2', $plugin->getClass(), 'Invalid limit & offset working');
     }
 
     public function testUpdateOne()

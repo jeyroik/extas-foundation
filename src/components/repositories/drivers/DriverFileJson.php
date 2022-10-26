@@ -1,6 +1,8 @@
 <?php
 namespace extas\components\repositories\drivers;
 
+use extas\components\repositories\TLimitWithOffset;
+use extas\components\TCompareValue;
 use extas\components\THasConfig;
 use extas\interfaces\IItem;
 use extas\interfaces\repositories\drivers\IDriver;
@@ -11,6 +13,8 @@ class DriverFileJson extends Driver implements IDriver
     protected const FIELD__DB = 'db';
     protected const FIELD__TABLE = 'table';
 
+    use TCompareValue;
+    use TLimitWithOffset;
     use THasConfig;
     use THasConfig {
         THasConfig::__construct as baseConstruct;
@@ -174,7 +178,10 @@ class DriverFileJson extends Driver implements IDriver
         }
 
         $matched = $this->allOrderBy($matched, $orderBy);
-        $matched = $this->allLimitWithOffset($matched, $limit, $offset);
+        $matched = $this->limit(
+            $this->offset($matched, $offset),
+            $limit
+        );
 
         return $matched;
     }
@@ -182,58 +189,6 @@ class DriverFileJson extends Driver implements IDriver
     public function group(array $groupBy)
     {
         throw new \Exception('Method "group" is not implemented yet');
-    }
-
-    protected function compareValue($source, $compareTo): bool
-    {
-        $checkers = [
-            'isEqualBasic',
-            'isEqualIn'
-        ];
-
-        $applicable = true;
-
-        foreach ($checkers as $method) {
-            $applicable = $this->$method($source, $compareTo);
-            if ($applicable) {
-                break;
-            }
-        }
-
-        return $applicable;
-    }
-
-    protected function isEqualBasic($source, $compareTo): bool
-    {
-        if (is_array($source)) {
-            foreach ($source as $value) {
-                if ($value == $compareTo) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-        return $source == $compareTo;
-    }
-
-    protected function isEqualIn($source, $compareTo): bool
-    {
-        if (is_array($compareTo)) {
-            foreach ($compareTo as $value) {
-                if (is_array($source)) {
-                    $equal = $this->isEqualBasic($source, $value);
-                    if ($equal) {
-                        return true;
-                    }
-                }
-                elseif ($source == $value) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     protected function allFilterFields(array $item, array $fields): array
@@ -247,36 +202,6 @@ class DriverFileJson extends Driver implements IDriver
         }
 
         return $item;
-    }
-
-    protected function allLimitWithOffset($matched, $limit, $offset): array
-    {
-        if ($limit) {
-            $limited = [];
-            foreach ($matched as $index => $item) {
-                if ($offset && ($index < $offset)) {
-                    continue;
-                }
-                if (count($limited) == $limit) {
-                    break;
-                }
-                $limited[] = $item;
-            }
-
-            $matched = $limited;
-        } elseif ($offset) {
-            $matchedWithOffset = [];
-            foreach ($matched as $index => $item) {
-                if ($index < $offset) {
-                    continue;
-                }
-                $matchedWithOffset[] = $item;
-            }
-
-            $matched = $matchedWithOffset;
-        }
-
-        return $matched;
     }
 
     protected function allOrderBy(array $matched, array $orderBy): array

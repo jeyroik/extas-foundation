@@ -69,26 +69,14 @@ class InstallCommand extends Command
         $output->writeln(['Collecting storage configurations...']);
         list($appStorage, $packagesStorages) = $this->getStorageConfigs($input);
 
-        $output->writeln([
-            'Done.', 
-            'Found app configuration + ' . count($packagesStorages) . ' package(s) configurations.', 
-            'Installing storages...'
-        ]);
+        $this->shout(true, count($packagesStorages), 'configurations', $output);
         $storageInstaller = new InstallerStorage($appStorage, $packagesStorages);
         $storageInstaller->install($pathSave, $pathTemplates);
 
-        $output->writeln([
-            'Done.',
-            'Collecting entities configurations...'
-        ]);
+        $output->writeln(['Done.', 'Collecting entities configurations...']);
         list($appEntities, $packagesEntities) = $this->getEntitiesConfigs($input);
 
-        $output->writeln([
-            'Done.',
-            'Found ' . (empty($appEntities) ? '' : 'app entitiies + ') 
-            . count($packagesEntities) . ' package(s) configurations.',
-            'Installing entities...'
-        ]);
+        $this->shout(!empty($appEntities), count($packagesEntities), 'entities', $output);
         $entitiesInstaller = new InstallerEntities($appEntities, $packagesEntities);
         $entitiesInstaller->install();
 
@@ -96,6 +84,17 @@ class InstallCommand extends Command
         $output->writeln(['Done.', '', 'Installation finished in ' . ($end-$start) . 's.']);
 
         return 0;
+    }
+
+    protected function shout(bool $isApp, int $packagesCount, string $subject = 'entities', OutputInterface $output): void
+    {
+        $app = $isApp ? "app $subject + " : '';
+
+        $output->writeln([
+            'Done.',
+            'Found ' . $app . $packagesCount . ' package(s) ' . $subject . '.',
+            'Installing ' . $subject . '...'
+        ]);
     }
 
     protected function getStorageConfigs(InputInterface $input): array

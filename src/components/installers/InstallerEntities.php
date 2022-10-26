@@ -21,20 +21,20 @@ class InstallerEntities
 
     public function install(): void
     {
-        foreach ($this->app as $tableName => $entities) {
+        $this->installPackage($this->app);
+
+        foreach ($this->packages as $package) {
+            $this->installPackage($package);
+        }
+    }
+
+    protected function installPackage($package): void
+    {
+        foreach ($package as $tableName => $entities) {
             if ($this->isNeedToSkip($tableName, $entities)) {
                 continue;
             }
             $this->installTable($tableName, $entities);
-        }
-
-        foreach ($this->packages as $name => $package) {
-            foreach ($package as $tableName => $entities) {
-                if ($this->isNeedToSkip($tableName, $entities)) {
-                    continue;
-                }
-                $this->installTable($tableName, $entities);
-            }
         }
     }
 
