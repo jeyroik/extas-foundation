@@ -1,3 +1,7 @@
+# 6.1.0
+- Added stage `equal` for `IItem`, see `extas\interfaces\stages\IStageItemEqual` for details.
+- Refactoring DriverFileJson.
+
 # 6.0.0
 - Added `install` command (instead of separeted package).
 - Added `extra` command (instead of separeted package).

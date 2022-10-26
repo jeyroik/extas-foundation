@@ -57,21 +57,7 @@ class DriverFileJson extends Driver implements IDriver
         $data = $this->getTableData();
 
         foreach ($data as $index => $item) {
-            $applicable = true;
-            foreach ($query as $field => $value) {
-                if (!isset($item[$field])) {
-                    $applicable = false;
-                    break;
-                }
-
-                $applicable = $this->compareValue($item[$field], $value);
-                
-                if (!$applicable) {
-                    break;
-                }
-            }
-
-            if ($applicable) {
+            if ($this->isQueryApplicableToItem($query, $item)) {
                 unset($this->data[$this->getTableName()][$index]);
                 $deleted++;
             }
@@ -93,20 +79,7 @@ class DriverFileJson extends Driver implements IDriver
         $data = $this->getTableData();
 
         foreach ($data as $index => $item) {
-            $applicable = true;
-            foreach ($query as $field => $value) {
-                if (!isset($item[$field])) {
-                    $applicable = false;
-                    break;
-                }
-                $applicable = $this->compareValue($item[$field], $value);
-                
-                if (!$applicable) {
-                    break;
-                }
-            }
-
-            if ($applicable) {
+            if ($this->isQueryApplicableToItem($query, $item)) {
                 unset($this->data[$this->getTableName()][$index]);
                 $this->saveData();
                 break;
@@ -120,26 +93,11 @@ class DriverFileJson extends Driver implements IDriver
     {
         $matched = 0;
         $table = $this->getTableData();
+        $data = $this->dataToArray($data);
 
         foreach ($table as $index => $item) {
-            $applicable = true;
-            foreach ($query as $field => $value) {
-                if (!isset($item[$field])) {
-                    $applicable = false;
-                    break;
-                }
-                $applicable = $this->compareValue($item[$field], $value);
-                
-                if (!$applicable) {
-                    break;
-                }
-            }
-
-            if ($applicable) {
-                foreach ($data as $field => $value) {
-                    $item[$field] = $value;
-                }
-                $this->data[$this->getTableName()][$index] = $item;
+            if ($this->isQueryApplicableToItem($query, $item)) {
+                $this->data[$this->getTableName()][$index] = array_merge($item, $data);
                 $matched++;
             }
         }
@@ -147,6 +105,24 @@ class DriverFileJson extends Driver implements IDriver
         $this->saveData();
 
         return $matched;
+    }
+
+    protected function dataToArray($data): array
+    {
+        return is_object($data) ? $data->__toArray() : $data;
+    }
+
+    protected function isQueryApplicableToItem(array $query, $item): bool
+    {
+        $applicable = true;
+        foreach ($query as $field => $value) {
+            if (!isset($item[$field]) || !$this->compareValue($item[$field], $value)) {
+                $applicable = false;
+                break;
+            }
+        }
+
+        return $applicable;
     }
 
     public function update($item): bool
@@ -174,20 +150,7 @@ class DriverFileJson extends Driver implements IDriver
         $data = $this->getTableData();
 
         foreach ($data as $item) {
-            $applicable = true;
-            foreach ($query as $field => $value) {
-                if (!isset($item[$field])) {
-                    $applicable = false;
-                    break;
-                }
-                $applicable = $this->compareValue($item[$field], $value);
-                
-                if (!$applicable) {
-                    break;
-                }
-            }
-
-            if ($applicable) {
+            if ($this->isQueryApplicableToItem($query, $item)) {
                 if ($found == $offset) {
                     return $this->allFilterFields($item, $fields);
                 } else {
@@ -205,20 +168,7 @@ class DriverFileJson extends Driver implements IDriver
         $data = $this->getTableData();
 
         foreach ($data as $item) {
-            $applicable = true;
-            foreach ($query as $field => $value) {
-                if (!isset($item[$field])) {
-                    $applicable = false;
-                    break;
-                }
-                $applicable = $this->compareValue($item[$field], $value);
-                
-                if (!$applicable) {
-                    break;
-                }
-            }
-
-            if ($applicable) {
+            if ($this->isQueryApplicableToItem($query, $item)) {
                 $matched[] = $this->allFilterFields($item, $fields);
             }
         }
