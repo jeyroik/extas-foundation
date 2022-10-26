@@ -24,6 +24,5 @@ class PluginTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('stage', $plugin->getStage());
         $this->assertEquals(10, $plugin->getPriority());
         $this->assertEquals('test', $plugin->getHash());
-        $this->assertEquals('install', $plugin->getInstallOn());
     }
 }

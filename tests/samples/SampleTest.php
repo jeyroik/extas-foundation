@@ -35,7 +35,7 @@ class SampleTest extends TestCase
 
     protected function tearDown(): void
     {
-        $this->unregisterSnuffRepos();
+        $this->dropDatabase();
     }
 
     public function testParameters()

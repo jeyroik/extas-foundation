@@ -16,7 +16,7 @@ class InstallCommandTest extends TestCase
     public function testRepoBuilder()
     {
         $builder = new RepositoryBuilder([
-            RepositoryBuilder::FIELD__PATH_SAVE => getcwd() . '/tests/tmp',
+            RepositoryBuilder::FIELD__PATH_SAVE => 'tests/tmp',
             RepositoryBuilder::FIELD__PATH_TEMPLATE => __DIR__ . '/../resources'
         ]);
 

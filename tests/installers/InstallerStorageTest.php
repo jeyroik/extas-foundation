@@ -5,6 +5,7 @@ use extas\components\crawlers\CrawlerStorage;
 use extas\components\installers\InstallerStorage;
 use extas\components\SystemContainer;
 use PHPUnit\Framework\TestCase;
+use tests\resources\TBuildRepository;
 
 /**
  * Class InstallerStorageTest
@@ -14,6 +15,8 @@ use PHPUnit\Framework\TestCase;
  */
 class InstallerStorageTest extends TestCase
 {
+    use TBuildRepository;
+
     protected string $basePath = '';
 
     protected function setUp(): void
@@ -21,16 +24,7 @@ class InstallerStorageTest extends TestCase
         parent::setUp();
 
         $this->basePath = __DIR__ . '/../tmp_install';
-
-        $this->cleanDir();
         SystemContainer::refresh();
-        $repos = ['plugins', 'extensions', 'entries'];
-        foreach ($repos as $repoName) {
-            if (SystemContainer::hasItem($repoName)) {
-                $repo = SystemContainer::getItem($repoName);
-                $repo->drop();
-            }
-        }
     }
 
     /**
@@ -39,6 +33,7 @@ class InstallerStorageTest extends TestCase
     public function tearDown(): void
     {
         $this->cleanDir();
+        $this->dropDatabase();
         SystemContainer::refresh();
     }
 

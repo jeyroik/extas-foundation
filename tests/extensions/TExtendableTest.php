@@ -29,7 +29,7 @@ class TExtendableTest extends TestCase
      */
     public function tearDown(): void
     {
-        $this->unregisterSnuffRepos();
+        $this->dropDatabase();
     }
 
     public function testDecoration()

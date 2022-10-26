@@ -8,6 +8,7 @@ use extas\components\installers\InstallerStorage;
 use extas\components\SystemContainer;
 use extas\interfaces\stages\IStageBeforeInstallEntity;
 use PHPUnit\Framework\TestCase;
+use tests\resources\TBuildRepository;
 
 /**
  * Class InstallerStorageTest
@@ -17,6 +18,8 @@ use PHPUnit\Framework\TestCase;
  */
 class InstallerEntitiesTest extends TestCase
 {
+    use TBuildRepository;
+
     protected string $basePath = '';
 
     protected function setUp(): void
@@ -27,13 +30,6 @@ class InstallerEntitiesTest extends TestCase
 
         $this->cleanDir();
         SystemContainer::refresh();
-        $repos = ['plugins', 'extensions', 'entries'];
-        foreach ($repos as $repoName) {
-            if (SystemContainer::hasItem($repoName)) {
-                $repo = SystemContainer::getItem($repoName);
-                $repo->drop();
-            }
-        }
     }
 
     /**
@@ -42,6 +38,7 @@ class InstallerEntitiesTest extends TestCase
     public function tearDown(): void
     {
         $this->cleanDir();
+        $this->dropDatabase();
         SystemContainer::refresh();
     }
 

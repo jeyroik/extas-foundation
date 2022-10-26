@@ -36,9 +36,7 @@ class PluginsTest extends TestCase
 
     public function tearDown(): void
     {
-        $this->pluginRepo->delete([Plugin::FIELD__CLASS => Plugins::class]);
-        $this->deleteSnuffPlugins();
-        $this->removePluginsRepo();
+        $this->dropDatabase();
     }
 
     public function testPluginConfig()

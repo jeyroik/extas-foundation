@@ -11,13 +11,6 @@ use Dotenv\Dotenv;
  */
 class ExtensionTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-    }
-
     public function testRunMethod()
     {
         $ext = new class extends Extension {

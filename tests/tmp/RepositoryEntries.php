@@ -1,16 +1,16 @@
 <?php
-namespace tests\tmp;
+namespace tests\tmp_install;
 
 use extas\components\repositories\Repository;
 
-class RepositoryPlugins extends Repository
+class RepositoryEntries extends Repository
 {
     protected $table = null;
-    protected string $name = 'plugins';
+    protected string $name = 'entries';
     protected string $scope = 'extas';
-    protected string $pk = 'id';
+    protected string $pk = 'name';
     protected string $itemClass = '\extas\components\plugins\Plugin';
-    protected string $repoSubject = 'plugins';
+    protected string $repoSubject = 'entries';
 
     /**
      * Repository constructor.
@@ -139,7 +139,7 @@ class RepositoryPlugins extends Repository
         $repo = $this->getRepoInstance();
         $result = $repo->drop();
         
-        \extas\components\Plugins::reset();
+        
 
         return $result;
     }

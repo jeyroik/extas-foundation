@@ -66,12 +66,4 @@ class Plugin implements IPlugin
     {
         return $this->config[static::FIELD__STAGE] ?? '';
     }
-
-    /**
-     * @return string
-     */
-    public function getInstallOn(): string
-    {
-        return $this->config[static::FIELD__INSTALL_ON] ?? 'install';
-    }
 }

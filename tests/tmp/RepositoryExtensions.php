@@ -152,7 +152,7 @@ class RepositoryExtensions extends Repository
     {
         if (!$this->table) {
             $this->table = new \extas\components\repositories\drivers\DriverFileJson([
-                'table' => $this, 'path' => '/tmp/', 'db' => 'system', 
+                'table' => $this, 'path' => 'tests/tmp/', 'db' => 'system', 
             ]);
         }
 

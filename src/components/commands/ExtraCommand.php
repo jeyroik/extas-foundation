@@ -44,5 +44,7 @@ class ExtraCommand extends Command
              */
             $plugin ($input, $output);
         }
+
+        return 0;
     }
 }

@@ -26,7 +26,7 @@ class DriverFileJsonTest extends TestCase
 
     public function tearDown(): void
     {
-       $this->unregisterSnuffRepos();
+       $this->dropDatabase();
     }
 
     public function testInsertAndFind()

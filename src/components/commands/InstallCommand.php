@@ -14,6 +14,7 @@ class InstallCommand extends Command
 {
     public const OPTION__PATH_TEMPLATES = 'path_templates';
     public const OPTION__PATH_SAVE = 'path_save';
+    public const OPTION__PATH_PACKAGES = 'path_packages';
 
     /**
      * Configure the current command.
@@ -39,6 +40,13 @@ class InstallCommand extends Command
                 'Generated repositories classes save directory absolute path',
                 getcwd() . '/extas_build'
             )
+            ->addOption(
+                static::OPTION__PATH_PACKAGES,
+                'p',
+                InputOption::VALUE_OPTIONAL,
+                'Path to search packages for',
+                getcwd()
+            );
         ;
     }
 
@@ -51,29 +59,54 @@ class InstallCommand extends Command
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $output->writeln(['Extas Foundation v6 Installer']);
+
+        $start = time();
+
         $pathSave = $input->getOption(static::OPTION__PATH_SAVE);
         $pathTemplates = $input->getOption(static::OPTION__PATH_TEMPLATES);
 
-        // Install storages with plugins and extensions
-        list($appStorage, $packagesStorages) = $this->getStorageConfigs();
+        $output->writeln(['Collecting storage configurations...']);
+        list($appStorage, $packagesStorages) = $this->getStorageConfigs($input);
+
+        $output->writeln([
+            'Done.', 
+            'Found app configuration + ' . count($packagesStorages) . ' package(s) configurations.', 
+            'Installing storages...'
+        ]);
         $storageInstaller = new InstallerStorage($appStorage, $packagesStorages);
         $storageInstaller->install($pathSave, $pathTemplates);
 
-        // Install other entities
-        list($appEntities, $packagesEntities) = $this->getEntitiesConfigs();
+        $output->writeln([
+            'Done.',
+            'Collecting entities configurations...'
+        ]);
+        list($appEntities, $packagesEntities) = $this->getEntitiesConfigs($input);
+
+        $output->writeln([
+            'Done.',
+            'Found ' . (empty($appEntities) ? '' : 'app entitiies + ') 
+            . count($packagesEntities) . ' package(s) configurations.',
+            'Installing entities...'
+        ]);
         $entitiesInstaller = new InstallerEntities($appEntities, $packagesEntities);
         $entitiesInstaller->install();
+
+        $end = time();
+        $output->writeln(['Done.', '', 'Installation finished in ' . ($end-$start) . 's.']);
+
+        return 0;
     }
 
-    protected function getStorageConfigs(): array
+    protected function getStorageConfigs(InputInterface $input): array
     {
         $crawler = new CrawlerStorage();
-        return $crawler(getcwd());
+        return $crawler($input->getOption(static::OPTION__PATH_PACKAGES));
     }
 
-    protected function getEntitiesConfigs(): array
+    protected function getEntitiesConfigs(InputInterface $input): array
     {
         $crawler = new CrawlerEntities();
-        return $crawler(getcwd());
+        return $crawler($input->getOption(static::OPTION__PATH_PACKAGES));
     }
 }

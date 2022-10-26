@@ -2,7 +2,7 @@
   "name": "jeyroik/extas-foundation",
   "description": "Extas foundation package",
   "require": {
-    "league/container": "3.*",
+    "league/container": "4.*",
     "jeyroik/extas-base": "2.*",
     "jeyroik/extas-exceptions": "0.*",
     "ext-json": "*",

@@ -94,12 +94,12 @@ class SystemContainer implements ISystemContainer
         return self::$instance ?: self::$instance = new static();
     }
 
-    protected static function getConfigPath(): string
+    public static function getConfigPath(): string
     {
         return getenv('EXTAS__CONTAINER_PATH_STORAGE_LOCK') ?: getcwd() . static::DEFAULT__DIST_PATH;
     }
 
-    protected static function getConfig(): array
+    public static function getConfig(): array
     {
         $path = self::getConfigPath();
 

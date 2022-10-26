@@ -9,7 +9,7 @@ trait TBuildRepository
     protected string $templatesPath = '';
     protected string $extasDriver = '\\extas\\components\\repositories\\drivers\\DriverFileJson';
     protected array $extasDriverOptions = [
-        "path" => "/tmp/",
+        "path" => "tests/tmp/",
         "db" => "system"
     ];
 
@@ -30,6 +30,11 @@ trait TBuildRepository
     protected function deleteRepo(string $alias): void
     {
         unlink(getcwd() . '/tests/tmp/Repository' . ucfirst($alias) . '.php');
+    }
+
+    protected function dropDatabase(): void
+    {
+        unlink(__DIR__ . '/../tmp/system');
     }
 
     protected function buildPluginsRepo(): IRepository
