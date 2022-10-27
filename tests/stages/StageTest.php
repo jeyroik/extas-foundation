@@ -2,8 +2,6 @@
 namespace tests\stages;
 
 use extas\components\stages\Stage;
-
-use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -14,13 +12,6 @@ use PHPUnit\Framework\TestCase;
  */
 class StageTest extends TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-    }
-
     public function testBasicLogic()
     {
         $stage = new Stage();

@@ -3,7 +3,6 @@
 use \PHPUnit\Framework\TestCase;
 use \extas\components\extensions\Extension;
 use \extas\components\extensions\TExtendable;
-use Dotenv\Dotenv;
 use extas\components\repositories\TSnuffRepository;
 use tests\resources\ExtensionCheckMethod;
 
@@ -18,9 +17,6 @@ class TExtendableTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
         $this->buildBasicRepos();
     }
 

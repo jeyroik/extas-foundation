@@ -8,13 +8,6 @@ use extas\components\plugins\Plugin;
  */
 class PluginTest extends \PHPUnit\Framework\TestCase
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $env = \Dotenv\Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-    }
-
     public function testSetAndGetStage()
     {
         $plugin = new Plugin();
