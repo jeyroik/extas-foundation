@@ -4,7 +4,6 @@ use \PHPUnit\Framework\TestCase;
 use extas\interfaces\repositories\IRepository;
 use extas\components\plugins\Plugin;
 use extas\components\Item;
-use Dotenv\Dotenv;
 use tests\resources\PluginEqual;
 use tests\resources\TBuildRepository;
 
@@ -23,10 +22,6 @@ class ItemTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-
         $this->pluginRepo = $this->buildPluginsRepo();
     }
 

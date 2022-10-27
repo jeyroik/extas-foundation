@@ -3,18 +3,14 @@ namespace tests\samples;
 
 use extas\interfaces\samples\IHasSample;
 use extas\interfaces\samples\parameters\ISampleParameter;
-
 use extas\components\repositories\TSnuffRepository;
-use extas\components\extensions\ExtensionRepository;
 use extas\components\samples\Sample;
 use extas\components\THasName;
 use extas\components\Item;
 use extas\components\samples\THasSample;
 use extas\components\samples\parameters\SampleParameter;
 
-use Dotenv\Dotenv;
 use PHPUnit\Framework\TestCase;
-use tests\resources\TBuildRepository;
 
 /**
  * Class SampleTest
@@ -27,9 +23,6 @@ class SampleTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
         $this->buildBasicRepos();
     }
 

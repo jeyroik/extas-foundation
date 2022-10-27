@@ -1,7 +1,6 @@
 <?php
 
 use \PHPUnit\Framework\TestCase;
-use Dotenv\Dotenv;
 use extas\components\plugins\Plugin;
 use extas\components\repositories\TSnuffRepository;
 use extas\components\SystemContainer;
@@ -17,10 +16,6 @@ class DriverFileJsonTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-
         $this->buildBasicRepos();
     }
 

@@ -4,10 +4,8 @@ namespace tests;
 use extas\components\plugins\TSnuffPlugins;
 use \PHPUnit\Framework\TestCase;
 use \extas\components\plugins\Plugin;
-use \extas\components\plugins\PluginLog;
 use \extas\components\Plugins;
 use extas\interfaces\repositories\IRepository;
-use Dotenv\Dotenv;
 use tests\resources\TBuildRepository;
 
 /**
@@ -27,10 +25,6 @@ class PluginsTest extends TestCase
 
     protected function setUp(): void
     {
-        parent::setUp();
-        $env = Dotenv::create(getcwd() . '/tests/');
-        $env->load();
-
         $this->pluginRepo = $this->buildPluginsRepo();
     }
 

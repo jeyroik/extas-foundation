@@ -1,3 +1,7 @@
+# 6.1.2
+- Remove deprecated code.
+- Up to php 8.1
+
 # 6.1.1
 - Refactoring.
 
