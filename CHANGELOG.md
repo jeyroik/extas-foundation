@@ -1,3 +1,6 @@
+# 6.2.0
+- Allow to pass path for db drop in tests.
+
 # 6.1.2
 - Remove deprecated code.
 - Up to php 8.1

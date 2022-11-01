@@ -32,9 +32,9 @@ trait TBuildRepository
         unlink(getcwd() . '/tests/tmp/Repository' . ucfirst($alias) . '.php');
     }
 
-    protected function dropDatabase(): void
+    protected function dropDatabase(string $basePath = __DIR__): void
     {
-        unlink(__DIR__ . '/../tmp/system');
+        unlink($basePath . '/../tmp/system');
     }
 
     protected function buildPluginsRepo(): IRepository
