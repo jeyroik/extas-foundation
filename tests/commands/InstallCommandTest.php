@@ -51,7 +51,11 @@ class InstallCommandTest extends TestCase
         $input = $this->getInput([
             InstallCommand::OPTION__PATH_SAVE => __DIR__ . '/../tmp_install',
             InstallCommand::OPTION__PATH_TEMPLATES => __DIR__ . '/../../resources',
-            InstallCommand::OPTION__PATH_PACKAGES => __DIR__ . '/../resources'
+            InstallCommand::OPTION__PATH_PACKAGES => __DIR__ . '/../resources',
+            InstallCommand::OPTION__CFG_APP_FILENAME => 'extas.app.storage.test.json',
+            InstallCommand::OPTION__CFG_PCKGS_FILENAME => 'extas.storage.test.json',
+            InstallCommand::OPTION__ENTITY_APP_FILENAME => 'extas.app.test.json',
+            InstallCommand::OPTION__ENTITY_PCKGS_FILENAME => 'extas.test.json'
         ]);
 
         $command = new InstallCommand();

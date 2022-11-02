@@ -14,7 +14,7 @@ class CrawlerEntitiesTest extends TestCase
 {
     public function testCrawling()
     {
-        $crawler = new CrawlerEntities();
+        $crawler = new CrawlerEntities('extas.app.test.json', 'extas.test.json');
         list($app, $packages) = $crawler(__DIR__ . '/../resources');
 
         $appMust = $this->getAppConfig();

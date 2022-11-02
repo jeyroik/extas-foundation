@@ -14,7 +14,7 @@ class CrawlerStorageTest extends TestCase
 {
     public function testCrawling()
     {
-        $crawler = new CrawlerStorage();
+        $crawler = new CrawlerStorage('extas.app.storage.test.json', 'extas.storage.test.json');
         list($app, $packages) = $crawler(__DIR__ . '/../resources');
 
         $appMust = $this->getAppConfig();

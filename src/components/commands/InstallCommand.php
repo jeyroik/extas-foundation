@@ -5,13 +5,18 @@ use extas\components\crawlers\CrawlerEntities;
 use extas\components\crawlers\CrawlerStorage;
 use extas\components\installers\InstallerEntities;
 use extas\components\installers\InstallerStorage;
+use extas\interfaces\commands\IHaveConfigOptions;
+use extas\interfaces\commands\IHaveEntitiesOptions;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class InstallCommand extends Command
+class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitiesOptions
 {
+    use THasConfigOptions;
+    use THasEntitiesOptions;
+
     public const OPTION__PATH_TEMPLATES = 'path_templates';
     public const OPTION__PATH_SAVE = 'path_save';
     public const OPTION__PATH_PACKAGES = 'path_packages';
@@ -48,6 +53,9 @@ class InstallCommand extends Command
                 getcwd()
             );
         ;
+
+        $this->attachConfigOptions();
+        $this->attachEntitiesOptions();
     }
 
     /**
@@ -99,13 +107,19 @@ class InstallCommand extends Command
 
     protected function getStorageConfigs(InputInterface $input): array
     {
-        $crawler = new CrawlerStorage();
+        $crawler = new CrawlerStorage(
+            $input->getOption(static::OPTION__CFG_APP_FILENAME),
+            $input->getOption(static::OPTION__CFG_PCKGS_FILENAME)
+        );
         return $crawler($input->getOption(static::OPTION__PATH_PACKAGES));
     }
 
     protected function getEntitiesConfigs(InputInterface $input): array
     {
-        $crawler = new CrawlerEntities();
+        $crawler = new CrawlerEntities(
+            $input->getOption(static::OPTION__ENTITY_APP_FILENAME),
+            $input->getOption(static::OPTION__ENTITY_PCKGS_FILENAME)
+        );
         return $crawler($input->getOption(static::OPTION__PATH_PACKAGES));
     }
 }

@@ -46,7 +46,7 @@ class InstallerEntitiesTest extends TestCase
     {
         $this->installStorage();
 
-        $crawler = new CrawlerEntities();
+        $crawler = new CrawlerEntities('extas.app.test.json', 'extas.test.json');
         list($app, $packages) = $crawler(__DIR__ . '/../resources');
 
         $installer = new InstallerEntities($app, $packages);
@@ -73,7 +73,7 @@ class InstallerEntitiesTest extends TestCase
 
     protected function installStorage(): void
     {
-        $crawler = new CrawlerStorage();
+        $crawler = new CrawlerStorage('extas.app.storage.test.json', 'extas.storage.test.json');
         list($app, $packages) = $crawler(__DIR__ . '/../resources');
 
         $installer = new InstallerStorage($app, $packages);

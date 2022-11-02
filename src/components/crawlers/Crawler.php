@@ -7,6 +7,15 @@ abstract class Crawler
 {
     public const FIELD__NAME = 'name';
 
+    protected string $appFilename = '';
+    protected string $packagesFilename = '';
+
+    public function __construct(string $appFilename = '', string $packagesFilename = '')
+    {
+        $appFilename && ($this->appFilename = $appFilename);
+        $packagesFilename && ($this->packagesFilename = $packagesFilename);
+    }
+
     /**
      * @return array
      * @throws \Exception
