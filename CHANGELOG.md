@@ -1,3 +1,7 @@
+# 6.5.0
+- Added defining configurations filenames options.
+- Fixed installing test packages.
+
 # 6.4.1
 - Moved `extra` command to the separeted bin-launcher `extas-extra`.
 - Added `env` command to the `extas` bin-launcher.

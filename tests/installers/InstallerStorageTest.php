@@ -39,7 +39,7 @@ class InstallerStorageTest extends TestCase
 
     public function testInstalling()
     {
-        $crawler = new CrawlerStorage();
+        $crawler = new CrawlerStorage('extas.app.storage.test.json', 'extas.storage.test.json');
         list($app, $packages) = $crawler(__DIR__ . '/../resources');
 
         $installer = new InstallerStorage($app, $packages);
