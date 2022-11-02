@@ -1,3 +1,6 @@
+# 6.5.3
+- Removed unused files.
+
 # 6.5.2
 - Fixed default entities configs filenames.
 
