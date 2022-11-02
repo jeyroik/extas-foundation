@@ -78,6 +78,10 @@ class CrawlerStorageTest extends TestCase
                     "stage" => "extas.before.install.entity"
                 ],
                 [
+                    "class" => "tests\\resources\\PluginIsInstall",
+                    "stage" => "extas.is.install.entity"
+                ],
+                [
                     "class" => "testP",
                     "stage" => "testP"
                 ]

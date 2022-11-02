@@ -5,6 +5,7 @@ use extas\components\Plugins;
 use extas\components\SystemContainer;
 use extas\interfaces\repositories\IRepository;
 use extas\interfaces\stages\IStageBeforeInstallEntity;
+use extas\interfaces\stages\IStageIsToInstallEntity;
 
 class InstallerEntities
 {
@@ -60,13 +61,23 @@ class InstallerEntities
         $itemClass = $repo->getItemClass();
 
         foreach ($entities as $entity) {
+            $isToInstall = true;
+
             foreach (Plugins::byStage(IStageBeforeInstallEntity::NAME) as $plugin) {
                 /**
                  * @var IStageBeforeInstallEntity $plugin
                  */
                 $plugin($entity);
             }
-            $repo->create(new $itemClass($entity));
+
+            foreach (Plugins::byStage(IStageIsToInstallEntity::NAME) as $plugin) {
+                /**
+                 * @var IStageIsToInstallEntity $plugin
+                 */
+                $isToInstall = $plugin($repo, $entity);
+            }
+
+            $isToInstall && $repo->create(new $itemClass($entity));
         }
     }
 }

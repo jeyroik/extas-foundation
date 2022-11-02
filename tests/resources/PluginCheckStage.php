@@ -6,7 +6,7 @@ use extas\interfaces\stages\IStageBeforeInstallEntity;
 
 class PluginCheckStage extends Plugin implements IStageBeforeInstallEntity
 {
-    public function __invoke(array &$entity)
+    public function __invoke(array &$entity): void
     {
         $entity['changed'] = __METHOD__;
     }
