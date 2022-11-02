@@ -27,14 +27,11 @@
             "aliases": ["extensions"]
         }
     },
-    "plugins": [
-        {
-
-        }
-    ],
-    "extensions": [
-        {
-            
-        }
-    ]
+    "plugins": [],
+    "extensions": [],
+    "envs": {
+        "EXTAS__CONTAINER_PATH_STORAGE_LOCK": "System container lock absolute path. Default: resources/container.dist.json",
+        "EXTAS__PLUGINS_REPOSITORY": "Plugins repository name. Default: 'plugins'",
+        "EXTAS__EXTENSIONS_REPOSITORY": "Extensions repository name. Default: 'extensions'"
+    }
 }
