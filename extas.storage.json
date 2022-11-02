@@ -1,17 +1,5 @@
 {
     "name": "extas/foundation",
-    "drivers": [
-        {
-            "class": "\\extas\\components\\repositories\\drivers\\DriverFileJson",
-            "options": {
-                "host": "configs/",
-                "db": "system"
-            },
-            "tables": [
-                "plugins", "extensions"
-            ]
-        }
-    ],
     "tables": {
         "plugins": {
             "item_class": "\\extas\\components\\plugins\\Plugin",
