@@ -1,3 +1,6 @@
+# 6.5.2
+- Fixed default entities configs filenames.
+
 # 6.5.1
 - Up to dotenv v5.5
 
