@@ -13,5 +13,5 @@ $application = new Application();
 $application->setName(PHP_EOL . ' Extas Foundation Installer');
 $application->setVersion('6.0');
 $application->add(new extas\components\commands\InstallCommand());
-$application->add(new extas\components\commands\ExtraCommand());
+$application->add(new extas\components\commands\EnvCommand());
 $application->run();
