@@ -1,3 +1,6 @@
+# 6.6.0
+- Added stage `extas.is.install.entity`.
+
 # 6.5.3
 - Removed unused files.
 

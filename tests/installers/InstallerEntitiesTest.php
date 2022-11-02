@@ -8,6 +8,7 @@ use extas\components\installers\InstallerStorage;
 use extas\components\SystemContainer;
 use extas\interfaces\stages\IStageBeforeInstallEntity;
 use PHPUnit\Framework\TestCase;
+use tests\resources\PluginIsInstall;
 use tests\resources\TBuildRepository;
 
 /**
@@ -63,6 +64,8 @@ class InstallerEntitiesTest extends TestCase
                 'Missed property "changed". Stage ' . IStageBeforeInstallEntity::NAME . ' is not working'
             );
         }
+
+        $this->assertGreaterThan(0, PluginIsInstall::$count);
 
         $repos = ['plugins', 'extensions', 'entries'];
         foreach ($repos as $repoName) {
