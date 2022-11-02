@@ -1,3 +1,6 @@
+# 6.5.1
+- Up to dotenv v5.5
+
 # 6.5.0
 - Added defining configurations filenames options.
 - Fixed installing test packages.
