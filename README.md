@@ -408,6 +408,9 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
             ...
         },
         ...
+    ],
+    "envs": [
+        "name1": "description"
     ]
 }
 ```
@@ -464,7 +467,10 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
             ...
         },
         ...
-    ]
+    ],
+    "envs": {
+        "name1": "description 1"
+    }
 }
 ```
 
@@ -480,3 +486,13 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
     ]
 }
 ```
+
+# ENV
+
+Чтобы узнать какие требуются переменные окружения, выполните команду `env`:
+
+```bash
+# vendor/bin/extas env
+```
+
+Чтобы добавить свои переменные окружения в данный список, добавьте в конфигурации хранилища `extas.app.storage.json` (для библиотек в `extas.storage.json`) раздел `envs` и опишите свои переменные как это показано в примерах соответствующих конфигураций выше.

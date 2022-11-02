@@ -1,3 +1,6 @@
+# 6.4.0
+- Added `env` command.
+
 # 6.3.0
 - Added bin `extas`
 
