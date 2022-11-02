@@ -1,3 +1,6 @@
+# 6.3.0
+- Added bin `extas`
+
 # 6.2.0
 - Allow to pass path for db drop in tests.
 
