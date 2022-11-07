@@ -1,3 +1,6 @@
+# 6.7.0
+- Added repository methods `allAsArray()` and `oneAsArray()`.
+
 # 6.6.0
 - Added stage `extas.is.install.entity`.
 
