@@ -1,0 +1,4 @@
+
+        foreach($this->getPluginsByStage('{table_name}.one.as.array.after') as $plugin) {
+            $plugin($result);
+        }

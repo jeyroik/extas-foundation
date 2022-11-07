@@ -57,6 +57,33 @@ class RepositoryPlugins2 extends Repository
 
     /**
      * @param $where
+     * @param int $offset
+     * @param array $fields
+     * @return IItem|mixed|null
+     * @throws \Exception
+     */
+    public function oneAsArray($where, int $offset = 0, array $fields = [])
+    {
+        //one-as-array-before-code
+        foreach($this->getPluginsByStage('plugins2.one.as.array.before') as $plugin) {
+            $plugin($where, $offset, $fields);
+        }
+
+        $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+        if (!$result) {
+            $result = [];
+        }
+        
+        foreach($this->getPluginsByStage('plugins2.one.as.array.after') as $plugin) {
+            $plugin($result);
+        }
+        //one-as-array-after-code
+
+        return $result;
+    }
+
+    /**
+     * @param $where
      * @param int $limit
      * @param int $offset
      * @param array $orderBy
@@ -84,6 +111,32 @@ class RepositoryPlugins2 extends Repository
         }
 
         //all-after-code
+
+        return $result;
+    }
+
+    /**
+     * @param $where
+     * @param int $limit
+     * @param int $offset
+     * @param array $orderBy
+     * @param array $fields
+     * @return array|IItem[]
+     * @throws \Exception
+     */
+    public function allAsArray($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
+    {
+        //all-as-array-before-code
+        foreach($this->getPluginsByStage('plugins2.all.as.array.before') as $plugin) {
+            $plugin($where, $offset, $fields);
+        }
+
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
+        
+        foreach($this->getPluginsByStage('plugins2.all.as.array.after') as $plugin) {
+            $plugin($result);
+        }
+        //all-as-array-after-code
 
         return $result;
     }

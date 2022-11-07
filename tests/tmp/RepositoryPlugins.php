@@ -51,6 +51,27 @@ class RepositoryPlugins extends Repository
 
     /**
      * @param $where
+     * @param int $offset
+     * @param array $fields
+     * @return IItem|mixed|null
+     * @throws \Exception
+     */
+    public function oneAsArray($where, int $offset = 0, array $fields = [])
+    {
+        
+        
+        $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+        if (!$result) {
+            $result = [];
+        }
+        
+        
+
+        return $result;
+    }
+
+    /**
+     * @param $where
      * @param int $limit
      * @param int $offset
      * @param array $orderBy
@@ -71,6 +92,26 @@ class RepositoryPlugins extends Repository
             $result[$index] = new $itemClass($item);
         }
 
+        
+
+        return $result;
+    }
+
+    /**
+     * @param $where
+     * @param int $limit
+     * @param int $offset
+     * @param array $orderBy
+     * @param array $fields
+     * @return array|IItem[]
+     * @throws \Exception
+     */
+    public function allAsArray($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
+    {
+        
+        
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
+        
         
 
         return $result;

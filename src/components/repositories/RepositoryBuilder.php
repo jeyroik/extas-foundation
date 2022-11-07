@@ -15,8 +15,12 @@ class RepositoryBuilder implements IRepositoryBuilder
     protected array $hooks = [
         'one-before',
         'one-after',
+        'one-as-array-before',
+        'one-as-array-after',
         'all-before',
         'all-after',
+        'all-as-array-before',
+        'all-as-array-after',
         'create-before',
         'create-after',
         'update-before',

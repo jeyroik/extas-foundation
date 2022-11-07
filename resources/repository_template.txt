@@ -51,6 +51,27 @@ class Repository{uc_table_name} extends Repository
 
     /**
      * @param $where
+     * @param int $offset
+     * @param array $fields
+     * @return IItem|mixed|null
+     * @throws \Exception
+     */
+    public function oneAsArray($where, int $offset = 0, array $fields = [])
+    {
+        {one-as-array-before-code}
+        {one-as-array-before-hook}
+        $result = $this->getRepoInstance()->findOne($where, $offset, $fields);
+        if (!$result) {
+            $result = [];
+        }
+        {one-as-array-after-hook}
+        {one-as-array-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $where
      * @param int $limit
      * @param int $offset
      * @param array $orderBy
@@ -72,6 +93,26 @@ class Repository{uc_table_name} extends Repository
         }
 
         {all-after-code}
+
+        return $result;
+    }
+
+    /**
+     * @param $where
+     * @param int $limit
+     * @param int $offset
+     * @param array $orderBy
+     * @param array $fields
+     * @return array|IItem[]
+     * @throws \Exception
+     */
+    public function allAsArray($where, int $limit = 0, int $offset = 0, array $orderBy = [], array $fields = [])
+    {
+        {all-as-array-before-code}
+        {all-as-array-before-hook}
+        $result = $this->getRepoInstance()->findAll($where, $limit, $offset, $orderBy, $fields);
+        {all-as-array-after-hook}
+        {all-as-array-after-code}
 
         return $result;
     }
