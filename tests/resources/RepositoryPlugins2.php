@@ -217,7 +217,7 @@ class RepositoryPlugins2 extends Repository
      */
     public function drop(): bool
     {
-        //drop-before-code
+        //drop-before-code is included from drop-before-code.php
         foreach($this->getPluginsByStage('plugins2.drop.before') as $plugin) {
             $plugin($this);
         }
