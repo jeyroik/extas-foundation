@@ -65,7 +65,7 @@ class InstallCommandTest extends TestCase
                         "update-after" => "//update-after-code",
                         "delete-before" => "//delete-before-code",
                         "delete-after" => "//delete-after-code",
-                        "drop-before" => "//drop-before-code",
+                        "drop-before" => __DIR__ . '/resources/drop-before-code.php',
                         "drop-after" => "\\extas\\components\\Plugins::reset();"
                     ]
                 ]

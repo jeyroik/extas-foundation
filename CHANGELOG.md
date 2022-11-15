@@ -1,3 +1,6 @@
+# 6.8.0
+- Allow to use file for repositories `code`. See #34 (https://github.com/jeyroik/extas-foundation/issues/34)
+
 # 6.7.0
 - Added repository methods `allAsArray()` and `oneAsArray()`.
 

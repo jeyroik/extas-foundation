@@ -102,7 +102,7 @@ class RepositoryBuilder implements IRepositoryBuilder
         $driverClass = $driverConfig['class'];
         $driverOptions = '';
         foreach ($driverConfig['options'] as $name => $value) {
-            $driverOptions .= "'".$name."'" . " => '" . $value . "', ";
+            $driverOptions .= "'".$name."' => '" . $value . "', ";
         }
 
         return [
@@ -165,7 +165,9 @@ class RepositoryBuilder implements IRepositoryBuilder
     protected function createCode(string $hookName, array $config): string
     {
         if (isset($config['code'], $config['code'][$hookName])) {
-            return $config['code'][$hookName];
+            return is_file($config['code'][$hookName]) 
+                ? include $config['code'][$hookName]
+                : $config['code'][$hookName];
         }
 
         return '';
