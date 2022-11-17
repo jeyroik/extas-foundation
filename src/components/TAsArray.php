@@ -63,6 +63,8 @@ trait TAsArray
     public function offsetSet($offset, $value)
     {
         $this->config[$offset] = $value;
+        $this->keyMap = array_keys($this->config);
+        $this->currentKey = 0;
     }
 
     /**

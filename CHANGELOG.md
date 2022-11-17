@@ -1,3 +1,7 @@
+# 6.8.1
+
+- Fixed https://github.com/jeyroik/extas-foundation/issues/38
+
 # 6.8.0
 - Allow to use file for repositories `code`. See #34 (https://github.com/jeyroik/extas-foundation/issues/34)
 
