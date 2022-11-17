@@ -59,6 +59,33 @@ class ItemTest extends TestCase
         $this->assertEquals($must, $child->__toArray());
     }
 
+    public function testNewProperiesAreVisibleByForeach(): void
+    {
+        $must = [];
+
+        $child = new class($must) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'test.child';
+            }
+        };
+
+        $count = 0;
+
+        foreach ($child as $value) {
+            $count++;
+        }
+        $this->assertEquals(0, $count);
+
+        $child['new'] = 'prop';
+
+        foreach ($child as $value) {
+            $count++;
+        }
+
+        $this->assertEquals(1, $count);
+    }
+
     public function testAllowRuntimeSet()
     {
         $child = new class extends Item {
