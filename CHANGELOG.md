@@ -1,3 +1,7 @@
+# 6.9.0
+
+- Up deps versions.
+
 # 6.8.1
 
 - Fixed https://github.com/jeyroik/extas-foundation/issues/38
