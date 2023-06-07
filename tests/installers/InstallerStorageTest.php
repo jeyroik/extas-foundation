@@ -71,7 +71,6 @@ class InstallerStorageTest extends TestCase
         $items = $entries->all([]);
         $this->assertCount(0, $items, 'Too much or missed entries with class = testE');
 
-        //try install one more time to check if information is duplicating
         $installer->install($this->basePath, __DIR__ . '/../../resources');
 
         $plugins = SystemContainer::getItem('plugins');

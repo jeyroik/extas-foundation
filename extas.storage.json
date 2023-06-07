@@ -6,7 +6,7 @@
             "pk": "name",
             "aliases": ["plugins"],
             "code": {
-                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class'])",
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);",
                 "drop-after": "\\extas\\components\\Plugins::reset();"
             }
         }, 
@@ -15,7 +15,7 @@
             "pk": "name",
             "aliases": ["extensions"],
             "code": {
-                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class'])"
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);"
             }
         }
     },

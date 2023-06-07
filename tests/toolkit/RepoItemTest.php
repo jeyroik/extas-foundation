@@ -20,7 +20,7 @@ class RepoItemTest extends TestCase
 
     protected function setUp(): void
     {
-        putenv("EXTAS__CONTAINER_PATH_STORAGE_LOCK=vendor/jeyroik/extas-foundation/resources/container.dist.json");
+        
         $this->buildBasicRepos();
     }
 
@@ -33,7 +33,7 @@ class RepoItemTest extends TestCase
 
     public function testWithRepo(): void
     {
-        $this->buildRepo(__DIR__ . '/../../vendor/jeyroik/extas-foundation/resources/', [
+        $this->buildRepo(__DIR__ . '/../../resources', [
             'tests' => [
                 'namespace' => 'tests\\tmp',
                 'item_class' => 'extas\\components\\items\\SnuffItem',
@@ -103,7 +103,7 @@ class RepoItemTest extends TestCase
             }
         };
 
-        $this->buildRepo(__DIR__ . '/../../vendor/jeyroik/extas-foundation/resources/', [
+        $this->buildRepo(__DIR__ . '/../../resources', [
             'tests' => [
                 'namespace' => 'tests\\tmp',
                 'item_class' => 'extas\\components\\items\\SnuffItem',
