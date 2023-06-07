@@ -71,6 +71,22 @@ class InstallerStorageTest extends TestCase
         $items = $entries->all([]);
         $this->assertCount(0, $items, 'Too much or missed entries with class = testE');
 
+        //try install one more time to check if information is duplicating
+        $installer->install($this->basePath, __DIR__ . '/../../resources');
+
+        $plugins = SystemContainer::getItem('plugins');
+        $items = $plugins->all(['class' => 'testP']);
+        $this->assertCount(1, $items, 'Too much or missed plugins with class = testP');
+
+        $extensions = SystemContainer::getItem('extensions');
+        $items = $extensions->all(['class' => 'testE']);
+        $this->assertCount(1, $items, 'Too much or missed extensions with class = testE');
+
+        // entries - entities, they are placed in another config
+        $entries = SystemContainer::getItem('entries');
+        $items = $entries->all([]);
+        $this->assertCount(0, $items, 'Too much or missed entries with class = testE');
+
         $repos = ['plugins', 'extensions', 'entries'];
         foreach ($repos as $repoName) {
             $repo = SystemContainer::getItem($repoName);

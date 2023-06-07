@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\installers;
 
+use extas\components\exceptions\AlreadyExist;
 use extas\components\exceptions\MissedOrUnknown;
 use extas\components\extensions\Extension;
 use extas\components\plugins\Plugin;
@@ -79,13 +80,21 @@ class InstallerStorage
         $items = $this->app[$tableName] ?? [];
 
         foreach ($items as $item) {
-            $repo->create(new $itemClass($item));
+            try{
+                $repo->create(new $itemClass($item));
+            } catch (AlreadyExist $e) {
+                continue;
+            }
         }
 
         $items = $this->merge($tableName);
 
         foreach ($items as $item) {
-            $repo->create(new $itemClass($item));
+            try {
+                $repo->create(new $itemClass($item));
+            } catch (AlreadyExist $e) {
+                continue;
+            }
         }
     }
 }

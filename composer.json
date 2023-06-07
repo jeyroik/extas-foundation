@@ -5,6 +5,7 @@
     "league/container": "4.*",
     "jeyroik/extas-base": "2.*",
     "jeyroik/extas-exceptions": "0.*",
+    "jeyroik/extas-id": "0.*",
     "ext-json": "*",
     "symfony/finder": "6.*",
     "symfony/console": "6.*"
