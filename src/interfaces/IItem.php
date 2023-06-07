@@ -10,7 +10,7 @@ use extas\interfaces\plugins\IPluginsAcceptable;
  * @package extas\interfaces
  * @author jeyroik@gmail.com
  */
-interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable, IHaveConfig
+interface IItem extends \ArrayAccess, \Iterator, IPluginsAcceptable, IExtendable, IHaveConfig, \JsonSerializable
 {
     /**
      * @return string

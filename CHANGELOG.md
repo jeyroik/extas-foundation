@@ -1,3 +1,13 @@
+# 6.11.0
+
+- Added support for `\JsonSerializible`.
+
+# 6.10.0
+
+- Added `RepoItem` (you do not need to require `jeyroik\extas-repo-toolkit` anymore).
+- Added `extas-config-php g` command (you do not need to require `jeyroik\extas-config-php` anymore).
+- Added checks for plugins and extensions for existing before creating.
+
 # 6.9.1
 
 - Fixed critical mistype in the extas.storage.json.
