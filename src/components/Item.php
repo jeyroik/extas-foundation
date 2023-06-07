@@ -99,6 +99,7 @@ abstract class Item implements IItem
     }
 
     /**
+     * @deprecated please, use jsonSerialize() - it would automatically used on json_encode($item), will be removed in 7.0.0
      * @return string
      */
     public function __toJson(): string
@@ -107,6 +108,14 @@ abstract class Item implements IItem
         $this->triggerStageTo('json', $dataToJson);
 
         return json_encode($dataToJson);
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): mixed
+    {
+        return $this->__toArray();
     }
 
     /**

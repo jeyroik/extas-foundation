@@ -167,6 +167,26 @@ class ItemTest extends TestCase
         $this->assertEquals('test.child', $child->__subject());
     }
 
+    public function testJson()
+    {
+        $data = [
+            'arg0' => 0,
+            'arg1' => '1',
+            'arg2' => '2'
+        ];
+        $child = new class($data) extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return 'unknown';
+            }
+        };
+
+        $encodedObject = json_encode($child);
+        $encodedData = json_encode($data);
+
+        $this->assertEquals($encodedData, $encodedObject);
+    }
+
     public function testSelect()
     {
         $child = new class([
