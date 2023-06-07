@@ -1,1 +1,1 @@
-{"plugins":"tests\\tmp\\RepositoryPlugins","extensions":"tests\\tmp\\RepositoryExtensions"}
+{"plugins":"tests\\tmp\\RepositoryPlugins","extensions":"tests\\tmp\\RepositoryExtensions","tests":"tests\\tmp\\RepositoryTests"}

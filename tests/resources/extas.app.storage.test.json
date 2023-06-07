@@ -18,13 +18,17 @@
             "item_class": "\\extas\\components\\plugins\\Plugin",
             "pk": "name",
             "code": {
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);",
                 "drop-after": "\\extas\\components\\Plugins::reset();"
             }
         }, 
         "extensions": {
             "namespace": "tests\\tmp_install",
             "item_class": "\\extas\\components\\extensions\\Extension",
-            "pk": "name"
+            "pk": "name",
+            "code": {
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);"
+            }
         }
     },
     "plugins": [

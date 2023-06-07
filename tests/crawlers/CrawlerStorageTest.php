@@ -34,7 +34,10 @@ class CrawlerStorageTest extends TestCase
                         "namespace" => "tests\\tmp_install",
                         "item_class" => "\\extas\\components\\plugins\\Plugin",
                         "pk" => "name",
-                        "aliases" => ["entries"]
+                        "aliases" => ["entries"],
+                        "code" => [
+                            "create-before" => '\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, [\'class\']);'
+                        ]
                     ]
                 ]
             ]
@@ -63,13 +66,17 @@ class CrawlerStorageTest extends TestCase
                     "item_class" => "\\extas\\components\\plugins\\Plugin",
                     "pk" => "name",
                     "code" => [
+                        "create-before" => '\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, [\'class\']);',
                         "drop-after" => "\\extas\\components\\Plugins::reset();"
                     ]
                 ], 
                 "extensions" => [
                     "namespace" => "tests\\tmp_install",
                     "item_class" => "\\extas\\components\\extensions\\Extension",
-                    "pk" => "name"
+                    "pk" => "name",
+                    "code" => [
+                        "create-before" => '\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, [\'class\']);'
+                    ]
                 ]
             ],
             "plugins" => [

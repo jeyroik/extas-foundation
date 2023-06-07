@@ -391,7 +391,7 @@ echo $my->getMutatedName(); // extas\\extensions\\extension\\example
                 ...
             },
             "code": {
-                "create-before": "echo 'any code you want';",
+                "create-before": "echo 'any code you want'; \\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['name'])",
                 ...
             }
         }, 

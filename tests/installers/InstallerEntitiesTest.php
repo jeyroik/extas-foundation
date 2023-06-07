@@ -58,6 +58,13 @@ class InstallerEntitiesTest extends TestCase
         $items = $entries->all([]);
         $this->assertCount(2, $items, 'Too much or missed entries with class = testE');
 
+        $installer->install();
+
+        // entries - entities, they are placed in another config
+        $entries = SystemContainer::getItem('entries');
+        $items = $entries->all([]);
+        $this->assertCount(2, $items, 'Too much or missed entries with class = testE');
+
         foreach ($items as $item) {
             $this->assertTrue(
                 isset($item['changed']),

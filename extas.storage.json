@@ -6,13 +6,17 @@
             "pk": "name",
             "aliases": ["plugins"],
             "code": {
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);",
                 "drop-after": "\\extas\\components\\Plugins::reset();"
             }
         }, 
         "extensions": {
             "item_class": "\\extas\\components\\extensions\\Extension",
             "pk": "name",
-            "aliases": ["extensions"]
+            "aliases": ["extensions"],
+            "code": {
+                "create-before": "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);"
+            }
         }
     },
     "plugins": [],

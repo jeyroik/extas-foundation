@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\installers;
 
+use extas\components\exceptions\AlreadyExist;
 use extas\components\Plugins;
 use extas\components\SystemContainer;
 use extas\interfaces\repositories\IRepository;
@@ -77,7 +78,11 @@ class InstallerEntities
                 $isToInstall = $plugin($repo, $entity);
             }
 
-            $isToInstall && $repo->create(new $itemClass($entity));
+            try {
+                $isToInstall && $repo->create(new $itemClass($entity));
+            } catch (AlreadyExist $e) {
+                continue;
+            }
         }
     }
 }

@@ -5,7 +5,10 @@
             "namespace": "tests\\tmp_install",
             "item_class": "\\extas\\components\\plugins\\Plugin",
             "pk": "name",
-            "aliases": ["entries"]
+            "aliases": ["entries"],
+            "code": {
+                "create-before" : "\\extas\\components\\repositories\\RepoItem::throwIfExist($this, $item, ['class']);"
+            }
         }
     }
 }
