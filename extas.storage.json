@@ -10,7 +10,7 @@
             }
         }, 
         "extensions": {
-            "item_class": "\\extas\\components\\plugins\\Extension",
+            "item_class": "\\extas\\components\\extensions\\Extension",
             "pk": "name",
             "aliases": ["extensions"]
         }

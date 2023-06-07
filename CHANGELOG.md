@@ -1,3 +1,7 @@
+# 6.9.1
+
+- Fixed critical mistype in the extas.storage.json.
+
 # 6.9.0
 
 - Up deps versions.
