@@ -1,3 +1,7 @@
+# 6.11.2
+
+- Improve interface compatability.
+
 # 6.11.1
 
 - Fixed composer `bin` section.
