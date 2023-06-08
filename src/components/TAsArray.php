@@ -41,7 +41,7 @@ trait TAsArray
      *
      * @return bool
      */
-    public function offsetExists($offset)
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->config[$offset]);
     }
@@ -51,7 +51,7 @@ trait TAsArray
      *
      * @return mixed|null
      */
-    public function offsetGet($offset)
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->config[$offset] ?? null;
     }
@@ -60,7 +60,7 @@ trait TAsArray
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet(mixed $offset, mixed $value): void
     {
         $this->config[$offset] = $value;
         $this->keyMap = array_keys($this->config);
@@ -70,7 +70,7 @@ trait TAsArray
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->config[$offset]);
     }
@@ -78,7 +78,7 @@ trait TAsArray
     /**
      * @return bool
      */
-    public function valid()
+    public function valid(): bool
     {
         return isset($this->keyMap[$this->currentKey]);
     }
@@ -86,7 +86,7 @@ trait TAsArray
     /**
      * @return string|null
      */
-    public function key()
+    public function key(): mixed
     {
         return $this->keyMap[$this->currentKey] ?? null;
     }
@@ -94,7 +94,7 @@ trait TAsArray
     /**
      * @return void
      */
-    public function next()
+    public function next(): void
     {
         $this->currentKey++;
     }
@@ -102,7 +102,7 @@ trait TAsArray
     /**
      * @return mixed
      */
-    public function current()
+    public function current(): mixed
     {
         return $this->config[$this->keyMap[$this->currentKey]];
     }
@@ -110,7 +110,7 @@ trait TAsArray
     /**
      * @return void
      */
-    public function rewind()
+    public function rewind(): void
     {
         $this->currentKey = 0;
     }

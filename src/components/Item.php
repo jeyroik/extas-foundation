@@ -44,7 +44,7 @@ abstract class Item implements IItem
      * @param $name
      * @return bool
      */
-    public function __isset($name)
+    public function __isset(string $name): bool
     {
         return isset($this->config[$name]);
     }
