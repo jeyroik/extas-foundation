@@ -1,3 +1,7 @@
+# 6.11.1
+
+- Fixed composer `bin` section.
+
 # 6.11.0
 
 - Added support for `\JsonSerializible`.
