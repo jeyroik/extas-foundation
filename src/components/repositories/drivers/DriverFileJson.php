@@ -120,7 +120,22 @@ class DriverFileJson extends Driver implements IDriver
     {
         $applicable = true;
         foreach ($query as $field => $value) {
-            if (!isset($item[$field]) || !$this->compareValue($item[$field], $value)) {
+            if (str_contains($field, '.')) {
+                $subs = explode('.', $field);
+
+                foreach ($subs as $sub) {
+                    if (!isset($item[$sub])) {
+                        $applicable = false;
+                        break 2;
+                    } else {
+                        $item = $item[$sub];
+                    }
+                }
+                if (!$this->compareValue($item, $value)) {
+                    $applicable = false;
+                    break;
+                }
+            } elseif (!isset($item[$field]) || !$this->compareValue($item[$field], $value)) {
                 $applicable = false;
                 break;
             }

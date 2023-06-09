@@ -1,3 +1,7 @@
+# 6.12.0
+
+- Added nested fields support for `DriverFileJson` (see #51).
+
 # 6.11.2
 
 - Improve interface compatability.
