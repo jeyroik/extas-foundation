@@ -1,9 +1,9 @@
 ![PHP Composer](https://github.com/jeyroik/extas-foundation/workflows/PHP%20Composer/badge.svg?branch=master)
 ![codecov.io](https://codecov.io/gh/jeyroik/extas-foundation/coverage.svg?branch=master)
 <a href="https://codeclimate.com/github/jeyroik/extas-foundation/maintainability"><img src="https://api.codeclimate.com/v1/badges/ec6cc3b52b11b9b3a453/maintainability" /></a>
-[![Latest Stable Version](https://poser.pugx.org/jeyroik/extas-foundation/v)](//packagist.org/packages/jeyroik/extas-jsonrpc)
-[![Total Downloads](https://poser.pugx.org/jeyroik/extas-foundation/downloads)](//packagist.org/packages/jeyroik/extas-jsonrpc)
-[![Dependents](https://poser.pugx.org/jeyroik/extas-foundation/dependents)](//packagist.org/packages/jeyroik/extas-jsonrpc)
+[![Latest Stable Version](https://poser.pugx.org/jeyroik/extas-foundation/v)](//packagist.org/packages/jeyroik/extas-foundation)
+[![Total Downloads](https://poser.pugx.org/jeyroik/extas-foundation/downloads)](//packagist.org/packages/jeyroik/extas-foundation)
+[![Dependents](https://poser.pugx.org/jeyroik/extas-foundation/dependents)](//packagist.org/packages/jeyroik/extas-foundation)
 
 # Описание
 

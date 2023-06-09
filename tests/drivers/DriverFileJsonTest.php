@@ -40,7 +40,10 @@ class DriverFileJsonTest extends TestCase
 
         $repo->create(new Plugin([
             Plugin::FIELD__CLASS => 'NotExisting3',
-            Plugin::FIELD__STAGE => ['not','existing']
+            Plugin::FIELD__STAGE => ['not','existing'],
+            Plugin::FIELD__PARAMETERS => [
+                'test' => 'is ok'
+            ]
         ]));
 
         $plugin = $repo->one([Plugin::FIELD__CLASS => 'NotExisting']);
@@ -60,6 +63,9 @@ class DriverFileJsonTest extends TestCase
 
         $plugin = $repo->one([Plugin::FIELD__STAGE => ['not']]);
         $this->assertNotEmpty($plugin, 'Can not find plugin by stage in [not]');
+
+        $plugin = $repo->one([Plugin::FIELD__PARAMETERS . '.test' => ['is ok']]);
+        $this->assertNotEmpty($plugin, 'Can not find plugin by sub fields');
 
         $plugins = $repo->all([Plugin::FIELD__STAGE => ['not']], limit: 1, offset: 1);
         $this->assertNotEmpty($plugins, 'Can not find plugin by all(limit=1, offset=1) in [NotExisting]');
