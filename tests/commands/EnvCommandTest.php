@@ -1,16 +1,15 @@
 <?php
-namespace tests\stages;
+namespace tests\commands;
 
 use extas\components\commands\EnvCommand;
 use extas\components\console\TSnuffConsole;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Console\Output\BufferedOutput;
-use tests\resources\TBuildRepository;
 
 /**
  * Class EnvCommandTest
  *
- * @package tests\stages
+ * @package tests\commands
  * @author jeyroik <jeyroik@gmail.com>
  */
 class EnvCommandTest extends TestCase

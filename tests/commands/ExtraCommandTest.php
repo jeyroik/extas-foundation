@@ -1,5 +1,5 @@
 <?php
-namespace tests\stages;
+namespace tests\commands;
 
 use extas\components\commands\ExtraCommand;
 use extas\components\console\TSnuffConsole;
@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\BufferedOutput;
 /**
  * Class ExtraCommandTest
  *
- * @package tests\stages
+ * @package tests\commands
  * @author jeyroik <jeyroik@gmail.com>
  */
 class ExtraCommandTest extends TestCase

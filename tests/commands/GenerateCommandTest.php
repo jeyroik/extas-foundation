@@ -1,5 +1,5 @@
 <?php
-namespace tests\stages;
+namespace tests\commands;
 
 use extas\components\commands\GenerateCommand;
 use extas\components\console\TSnuffConsole;
@@ -10,7 +10,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * Class GenerateCommandTest
  *
- * @package tests\stages
+ * @package tests\commands
  * @author jeyroik <jeyroik@gmail.com>
  */
 class GenerateCommandTest extends TestCase

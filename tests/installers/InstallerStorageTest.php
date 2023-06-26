@@ -1,5 +1,5 @@
 <?php
-namespace tests\stages;
+namespace tests\installers;
 
 use extas\components\crawlers\CrawlerStorage;
 use extas\components\installers\InstallerStorage;
@@ -10,7 +10,7 @@ use tests\resources\TBuildRepository;
 /**
  * Class InstallerStorageTest
  *
- * @package tests\stages
+ * @package tests\installers
  * @author jeyroik <jeyroik@gmail.com>
  */
 class InstallerStorageTest extends TestCase

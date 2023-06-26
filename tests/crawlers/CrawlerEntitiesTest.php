@@ -1,5 +1,5 @@
 <?php
-namespace tests\stages;
+namespace tests\crawlers;
 
 use extas\components\crawlers\CrawlerEntities;
 use PHPUnit\Framework\TestCase;
@@ -7,7 +7,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Class CrawlerEntitiesTest
  *
- * @package tests\stages
+ * @package tests\crawlers
  * @author jeyroik <jeyroik@gmail.com>
  */
 class CrawlerEntitiesTest extends TestCase

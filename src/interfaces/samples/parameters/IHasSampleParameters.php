@@ -3,6 +3,8 @@ namespace extas\interfaces\samples\parameters;
 
 /**
  * Interface IHasSampleParameters
+ * 
+ * @deprecated Please, use extas\interfaces\parameters\IHaveParams instead
  *
  * @package extas\interfaces\samples\parameters
  * @author jeyroik <jeyroik@gmail.com>
