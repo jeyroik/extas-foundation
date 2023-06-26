@@ -1,3 +1,7 @@
+# 6.14.0
+
+- Added `IHasValue` to `IParam` and `IParametred`.
+
 # 6.13.0
 
 - Added `ICollection`, `TCollection`.
