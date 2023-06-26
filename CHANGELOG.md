@@ -1,3 +1,9 @@
+# 6.13.0
+
+- Added `ICollection`, `TCollection`.
+- Added `IParam`, `IParams`, `IHaveParams`, `IParametered`, `IParametredCollection`.
+- Added `TBuildItems`.
+
 # 6.12.0
 
 - Added nested fields support for `DriverFileJson` (see #51).

@@ -8,6 +8,8 @@ use extas\interfaces\IItem;
 
 /**
  * Interface ISampleParameter
+ * 
+ * @deprecated Please, use extas\interfaces\parameters\IParam instead
  *
  * @package extas\interfaces\samples\parameters
  * @author jeyroik <jeyroik@gmail.com>

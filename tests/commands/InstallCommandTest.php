@@ -1,5 +1,5 @@
 <?php
-namespace tests\stages;
+namespace tests\commands;
 
 use extas\components\commands\InstallCommand;
 use extas\components\console\TSnuffConsole;
@@ -11,7 +11,7 @@ use tests\resources\TBuildRepository;
 /**
  * Class InstallCommandTest
  *
- * @package tests\stages
+ * @package tests\commands
  * @author jeyroik <jeyroik@gmail.com>
  */
 class InstallCommandTest extends TestCase
