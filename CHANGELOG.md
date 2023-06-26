@@ -3,6 +3,7 @@
 - Added `ICollection`, `TCollection`.
 - Added `IParam`, `IParams`, `IHaveParams`, `IParametered`, `IParametredCollection`.
 - Added `TBuildItems`.
+- Marked `ISampleParameter` deprecated. Be aware: in the next major version this one and associated interfaces, traits and classes will be deleted.
 
 # 6.12.0
 
