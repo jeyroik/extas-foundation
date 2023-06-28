@@ -1,7 +1,11 @@
 <?php
 
+use extas\components\Item;
+use extas\components\parameters\Param;
 use extas\components\parameters\ParametredCollection;
+use extas\components\parameters\THasParams;
 use extas\components\repositories\TSnuffRepository;
+use extas\interfaces\parameters\IHaveParams;
 use extas\interfaces\parameters\IParam;
 use extas\interfaces\parameters\IParametred;
 use extas\interfaces\parameters\IParams;
@@ -57,5 +61,38 @@ class ParamsTest extends TestCase
         $this->assertInstanceOf(IParam::class, $param);
 
         $this->assertEquals('par1', $param->getName());
+    }
+
+    public function testHasParams()
+    {
+        $withParams = new class ([
+            IHaveParams::FIELD__PARAMS => [
+                'test' => [
+                    IParam::FIELD__NAME => 'test',
+                    IParam::FIELD__TITLE => 'test_title',
+                    IParam::FIELD__DESCRIPTION => 'test_description',
+                    IParam::FIELD__VALUE => 'test_value'
+                ]
+            ]
+        ]) extends Item implements IHaveParams {
+            use THasParams;
+
+            protected function getSubjectForExtension(): string
+            {
+                return 'test';
+            }
+        };
+
+        $this->assertCount(1, $withParams->getParams());
+        $withParams->addParam(new Param([
+            Param::FIELD__NAME => 'test2',
+            Param::FIELD__VALUE => 'test_value_2'
+        ]));
+
+        $this->assertCount(2, $withParams->getParams());
+        $this->assertEquals([
+            'test' => 'test_value',
+            'test2' => 'test_value_2'
+        ], $withParams->getParamsValues());
     }
 }
