@@ -5,9 +5,14 @@ use extas\components\exceptions\MissedOrUnknown;
 use extas\components\Item;
 use extas\components\repositories\RepoItem;
 use extas\components\repositories\TSnuffRepository;
+use extas\components\THasAliases;
+use extas\components\THasName;
 use extas\components\THasStringId;
+use extas\interfaces\IHasAliases;
+use extas\interfaces\IHasName;
 use extas\interfaces\IHaveUUID;
 use \PHPUnit\Framework\TestCase;
+use shorter\sdk\components\responses\THasAlias;
 use tests\resources\AsArray;
 
 /**
@@ -129,5 +134,25 @@ class RepoItemTest extends TestCase
         $this->assertEquals(36, strlen($obj['uuid']));
 
         $this->deleteRepo('tests');
+    }
+
+    public function testAddNameToAliases(): void
+    {
+        $obj = new class ([
+            IHasName::FIELD__NAME => 'test'
+        ]) extends Item implements IHaveUUID, IHasName, IHasAliases {
+            use THasStringId;
+            use THasName;
+            use THasAliases;
+
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        RepoItem::addNameToAliases($obj);
+
+        $this->assertEquals(['test'], $obj->getAliases());
     }
 }

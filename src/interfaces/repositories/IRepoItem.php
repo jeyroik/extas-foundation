@@ -3,6 +3,8 @@ namespace extas\interfaces\repositories;
 
 use extas\components\exceptions\AlreadyExist;
 use extas\components\exceptions\MissedOrUnknown;
+use extas\interfaces\IHasAliases;
+use extas\interfaces\IHasName;
 use extas\interfaces\IHaveUUID;
 use extas\interfaces\IItem;
 use extas\interfaces\repositories\IRepository;
@@ -80,4 +82,6 @@ interface IRepoItem
      * @throws MissedOrUnknown
      */
     public static function multiple(IRepository $repo, IItem $item, array $checks): void;
+
+    public static function addNameToAliases(IItem|IHasAliases|IHasName &$item): void;
 }
