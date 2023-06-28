@@ -1,3 +1,7 @@
+# 6.16.0
+
+- Added `RepoItem::addNameToAliases()`.
+
 # 6.15.1
 
 - Added tests for `setParams(...)`.
