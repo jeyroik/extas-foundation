@@ -1,3 +1,7 @@
+# 6.15.0
+
+- Added `setParams(array $params)`, `getParamsValues()` and `addParam(IParam $param)` to `IHaveParams`.
+
 # 6.14.0
 
 - Added `IHasValue` to `IParam` and `IParametred`.
