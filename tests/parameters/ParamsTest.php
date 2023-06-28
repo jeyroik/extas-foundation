@@ -94,5 +94,16 @@ class ParamsTest extends TestCase
             'test' => 'test_value',
             'test2' => 'test_value_2'
         ], $withParams->getParamsValues());
+
+        $withParams->setParams([
+            'test3' => [
+                IParam::FIELD__NAME => 'test3',
+                IParam::FIELD__TITLE => 'test3_title',
+                IParam::FIELD__DESCRIPTION => 'test3_description',
+                IParam::FIELD__VALUE => 'test_value_3'
+            ]
+        ]);
+
+        $this->assertCount(1, $withParams->getParams());
     }
 }

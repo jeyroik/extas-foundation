@@ -1,3 +1,7 @@
+# 6.15.1
+
+- Added tests for `setParams(...)`.
+
 # 6.15.0
 
 - Added `setParams(array $params)`, `getParamsValues()` and `addParam(IParam $param)` to `IHaveParams`.
