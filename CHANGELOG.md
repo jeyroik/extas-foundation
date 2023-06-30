@@ -1,6 +1,7 @@
 # 6.18.1
 
-- Fixed paths.
+- Fixed `ExtasTestCase`.
+- Fixed `TBuildRepository`.
 
 # 6.18.0
 

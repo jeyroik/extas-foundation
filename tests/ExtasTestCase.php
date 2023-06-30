@@ -17,6 +17,7 @@ class ExtasTestCase extends TestCase
 
     protected function setUp(): void
     {
+        echo "\nPreparing deflou environment...";
         putenv("EXTAS__CONTAINER_PATH_STORAGE_LOCK=vendor/jeyroik/extas-foundation/resources/container.dist.json");
         $this->buildBasicRepos();
 
@@ -39,6 +40,6 @@ class ExtasTestCase extends TestCase
         }
         $this->deleteRepo('plugins');
         $this->deleteRepo('extensions');
-        $this->dropDatabase(__DIR__);
+        $this->dropDatabase($this->testPath);
     }
 }
