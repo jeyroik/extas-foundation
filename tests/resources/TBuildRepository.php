@@ -23,7 +23,8 @@ trait TBuildRepository
             }
         };
 
-        $extasPath = $testDir . '/../../vendor/' . $libName . '/extas.' . $extasExt;
+        $libPath = $libName ? 'vendor/' . $libName . '/' : '';
+        $extasPath = $testDir . '/../../' . $libPath . 'extas.' . $extasExt;
 
         $extas = $extasExt == 'php' ? include $extasPath : json_decode(file_get_contents($extasPath), true);
 
@@ -31,11 +32,15 @@ trait TBuildRepository
             if (!is_array($items)) {
                 continue;
             }
-            
+            echo "\nInstalling items for table \x1b[1m" . $tableName . "\x1b[0m\n";
+            $itemsCount = 0;
             foreach ($items as $item) {
                 $itemClass = $app->$tableName()->getItemClass();
-                $app->$tableName(new $itemClass($item));
+                $app->$tableName()->create(new $itemClass($item));
+                $itemsCount++;
             }
+            echo "\n\x1b[32m[OK]\x1b[0m " . $itemsCount . " items installed...";
+            echo "\n";
         }
     }
 
@@ -49,13 +54,18 @@ trait TBuildRepository
         $tables = $storage['tables'];
         $names = [];
 
+        echo "\nInstalling tables for lib \x1b[1m" . $libName . "\x1b[0m\n";
         foreach ($tables as $name => $options) {
             $options['namespace'] = 'tests\\tmp';
             $tables[$name] = $options;
             $names[] = $name;
+            echo "\nPreparing table \x1b[1m" . $name . "\x1b[0m...\n";
         }
+        echo "\n";
 
+        
         $this->buildRepo($templatesPath, $tables);
+        echo "\n\x1b[32m[OK]\x1b[0m " . count($tables) . " tables installed...";
 
         return $names;
     }

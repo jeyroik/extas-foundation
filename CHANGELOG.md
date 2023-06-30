@@ -1,3 +1,8 @@
+# 6.18.1
+
+- Fixed `ExtasTestCase`.
+- Fixed `TBuildRepository`.
+
 # 6.18.0
 
 - Allow miss `libName` in the `TBuildRepository` to build repositories of the current package.

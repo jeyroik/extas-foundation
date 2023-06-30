@@ -13,20 +13,22 @@ class ExtasTestCase extends TestCase
     ];
     protected array $installedTables = [];
     protected bool $isNeedInstallLibsItems = false;
+    protected string $testPath = '';
 
     protected function setUp(): void
     {
+        echo "\nPreparing deflou environment...";
         putenv("EXTAS__CONTAINER_PATH_STORAGE_LOCK=vendor/jeyroik/extas-foundation/resources/container.dist.json");
         $this->buildBasicRepos();
 
         foreach($this->libsToInstall as $name => $exts) {
             list($storageExt) = $exts;
-            $installedTables = $this->buildLibsRepos($name, __DIR__ . '/tmp', $storageExt);
+            $installedTables = $this->buildLibsRepos($name, $this->testPath, $storageExt);
             $this->installedTables = array_merge($this->installedTables, $installedTables);
 
             if ($this->isNeedInstallLibsItems) {
                 list(,$extasExt) = $exts;
-                $this->installLibItems($name, __DIR__ . '/tmp', $extasExt);
+                $this->installLibItems($name, $this->testPath, $extasExt);
             }
         }
     }
@@ -38,6 +40,6 @@ class ExtasTestCase extends TestCase
         }
         $this->deleteRepo('plugins');
         $this->deleteRepo('extensions');
-        $this->dropDatabase(__DIR__);
+        $this->dropDatabase($this->testPath);
     }
 }
