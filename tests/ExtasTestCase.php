@@ -13,6 +13,7 @@ class ExtasTestCase extends TestCase
     ];
     protected array $installedTables = [];
     protected bool $isNeedInstallLibsItems = false;
+    protected string $testPath = '';
 
     protected function setUp(): void
     {
@@ -21,12 +22,12 @@ class ExtasTestCase extends TestCase
 
         foreach($this->libsToInstall as $name => $exts) {
             list($storageExt) = $exts;
-            $installedTables = $this->buildLibsRepos($name, __DIR__ . '/tmp', $storageExt);
+            $installedTables = $this->buildLibsRepos($name, $this->testPath, $storageExt);
             $this->installedTables = array_merge($this->installedTables, $installedTables);
 
             if ($this->isNeedInstallLibsItems) {
                 list(,$extasExt) = $exts;
-                $this->installLibItems($name, __DIR__ . '/tmp', $extasExt);
+                $this->installLibItems($name, $this->testPath, $extasExt);
             }
         }
     }
