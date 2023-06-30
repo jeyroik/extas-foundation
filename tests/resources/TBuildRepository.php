@@ -1,6 +1,7 @@
 <?php
 namespace tests\resources;
 
+use extas\components\Item;
 use extas\components\repositories\RepositoryBuilder;
 use extas\interfaces\repositories\IRepository;
 
@@ -12,6 +13,51 @@ trait TBuildRepository
         "path" => "tests/tmp/",
         "db" => "system"
     ];
+
+    protected function installLibItems(string $libName, string $testDir = '', string $extasExt = 'php'): void
+    {
+        $app = new class extends Item {
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $extasPath = $testDir . '/../../vendor/' . $libName . '/extas.' . $extasExt;
+
+        $extas = $extasExt == 'php' ? include $extasPath : json_decode(file_get_contents($extasPath), true);
+
+        foreach ($extas as $tableName => $items) {
+            if (!is_array($items)) {
+                continue;
+            }
+            
+            foreach ($items as $item) {
+                $itemClass = $app->$tableName()->getItemClass();
+                $app->$tableName(new $itemClass($item));
+            }
+        }
+    }
+
+    protected function buildLibsRepos(string $libName, string $testDir = '', string $storageExt = 'php'): array
+    {
+        $templatesPath = $testDir . '/../../vendor/jeyroik/extas-foundation/resources/';
+        $storagePath = $testDir . '/../../vendor/' . $libName . '/extas.storage.' . $storageExt;
+
+        $storage = $storageExt == 'php' ? include $storagePath : json_decode(file_get_contents($storagePath), true);
+        $tables = $storage['tables'];
+        $names = [];
+
+        foreach ($tables as $name => $options) {
+            $options['namespace'] = 'tests\\tmp';
+            $tables[$name] = $options;
+            $names[] = $name;
+        }
+
+        $this->buildRepo($templatesPath, $tables);
+
+        return $names;
+    }
 
     protected function buildRepo(string $templatesPath, array $tables): void
     {
