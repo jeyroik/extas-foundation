@@ -1,6 +1,11 @@
+# 6.17.0
+
+- Added `ExtasTestCase`.
+- Added `buildLibsRepos()` and `installLibItems` in `TBuildRepository`.
+
 # 6.16.1
 
-- Fixed [#61](https://github.com/jeyroik/extas-foundation/issues/61)
+- Fixed [#61](https://github.com/jeyroik/extas-foundation/issues/61).
 
 # 6.16.0
 
