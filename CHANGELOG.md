@@ -1,3 +1,7 @@
+# 6.16.1
+
+- Fixed [#61](https://github.com/jeyroik/extas-foundation/issues/61)
+
 # 6.16.0
 
 - Added `RepoItem::addNameToAliases()`.
