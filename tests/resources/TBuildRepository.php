@@ -39,10 +39,11 @@ trait TBuildRepository
         }
     }
 
-    protected function buildLibsRepos(string $libName, string $testDir = '', string $storageExt = 'php'): array
+    protected function buildLibsRepos(string $libName = '', string $testDir = '', string $storageExt = 'php'): array
     {
         $templatesPath = $testDir . '/../../vendor/jeyroik/extas-foundation/resources/';
-        $storagePath = $testDir . '/../../vendor/' . $libName . '/extas.storage.' . $storageExt;
+        $libPath = $libName ? 'vendor/' . $libName . '/' : '';
+        $storagePath = $testDir . '/../../' . $libPath . 'extas.storage.' . $storageExt;
 
         $storage = $storageExt == 'php' ? include $storagePath : json_decode(file_get_contents($storagePath), true);
         $tables = $storage['tables'];

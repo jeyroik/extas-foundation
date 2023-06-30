@@ -1,3 +1,7 @@
+# 6.18.0
+
+- Allow miss `libName` in the `TBuildRepository` to build repositories of the current package.
+
 # 6.17.0
 
 - Added `ExtasTestCase`.
