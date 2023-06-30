@@ -55,6 +55,7 @@ trait THasConfig
     public function __set($name, $value)
     {
         $this->config[$name] = $value;
+        //$this->setConfig($this->config);
     }
 
     /**

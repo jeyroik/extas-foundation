@@ -72,6 +72,9 @@ class DriverFileJsonTest extends TestCase
         $this->assertCount(1, $plugins, 'Invalid limit & offset working');
         $plugin = array_shift($plugins);
         $this->assertEquals('NotExisting2', $plugin->getClass(), 'Invalid limit & offset working');
+
+        $plugins = $repo->all([Plugin::FIELD__PARAMETERS . '.test' => 'is ok', Plugin::FIELD__STAGE => ['not']]);
+        $this->assertCount(1, $plugins, 'Invalid dot fields operating');
     }
 
     public function testUpdateOne()

@@ -122,16 +122,16 @@ class DriverFileJson extends Driver implements IDriver
         foreach ($query as $field => $value) {
             if (str_contains($field, '.')) {
                 $subs = explode('.', $field);
-
+                $localItem = $item;
                 foreach ($subs as $sub) {
-                    if (!isset($item[$sub])) {
+                    if (!isset($localItem[$sub])) {
                         $applicable = false;
                         break 2;
                     } else {
-                        $item = $item[$sub];
+                        $localItem = $localItem[$sub];
                     }
                 }
-                if (!$this->compareValue($item, $value)) {
+                if (!$this->compareValue($localItem, $value)) {
                     $applicable = false;
                     break;
                 }

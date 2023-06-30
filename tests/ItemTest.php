@@ -59,11 +59,16 @@ class ItemTest extends TestCase
         $this->assertEquals($must, $child->__toArray());
     }
 
-    public function testNewProperiesAreVisibleByForeach(): void
+    public function testNewPropertiesAreVisibleByForeach(): void
     {
         $must = [];
 
         $child = new class($must) extends Item {
+            public function getKeyMap(): array
+            {
+                return $this->keyMap;
+            }
+
             protected function getSubjectForExtension(): string
             {
                 return 'test.child';
@@ -76,8 +81,10 @@ class ItemTest extends TestCase
             $count++;
         }
         $this->assertEquals(0, $count);
+        $this->assertEmpty($child->getKeyMap());
 
         $child['new'] = 'prop';
+        $this->assertCount(1, $child->getKeyMap());
 
         foreach ($child as $value) {
             $count++;
