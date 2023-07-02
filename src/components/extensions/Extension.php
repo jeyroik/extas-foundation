@@ -69,7 +69,7 @@ class Extension implements IExtension
      */
     public function setSubject(string $subject)
     {
-        $this->config[static::FIELD__SUBJECT] = $subject;
+        $this[static::FIELD__SUBJECT] = $subject;
 
         return $this;
     }
@@ -81,7 +81,7 @@ class Extension implements IExtension
      */
     public function setInterface(string $interface)
     {
-        $this->config[static::FIELD__INTERFACE] = $interface;
+        $this[static::FIELD__INTERFACE] = $interface;
 
         return $this;
     }
@@ -93,7 +93,7 @@ class Extension implements IExtension
      */
     public function setMethods(array $methods)
     {
-        $this->config[static::FIELD__METHODS] = $methods;
+        $this[static::FIELD__METHODS] = $methods;
 
         return $this;
     }

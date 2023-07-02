@@ -47,7 +47,7 @@ class Stage extends Item implements IStage
      */
     public function setName(string $name)
     {
-        $this->config[static::FIELD__NAME] = $name;
+        $this[static::FIELD__NAME] = $name;
 
         return $this;
     }
@@ -59,7 +59,7 @@ class Stage extends Item implements IStage
      */
     public function setDescription(string $description)
     {
-        $this->config[static::FIELD__DESCRIPTION] = $description;
+        $this[static::FIELD__DESCRIPTION] = $description;
 
         return $this;
     }
@@ -71,7 +71,7 @@ class Stage extends Item implements IStage
      */
     public function setInput(string $input)
     {
-        $this->config[static::FIELD__INPUT] = $input;
+        $this[static::FIELD__INPUT] = $input;
 
         return $this;
     }
@@ -83,7 +83,7 @@ class Stage extends Item implements IStage
      */
     public function setOutput(string $output)
     {
-        $this->config[static::FIELD__OUTPUT] = $output;
+        $this[static::FIELD__OUTPUT] = $output;
 
         return $this;
     }

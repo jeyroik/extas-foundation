@@ -17,16 +17,17 @@ trait THasParams
 
     public function setParams(array $params): static
     {
-        $this->config[IHaveParams::FIELD__PARAMS] = $params;
+        $this[IHaveParams::FIELD__PARAMS] = $params;
 
         return $this;
     }
 
     public function addParam(IParam $param): static
     {
-        $this->config[IHaveParams::FIELD__PARAMS][$param->getName()] = $param->__toArray();
+        $params = $this->getParams();
+        $params[$param->getName()] = $param->__toArray();
 
-        return $this;
+        return $this->setParams($params);
     }
 
     public function buildParams(): IParams
