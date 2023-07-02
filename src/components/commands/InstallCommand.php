@@ -78,6 +78,7 @@ class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitie
         list($appStorage, $packagesStorages) = $this->getStorageConfigs($input);
 
         $this->shout(true, count($packagesStorages), 'configurations', $output);
+        $this->shoutList(array_column($packagesStorages, 'name'), $output);
         $storageInstaller = new InstallerStorage($appStorage, $packagesStorages);
         $storageInstaller->install($pathSave, $pathTemplates);
 
@@ -92,6 +93,13 @@ class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitie
         $output->writeln(['Done.', '', 'Installation finished in ' . ($end-$start) . 's.']);
 
         return 0;
+    }
+
+    protected function shoutList(array $list, OutputInterface $output): void
+    {
+        foreach ($list as $item) {
+            $output->writeln([' - ' . $item]);
+        }
     }
 
     protected function shout(bool $isApp, int $packagesCount, string $subject = 'entities', OutputInterface $output): void
