@@ -1,3 +1,7 @@
+# 6.19.0
+
+- Added `IHaveOutput`.
+
 # 6.18.4
 
 - Updated install output.

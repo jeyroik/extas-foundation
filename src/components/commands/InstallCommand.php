@@ -82,6 +82,7 @@ class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitie
         $storageInstaller = new InstallerStorage($appStorage, $packagesStorages);
         $storageInstaller->install($pathSave, $pathTemplates);
 
+        $output->writeln($storageInstaller->getOutput());
         $output->writeln(['Done.', 'Collecting entities configurations...']);
         list($appEntities, $packagesEntities) = $this->getEntitiesConfigs($input);
 
