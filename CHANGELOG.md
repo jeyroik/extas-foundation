@@ -1,3 +1,7 @@
+# 6.18.4
+
+- Updated install output.
+
 # 6.18.3
 
 - Fixed `THasParams::setParams()`.
