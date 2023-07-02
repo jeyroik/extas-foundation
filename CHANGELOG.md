@@ -1,3 +1,7 @@
+# 6.18.2
+
+- Fixed [#66](https://github.com/jeyroik/extas-foundation/issues/66).
+
 # 6.18.1
 
 - Fixed `ExtasTestCase`.

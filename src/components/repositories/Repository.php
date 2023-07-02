@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\repositories;
 
+use extas\components\plugins\TPluginAcceptable;
 use extas\components\THasConfig;
 use extas\components\TAsArray;
 use extas\interfaces\repositories\IRepository;
@@ -15,6 +16,7 @@ abstract class Repository implements IRepository
 {
     use TAsArray;
     use THasConfig;
+    use TPluginAcceptable;
 
     protected string $name = '';
     protected string $scope = 'extas';
