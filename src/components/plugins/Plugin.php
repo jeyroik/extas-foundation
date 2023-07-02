@@ -42,7 +42,7 @@ class Plugin implements IPlugin
      */
     public function setPriority(int $priority): IPlugin
     {
-        $this->config[static::FIELD__PRIORITY] = $priority;
+        $this[static::FIELD__PRIORITY] = $priority;
 
         return $this;
     }
@@ -54,7 +54,7 @@ class Plugin implements IPlugin
      */
     public function setStage(string $stage): IPlugin
     {
-        $this->config[static::FIELD__STAGE] = $stage;
+        $this[static::FIELD__STAGE] = $stage;
 
         return $this;
     }

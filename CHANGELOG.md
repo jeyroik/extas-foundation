@@ -1,3 +1,8 @@
+# 6.18.3
+
+- Fixed `THasParams::setParams()`.
+- Continue updating to avoid direct setting in classes.
+
 # 6.18.2
 
 - Fixed [#66](https://github.com/jeyroik/extas-foundation/issues/66).
