@@ -4,11 +4,13 @@ namespace extas\components\repositories;
 use extas\components\THasConfig;
 use extas\components\Item;
 use extas\components\SystemContainer;
+use extas\components\THasOutput;
 use extas\interfaces\repositories\IRepositoryBuilder;
 
 class RepositoryBuilder implements IRepositoryBuilder
 {
     use THasConfig;
+    use THasOutput;
 
     protected string $savePath = '';
     protected string $templatePath = '';
@@ -57,6 +59,7 @@ class RepositoryBuilder implements IRepositoryBuilder
             file_put_contents($this->getPathSave() . '/Repository'.ucfirst($tableName) .'.php', $repoContent);
             
             $this->registerAliases($ns, $tableName, $tableConfig);
+            $this->addToOutput('[OK] Installed table "' . $tableName . '"');
         }
 
         SystemContainer::reset();
@@ -82,6 +85,7 @@ class RepositoryBuilder implements IRepositoryBuilder
 
         foreach ($tableConfig['aliases'] as $alias) {
             SystemContainer::saveItem($alias, $ns . '\\Repository' . ucfirst($tableName));
+            $this->addToOutput('[OK] Registered alias "' . $alias . '"');
         }
     }
 

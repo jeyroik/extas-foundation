@@ -7,10 +7,14 @@ use extas\components\extensions\Extension;
 use extas\components\plugins\Plugin;
 use extas\components\repositories\RepositoryBuilder;
 use extas\components\SystemContainer;
+use extas\components\THasOutput;
+use extas\interfaces\IHaveOutput;
 use extas\interfaces\repositories\IRepository;
 
-class InstallerStorage
+class InstallerStorage implements IHaveOutput
 {
+    use THasOutput;
+
     public const FIELD__DRIVERS = 'drivers';
     public const FIELD__TABLES = 'tables';
 
@@ -49,11 +53,12 @@ class InstallerStorage
                     $builderConfig[static::FIELD__TABLES][$tableName] = $tables[$tableName];
                     unset($tables[$tableName]);
                 } else {
-                    //notify "Missed $tableName table configuration"
+                    throw new \Exception('Missed "' . $tableName . '" table configuration');
                 }
             }
 
             $builder->build($builderConfig);
+            $this->appendOutput($builder->getOutput(), $builder::class);
         }
 
         $this->installItems(static::TABLE__PLUGINS, Plugin::class);
