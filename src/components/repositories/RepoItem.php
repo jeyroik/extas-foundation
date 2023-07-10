@@ -41,6 +41,26 @@ class RepoItem implements IRepoItem
         }
     }
 
+    public static function updateAndThrowIfExist(IRepository $repo, IHaveConfig &$item, array $fields): void
+    {
+        $where = [];
+
+        foreach ($fields as $name) {
+            $where[$name] = $item[$name] ?? '';
+        }
+
+        $exists = $repo->one($where);
+
+        if ($exists) {
+            foreach ($item as $field => $value) {
+                $exists[$field] = $value;
+            }
+            $repo->update($exists);
+
+            throw new AlreadyExist($repo->getName());
+        }
+    }
+
     public static function throwIfMissedFields(IHaveConfig &$item, array $fields): void
     {
         $missed = [];
