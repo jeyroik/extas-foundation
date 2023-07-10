@@ -101,5 +101,7 @@ class InstallerStorage implements IHaveOutput
                 continue;
             }
         }
+
+        $this->appendOutput($repo->getOutput(), $tableName . '_repo');
     }
 }

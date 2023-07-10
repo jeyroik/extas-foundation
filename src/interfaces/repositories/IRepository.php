@@ -1,13 +1,15 @@
 <?php
 namespace extas\interfaces\repositories;
 
+use extas\interfaces\IHaveOutput;
+
 /**
  * Interface IRepository
  *
  * @package extas\interfaces\repositories
  * @author jeyroik@gmail.com
  */
-interface IRepository extends \ArrayAccess, \Iterator
+interface IRepository extends \ArrayAccess, \Iterator, IHaveOutput
 {
     public const OPTION__REPOSITORY_NAME = 'repository.name';
     public const OPTION__REPOSITORY_SCOPE = 'repository.scope';
