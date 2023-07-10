@@ -52,10 +52,20 @@ class RepoItem implements IRepoItem
         $exists = $repo->one($where);
 
         if ($exists) {
+            $changed = false;
             foreach ($item as $field => $value) {
+                if ($exists[$field] == $value) {
+                    continue;
+                }
+
+                $repo->appendOutput(['replace "' . $field . '" with ' . print_r($value, true)], 'repo-item');
                 $exists[$field] = $value;
+                $changed = true;
             }
-            $repo->update($exists);
+            if ($changed) {
+                $repo->update($exists);
+                $repo->appendOutput(['Update existing record, new state is ' . print_r($exists->__toArray(), true)], 'repo-item');
+            }
 
             throw new AlreadyExist($repo->getName());
         }
