@@ -1,3 +1,7 @@
+# 6.20.0
+
+- Added `IRepoItem::updateAndThrowIfExist(IRepository $repo, IItem &$item, array $fields): void`.
+
 # 6.19.0
 
 - Added `IHaveOutput`.

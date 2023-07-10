@@ -66,6 +66,42 @@ class RepoItemTest extends TestCase
         $this->deleteRepo('tests');
     }
 
+    public function testUpdateAndThrowIfExist(): void
+    {
+        $this->buildRepo(__DIR__ . '/../../resources', [
+            'tests' => [
+                'namespace' => 'tests\\tmp',
+                'item_class' => 'extas\\components\\items\\SnuffItem',
+                'pk' => 'id'
+            ]
+        ]);
+
+        $obj = new class ([
+            'id' => 1,
+            'test' => 1,
+            'other' => 1
+        ]) extends Item{
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $repo = $obj->tests();
+        $repo->create($obj);
+
+        $obj['other'] = 2;
+
+        try {
+            RepoItem::updateAndThrowIfExist($repo, $obj, ['test']);
+        } catch(AlreadyExist $e) {
+            $this->assertEquals('Tests already exists', $e->getMessage());
+            $objFromDb = $repo->one(['test' => 1]);
+            $this->assertEquals(2, $objFromDb['other']);
+        }
+        $this->deleteRepo('tests');
+    }
+
     public function testWithoutRepo(): void
     {
         $obj = new AsArray();

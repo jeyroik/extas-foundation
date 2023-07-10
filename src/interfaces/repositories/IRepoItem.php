@@ -41,6 +41,17 @@ interface IRepoItem
      * @throws AlreadyExist
      */
     public static function throwIfExist(IRepository $repo, IItem &$item, array $fields): void;
+
+    /**
+     * Update item if it is already exist and then throw an error.
+     *
+     * @param IRepository $repo
+     * @param IItem $item
+     * @param array $fields
+     * @return void
+     * @throws AlreadyExist
+     */
+    public static function updateAndThrowIfExist(IRepository $repo, IItem &$item, array $fields): void;
     
     /**
      * Throw exception if any of required $fields is missed.
