@@ -1,3 +1,7 @@
+# 6.21.2
+
+- Detailed install output.
+
 # 6.21.1
 
 - Fixed `shout` args.

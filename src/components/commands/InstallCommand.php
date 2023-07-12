@@ -74,7 +74,9 @@ class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitie
         $pathSave = $input->getOption(static::OPTION__PATH_SAVE);
         $pathTemplates = $input->getOption(static::OPTION__PATH_TEMPLATES);
 
-        $output->writeln(['Collecting storage configurations...']);
+        $output->writeln([
+            'Collecting storage configurations from ' . $input->getOption(static::OPTION__PATH_PACKAGES) . '...'
+        ]);
         list($appStorage, $packagesStorages) = $this->getStorageConfigs($input);
 
         $this->shout(true, count($packagesStorages), 'configurations', $output);
