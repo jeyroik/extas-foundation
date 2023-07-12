@@ -103,7 +103,7 @@ class InstallCommand extends Command implements IHaveConfigOptions, IHaveEntitie
         }
     }
 
-    protected function shout(bool $isApp, int $packagesCount, string $subject = 'entities', OutputInterface $output): void
+    protected function shout(bool $isApp, int $packagesCount, string $subject, OutputInterface $output): void
     {
         $app = $isApp ? "app $subject + " : '';
 
