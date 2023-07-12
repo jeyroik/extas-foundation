@@ -1,3 +1,7 @@
+# 6.21.1
+
+- Fixed `shout` args.
+
 # 6.21.0
 
 - Added output for repositories.
