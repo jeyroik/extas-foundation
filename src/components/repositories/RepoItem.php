@@ -53,6 +53,7 @@ class RepoItem implements IRepoItem
 
         if ($exists) {
             $changed = false;
+            $repo->appendOutput(['Record already exists:' . print_r($exists->__toArray(), true)], 'repo-item');
             foreach ($item as $field => $value) {
                 if ($exists[$field] == $value) {
                     continue;
