@@ -1,3 +1,7 @@
+# 6.21.3
+
+- Added output for already existing records on `updateAndThrowIfExist(...)`.
+
 # 6.21.2
 
 - Detailed install output.
