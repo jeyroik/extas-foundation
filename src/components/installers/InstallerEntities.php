@@ -4,12 +4,16 @@ namespace extas\components\installers;
 use extas\components\exceptions\AlreadyExist;
 use extas\components\Plugins;
 use extas\components\SystemContainer;
+use extas\components\THasOutput;
+use extas\interfaces\IHaveOutput;
 use extas\interfaces\repositories\IRepository;
 use extas\interfaces\stages\IStageBeforeInstallEntity;
 use extas\interfaces\stages\IStageIsToInstallEntity;
 
-class InstallerEntities
+class InstallerEntities implements IHaveOutput
 {
+    use THasOutput;
+
     protected const FIELD__NAME = 'name';
 
     protected array $app = [];
@@ -84,5 +88,7 @@ class InstallerEntities
                 continue;
             }
         }
+
+        $this->appendOutput($repo->getOutput(), $tableName . '_repo');
     }
 }

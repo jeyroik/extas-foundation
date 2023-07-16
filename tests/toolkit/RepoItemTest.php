@@ -79,7 +79,11 @@ class RepoItemTest extends TestCase
         $obj = new class ([
             'id' => 1,
             'test' => 1,
-            'other' => 1
+            'other' => [
+                'sub' => [
+                    'value' => 1
+                ]
+            ]
         ]) extends Item{
             protected function getSubjectForExtension(): string
             {
@@ -90,15 +94,32 @@ class RepoItemTest extends TestCase
         $repo = $obj->tests();
         $repo->create($obj);
 
-        $obj['other'] = 2;
+        $obj2 = new class ([
+            'test' => 1,
+            'other' => [
+                'sub' => [
+                    'value' => 2
+                ]
+            ]
+        ]) extends Item{
+            protected function getSubjectForExtension(): string
+            {
+                return '';
+            }
+        };
+
+        $catched = false;
 
         try {
-            RepoItem::updateAndThrowIfExist($repo, $obj, ['test']);
+            RepoItem::updateAndThrowIfExist($repo, $obj2, ['test']);
         } catch(AlreadyExist $e) {
             $this->assertEquals('Tests already exists', $e->getMessage());
             $objFromDb = $repo->one(['test' => 1]);
-            $this->assertEquals(2, $objFromDb['other']);
+            $this->assertEquals(2, $objFromDb['other']['sub']['value']);
+            $this->assertEquals(['repo-item: Updated existing record, new state is '.print_r($objFromDb->__toArray(), true)], $repo->getOutput());
+            $catched = true;
         }
+        $this->assertTrue($catched);
         $this->deleteRepo('tests');
     }
 

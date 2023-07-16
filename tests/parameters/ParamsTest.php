@@ -39,7 +39,7 @@ class ParamsTest extends TestCase
                 IParametred::FIELD__NAME => 'p1',
                 IParametred::FIELD__PARAMS => [
                     'par1' => [
-                        'name' => 'par1'
+                        IParam::FIELD__NAME => 'par1'
                     ]
                 ]
             ]
@@ -105,5 +105,8 @@ class ParamsTest extends TestCase
         ]);
 
         $this->assertCount(1, $withParams->getParams());
+
+        $withParams->setParamValue('test3', 'new_test_value_3');
+        $this->assertEquals('new_test_value_3', $withParams->buildParams()->buildOne('test3')->getValue());
     }
 }

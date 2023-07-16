@@ -1,3 +1,7 @@
+# 6.22.0
+
+- Added method `IHaveParams::setParamValue(string $paramName, mixed $value): static`.
+
 # 6.21.3
 
 - Added output for already existing records on `updateAndThrowIfExist(...)`.

@@ -10,4 +10,5 @@ interface IHaveParams
     public function addParam(IParam $param): static;
     public function buildParams(): IParams;
     public function getParamsValues(): array;
+    public function setParamValue(string $paramName, mixed $value): static;
 }
