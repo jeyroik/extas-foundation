@@ -240,7 +240,25 @@ class DriverFileJson extends Driver implements IDriver
 
     protected function saveData(): void
     {
+        if (!$this->isTheSameDb()) {
+            $this->reloadDb();
+        }
         file_put_contents($this->path . $this->db, json_encode($this->data));
+    }
+
+    protected function reloadDb(): bool
+    {
+        $db = $this->getDbData();
+        $db[$this->getTableName()] = $this->data[$this->getTableName()];
+
+        $this->data = $db;
+
+        return true;
+    }
+
+    protected function isTheSameDb(): bool
+    {
+        return $this->data == $this->getDbData();
     }
 
     protected function initData(): void
@@ -251,8 +269,13 @@ class DriverFileJson extends Driver implements IDriver
             file_put_contents($path, '[]');
         }
 
-        $this->data = json_decode(file_get_contents($path), true);
+        $this->data = $this->getDbData();
 
         $this->hash = sha1(time()+mt_rand(0, 999999));
+    }
+
+    protected function getDbData(): array
+    {
+        return json_decode(file_get_contents($this->path . $this->db), true);
     }
 }
