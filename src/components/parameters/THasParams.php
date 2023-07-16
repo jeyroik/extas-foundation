@@ -1,6 +1,7 @@
 <?php
 namespace extas\components\parameters;
 
+use extas\components\exceptions\MissedOrUnknown;
 use extas\interfaces\parameters\IHaveParams;
 use extas\interfaces\parameters\IParam;
 use extas\interfaces\parameters\IParams;
@@ -38,5 +39,18 @@ trait THasParams
     public function getParamsValues(): array
     {
         return array_column($this->getParams(), IParam::FIELD__VALUE, IParam::FIELD__NAME);
+    }
+
+    public function setParamValue(string $paramName, mixed $value): static
+    {
+        $params = $this->buildParams();
+        
+        if (!$params->hasOne($paramName)) {
+            throw new MissedOrUnknown('parameter "' . $paramName . '"');
+        }
+
+        $this->config[IHaveParams::FIELD__PARAMS][$paramName][IParam::FIELD__VALUE] = $value;
+
+        return $this;
     }
 }
