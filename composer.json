@@ -25,6 +25,6 @@
     "test": "vendor/bin/phpunit --testdox --coverage-clover=coverage.xml --whitelist=src tests"
   },
   "bin": [
-    "src/bin/extas", "src/bin/extas-extra", "src/bin/extas-cfg-php"
+    "src/bin/extas", "src/bin/extas-extra"
   ]
 }

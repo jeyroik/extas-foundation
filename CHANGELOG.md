@@ -1,3 +1,7 @@
+# 6.22.1
+
+- Fixed `DriverFileJson` work with parallel tables modifications.
+
 # 6.22.0
 
 - Added method `IHaveParams::setParamValue(string $paramName, mixed $value): static`.
